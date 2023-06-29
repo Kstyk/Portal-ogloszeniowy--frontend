@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 const NavbarPrincipal = () => {
+  const { logoutUser } = useContext(AuthContext);
+
   return (
     <div className="navbar mb-5" data-theme="light">
       <div className="flex-1">
         <a
           className="btn border-none bg-white hover:bg-white normal-case text-xl"
-          href="/"
+          to="/"
         >
           <img src="src/assets/images/logo.png" alt="" className="h-full" />
         </a>
@@ -34,7 +38,7 @@ const NavbarPrincipal = () => {
             </li>
             <hr />
             <li>
-              <a>Wyloguj</a>
+              <a onClick={logoutUser}>Wyloguj</a>
             </li>
           </ul>
         </div>
