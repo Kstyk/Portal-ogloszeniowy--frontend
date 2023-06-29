@@ -34,4 +34,11 @@ module.exports = {
     ],
   },
   plugins: [require("daisyui")],
+  theme: {
+    extend: {
+      colors: {
+        "custom-darkgreen": "#004a55",
+      },
+    },
+  },
 };

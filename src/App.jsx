@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import AuthContext, { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbars/Navbar";
 import NavbarContractor from "./components/Navbars/NavbarContractor";
+import RegistrationPage from "./pages/RegistrationPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
       </Routes>
     </div>
   );

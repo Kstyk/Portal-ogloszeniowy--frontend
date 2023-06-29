@@ -16,7 +16,9 @@ const Navbar = () => {
         <div className="form-control pr-5 mr-5 border-r-2">
           <Link to="/login">Zaloguj</Link>
         </div>
-        <div className="form-control pr-5 mr-5 border-r-2">Zarejestruj</div>
+        <div className="form-control pr-5 mr-5 border-r-2">
+          <Link to="/register">Zarejestruj</Link>
+        </div>
       </div>
     </div>
   );
