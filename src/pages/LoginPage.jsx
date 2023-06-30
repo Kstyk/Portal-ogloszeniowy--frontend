@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import MessageComponent from "../components/MessageComponent";
 
 const LoginPage = () => {
   const { loginUser, error, setError } = useContext(AuthContext);
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <MessageComponent message="Zrejestrowałeś się! Teraz możesz się zalogować do swojego konta" />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-20 w-auto"

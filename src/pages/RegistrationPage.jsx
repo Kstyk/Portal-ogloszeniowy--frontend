@@ -48,10 +48,10 @@ const RegistrationPage = () => {
     email: { required: "Email jest wymagany" },
     password: {
       required: "Hasło jest wymagane",
-      pattern: {
-        value: /[A-Za-z]{3}/,
-        message: "Niepoprawny format hasła",
-      },
+      // pattern: {
+      //   value: /[A-Za-z]{3}/,
+      //   message: "Niepoprawny format hasła",
+      // },
       minLength: {
         value: 4,
         message: "Hasło musi mieć przynajmniej 4 znaki",
