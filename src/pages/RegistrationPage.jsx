@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
@@ -22,15 +23,38 @@ const RegistrationPage = () => {
     formState: { errors },
   } = useForm();
 
+  const voivodeships = [
+    { value: "dolnośląskie", label: "dolnośląskie" },
+    { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
+    { value: "lubelskie", label: "lubelskie" },
+    { value: "lubuskie", label: "lubuskie" },
+    { value: "łódzkie", label: "łódzkie" },
+    { value: "małopolskie", label: "małopolskie" },
+    { value: "mazowieckie", label: "mazowieckie" },
+    { value: "opolskie", label: "opolskie" },
+    { value: "podkarpackie", label: "podkarpackie" },
+    { value: "podlaskie", label: "podlaskie" },
+    { value: "pomorskie", label: "pomorskie" },
+    { value: "śląskie", label: "śląskie" },
+    { value: "świętokrzyskie", label: "świętokrzyskie" },
+    { value: "warmińskoMazurskie", label: "warmińsko-mazurskie" },
+    { value: "wielkopolskie", label: "wielkopolskie" },
+    { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
+  ];
+
   const registerOptions = {
     firstName: { required: "Imię jest wymagane" },
     lastName: { required: "Nazwisko jest wymagane" },
     email: { required: "Email jest wymagany" },
     password: {
       required: "Hasło jest wymagane",
+      pattern: {
+        value: /[A-Za-z]{3}/,
+        message: "Niepoprawny format hasła",
+      },
       minLength: {
         value: 4,
-        message: "Hasło musi mieć przynajmniej 8 znaków",
+        message: "Hasło musi mieć przynajmniej 4 znaki",
       },
     },
     confirmPassword: {
@@ -41,6 +65,13 @@ const RegistrationPage = () => {
         }
       },
     },
+    statusOfUserId: { required: "Status użytkownika jest wymagany" },
+    phoneNumber: { required: "Numer telefonu jest wymagany" },
+    voivodeship: { required: "Województwo jest wymagane" },
+    city: { required: "Miasto jest wymagane" },
+    postalCode: { required: "Kod pocztowy jest wymagany" },
+    street: { required: "Ulica jest wymagana" },
+    buildingNumber: { required: "Numer budynku jest wymagany" },
   };
 
   const fetchStatuses = async () => {
@@ -70,8 +101,8 @@ const RegistrationPage = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(getValues("firstName"));
     // Handle form submission
+    data.voivodeship = data.voivodeship.value;
 
     if (data.typeOfAccountId == 1) {
       data.description = "";
@@ -184,9 +215,11 @@ const RegistrationPage = () => {
                     name="email"
                     type="email"
                     {...register("email", registerOptions.email)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.email && errors.email.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="password"
@@ -203,6 +236,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.password && errors.password.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="confirmPassword"
@@ -237,7 +273,7 @@ const RegistrationPage = () => {
                 </label>
                 {statuses.map((s) => (
                   <div key={s.id}>
-                    <div className="form-control">
+                    <div className="form-control w-100">
                       <label className="label cursor-pointer">
                         <span className="label-text">{s.name}</span>
                         <input
@@ -249,11 +285,18 @@ const RegistrationPage = () => {
                             setStatusName(s.name);
                             setValue("statusOfUserId", s.id);
                           }}
+                          {...register(
+                            "statusOfUserId",
+                            registerOptions.statusOfUserId
+                          )}
                         />
                       </label>
                     </div>
                   </div>
                 ))}
+                <span className="text-[11px] text-red-400">
+                  {errors.statusOfUserId && errors.statusOfUserId.message}
+                </span>
 
                 <label
                   htmlFor="firstName"
@@ -270,6 +313,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.firstName && errors.firstName.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="lastName"
@@ -286,6 +332,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.lastName && errors.lastName.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="phoneNumber"
@@ -302,6 +351,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.phoneNumber && errors.phoneNumber.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="voivodeship"
@@ -310,14 +362,23 @@ const RegistrationPage = () => {
                   Województwo
                 </label>
                 <div className="mb-2">
-                  <input
-                    id="voivodeship"
+                  <Controller
                     name="voivodeship"
-                    type="text"
-                    {...register("voivodeship", registerOptions.voivodeship)}
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
+                    control={control}
+                    defaultValue=""
+                    rules={registerOptions.voivodeship}
+                    render={({ field }) => (
+                      <Select
+                        className="w-full px-0 h-10"
+                        options={voivodeships}
+                        {...field}
+                        label="Voivodeship"
+                      />
+                    )}
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.voivodeship && errors.voivodeship.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="city"
@@ -334,6 +395,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.city && errors.city.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="postalCode"
@@ -350,6 +414,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.postalCode && errors.postalCode.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="street"
@@ -366,6 +433,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.street && errors.street.message}
+                  </span>
                 </div>
                 <label
                   htmlFor="buildingNumber"
@@ -385,6 +455,9 @@ const RegistrationPage = () => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
+                  <span className="text-[11px] text-red-400">
+                    {errors.buildingNumber && errors.buildingNumber.message}
+                  </span>
                 </div>
                 {statusName == "Firma" ? (
                   <>
