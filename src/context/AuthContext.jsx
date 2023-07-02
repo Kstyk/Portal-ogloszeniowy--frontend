@@ -39,12 +39,30 @@ export const AuthProvider = ({ children }) => {
         }
       )
       .then((res) => {
-        console.log(jwtDecode(res.data));
         setAuthToken(res.data);
         setUser(jwtDecode(res.data));
         localStorage.setItem("authToken", JSON.stringify(res.data));
-        nav("/");
+
+        if (jwtDecode(res.data).TypeOfAccount == "Wykonawca") {
+          axios
+            .get(
+              `https://localhost:7147/api/category/userCategories/${
+                jwtDecode(res.data).Id
+              }`
+            )
+            .then((res) => {
+              if (res.data.length > 0) {
+                nav("/");
+              } else {
+                nav("/contractor/add-categories");
+              }
+            })
+            .catch((err) => console.log(err));
+        } else {
+          nav("/");
+        }
       })
+
       .catch((err) => {
         console.log(err);
         setError(err.response.data.message);
