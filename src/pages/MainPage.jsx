@@ -4,13 +4,16 @@ import axios from "axios";
 import SearchContractors from "../components/SearchContractors";
 import SearchPrincipals from "../components/SearchPrincipals";
 
+import useAxios from "../hooks/useAxios";
+
 const MainPage = () => {
   const [activeTab, setActiveTab] = useState("principal");
   const [mainCategories, setMainCategories] = useState([]);
+  const api = useAxios();
 
   const fetchMainCategories = async () => {
-    await axios
-      .get("https://localhost:7147/api/category/main")
+    await api
+      .get("/api/category/main")
       .then((res) => {
         setMainCategories(res.data);
         console.log(res.data);

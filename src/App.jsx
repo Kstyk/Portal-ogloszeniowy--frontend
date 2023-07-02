@@ -9,10 +9,10 @@ import AuthContext, { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbars/Navbar";
 import NavbarContractor from "./components/Navbars/NavbarContractor";
 import RegistrationPage from "./pages/RegistrationPage";
+import ConfigureContractorAccount from "./pages/ConfigureContractorAccount";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <div id="container" className="container w-7/12 m-auto">
       {user == null ? (
@@ -26,6 +26,11 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
+
+        <Route
+          path="/contractor/add-categories"
+          element={<ConfigureContractorAccount />}
+        />
       </Routes>
     </div>
   );
