@@ -36,7 +36,11 @@ const NavbarContractor = () => {
             <li>
               <a>Edytuj profil</a>
             </li>
-
+            <li>
+              <Link to="/contractor/edit-categories">
+                Edytuj swoje kategorie
+              </Link>
+            </li>
             <hr />
             <li>
               <a onClick={logoutUser}>Wyloguj</a>

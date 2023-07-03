@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import useAxios from "../hooks/useAxios";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
-import { set } from "react-hook-form";
 
-const ConfigureContractorAccount = () => {
+const EditContractorCategories = () => {
   const api = useAxios();
   const [mainCategories, setMainCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -13,28 +12,22 @@ const ConfigureContractorAccount = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedCategoriesIds, setSelectedCategoriesIds] = useState([]);
   const [error, setError] = useState(null);
-  const [areaOfWork, setAreaOfWork] = useState(null); // voivodeship or country
-  const [voivodeship, setVoivodeship] = useState(null); // only if checked voivodeship
+
+  const [currentCategories, setCurrentCategories] = useState([]);
+
   const nav = useNavigate();
 
-  const voivodeships = [
-    { value: "dolnośląskie", label: "dolnośląskie" },
-    { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
-    { value: "lubelskie", label: "lubelskie" },
-    { value: "lubuskie", label: "lubuskie" },
-    { value: "łódzkie", label: "łódzkie" },
-    { value: "małopolskie", label: "małopolskie" },
-    { value: "mazowieckie", label: "mazowieckie" },
-    { value: "opolskie", label: "opolskie" },
-    { value: "podkarpackie", label: "podkarpackie" },
-    { value: "podlaskie", label: "podlaskie" },
-    { value: "pomorskie", label: "pomorskie" },
-    { value: "śląskie", label: "śląskie" },
-    { value: "świętokrzyskie", label: "świętokrzyskie" },
-    { value: "warmińskoMazurskie", label: "warmińsko-mazurskie" },
-    { value: "wielkopolskie", label: "wielkopolskie" },
-    { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
-  ];
+  const fetchCurrentCategories = async () => {
+    await api
+      .get("/api/category/userCategories")
+      .then((res) => {
+        setCurrentCategories(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const fetchMainCategories = async () => {
     await api
@@ -92,6 +85,7 @@ const ConfigureContractorAccount = () => {
   };
 
   useEffect(() => {
+    fetchCurrentCategories();
     fetchMainCategories();
   }, []);
 
@@ -107,38 +101,41 @@ const ConfigureContractorAccount = () => {
     console.log(e);
   };
 
-  const submitForm = () => {
-    if (areaOfWork == null) {
-      setError("Nie wybrałeś obszaru działania.");
-      return;
+  const deleteCategory = (e) => {
+    if (confirm("Jesteś pewny, że chcesz usunąć tą kategorię?")) {
+      api
+        .delete(`/api/category/delete/${e.id}`)
+        .then((res) => {
+          fetchCurrentCategories();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      // Do nothing!
+      console.log("Nie usunięto.");
     }
+  };
+
+  const submitForm = () => {
     if (selectedCategoriesIds.length == 0) {
       setError("Nie wybrałeś żadnych kategorii.");
       return;
     }
 
     let data = {};
-    if (areaOfWork == "Polska") {
-      data = {
-        categories: selectedCategoriesIds,
-        wholeCountry: "Polska",
-      };
-    } else {
-      data = {
-        categories: selectedCategoriesIds,
-        voivodeship: voivodeship,
-      };
-    }
+    data = {
+      categories: selectedCategoriesIds,
+    };
 
     api
       .post("/api/category/user/add", data)
       .then((res) => {
         console.log(res);
-        nav("/");
+        fetchCurrentCategories();
+        setSelectedCategories([]);
+        setSelectedCategoriesIds([]);
       })
       .catch((err) => {
         setError(err.response.data.message);
-
         console.log(err);
       });
   };
@@ -149,10 +146,50 @@ const ConfigureContractorAccount = () => {
         Wykonawco!
       </h2>
       <h2 className="mt-2 mb-5 text-center text-md font-bold leading-9 tracking-tight text-custom-darkgreen">
-        Dokończ konfigurację swojego konta, wybierając branże oraz obszar
-        udzielania usług.
+        Tutaj możesz dodać lub usunąć wcześniej wybrane kategorie.
       </h2>
-
+      <div className="grid grid-cols-1 w-full gap-10">
+        <h2 className="mt-5 border-b-2">Obecne kategorie</h2>
+      </div>
+      <ul className="w-full mb-6 mt-2">
+        {currentCategories.map((e) => (
+          <div key={e.id} className="w-full text-sm breadcrumbs pb-0">
+            <ul className="gap-0">
+              <li>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  onClick={() => deleteCategory(e)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </li>
+              {e?.parentCategory?.parentCategory != null ? (
+                <li>
+                  <a>{e.parentCategory.parentCategory.name}</a>
+                </li>
+              ) : (
+                ""
+              )}
+              {e?.parentCategory != null ? (
+                <li>
+                  <a>{e.parentCategory.name}</a>
+                </li>
+              ) : (
+                ""
+              )}
+              <li className="font-semibold">{e.name}</li>
+            </ul>
+          </div>
+        ))}
+      </ul>
       <div className="grid grid-cols-3 gap-2 text-sm h-[200px]">
         <ul className="h-full overflow-auto border-[1px] rounded-lg">
           {mainCategories.map((cat) => (
@@ -264,43 +301,6 @@ const ConfigureContractorAccount = () => {
           </div>
         ))}
       </ul>
-      <div className=" grid-cols-2 w-full gap-10">
-        <h2 className="mt-5 border-b-2">Obszar działania</h2>
-        <div className="mt-5 form-control gap-y-3">
-          <label className="label cursor-pointer flex justify-start">
-            <input
-              type="radio"
-              name="radio-10"
-              className="radio checked:bg-blue-500 rounded-full mr-5"
-              onChange={() => {
-                setAreaOfWork("Polska");
-              }}
-            />
-            <span>W całej Polsce</span>
-          </label>
-          <div className="form-control flex flex-row justify-between">
-            <label className="label w-6/12 cursor-pointer flex justify-start">
-              <input
-                type="radio"
-                name="radio-10"
-                className="radio checked:bg-blue-500 mr-5"
-                onChange={() => {
-                  setAreaOfWork("Województwo");
-                }}
-              />
-              <span className="float-left">Dane województwo</span>
-            </label>
-            <Select
-              className="px-0 h-10 w-6/12"
-              options={voivodeships}
-              label="Voivodeship"
-              onChange={(e) => {
-                setVoivodeship(e.value);
-              }}
-            />
-          </div>
-        </div>
-      </div>
 
       <div className="mt-5 mb-5">
         <button
@@ -315,4 +315,4 @@ const ConfigureContractorAccount = () => {
   );
 };
 
-export default ConfigureContractorAccount;
+export default EditContractorCategories;

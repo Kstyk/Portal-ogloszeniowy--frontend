@@ -10,6 +10,7 @@ import Navbar from "./components/Navbars/Navbar";
 import NavbarContractor from "./components/Navbars/NavbarContractor";
 import RegistrationPage from "./pages/RegistrationPage";
 import ConfigureContractorAccount from "./pages/ConfigureContractorAccount";
+import EditContractorCategories from "./pages/EditContractorCategories";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/contractor/add-categories"
           element={<ConfigureContractorAccount />}
+        />
+        <Route
+          path="/contractor/edit-categories"
+          element={<EditContractorCategories />}
         />
       </Routes>
     </div>
