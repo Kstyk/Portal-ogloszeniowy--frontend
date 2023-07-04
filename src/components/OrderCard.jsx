@@ -6,7 +6,7 @@ const OrderCard = ({ order }) => {
   const dateObj = new Date(startDate);
   const formattedDate = dateObj.toISOString().split("T")[0];
   return (
-    <div className="card card-side bg-base-100 shadow-xl mb-2 ">
+    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
       <div
         className={`box w-2/12 my-5 lg:ml-3 flex justify-center items-center px-2 max-lg:hidden ${
           order.offers.length > 0 ? "!border-blue-400" : ""
@@ -17,10 +17,13 @@ const OrderCard = ({ order }) => {
           <span>zgłoszeń</span>
         </div>
       </div>
-      <div className="card-body">
+      <div className="card-body max-lg:w-full">
         <h2 className="card-title">{order.title}</h2>
+        <div className="w-full lg:hidden flex flex-start pl-8 py-3 border-y-2 ">
+          <span>{order.offers.length} zgłoszeń</span>
+        </div>
         <p>{order.description}</p>
-        <div className="card-actions flex flex-col  lg:flex-row justify-between">
+        <div className="card-actions flex flex-col lg:flex-row justify-between">
           <div className="lg:w-3/12 w-full">
             <span className="text-sm text-slate-500">
               {order.address.city}, {order.address.voivodeship}

@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import OrderCard from "../components/OrderCard";
+import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 
 const OrdersListPage = () => {
-  const { categoryName } = useParams();
   const location = useLocation();
   const { category } = location.state;
   const api = useAxios();
+  const ref = useRef(null);
 
   const [childCategories, setChildCategories] = useState([]);
   const [subChildCategories, setSubChildCategories] = useState(null);
@@ -18,6 +19,11 @@ const OrdersListPage = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [voivodeship, setVoivodeship] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   const [orders, setOrders] = useState([]);
 
@@ -29,13 +35,14 @@ const OrdersListPage = () => {
       borderRadius: "none",
       borderColor: "none",
     }),
+    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
   };
 
   const customStyles2 = {
     control: (base) => ({
       ...base,
     }),
-    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
   };
 
   const options = [
@@ -79,7 +86,6 @@ const OrdersListPage = () => {
     await api
       .get(`/api/category/${cat.id}/childCategories`)
       .then((res) => {
-        console.log(res.data);
         setSubChildCategories(res.data);
         setLoading(false);
       })
@@ -88,14 +94,18 @@ const OrdersListPage = () => {
       });
   };
 
-  const searchOrders = async () => {
+  const searchOrders = async (currPage) => {
     console.log(selectedCategory);
     console.log(selectedSubCategory);
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${selectedCategory}`;
+      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${selectedSubCategory}`;
+      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+    }
+
+    if (selectedSubCategory == null && selectedCategory == null) {
+      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${category.id}&searchText=${searchText}`;
     }
 
     await api
@@ -103,6 +113,9 @@ const OrdersListPage = () => {
       .then((res) => {
         console.log(res.data.items);
         setOrders(res.data.items);
+        setCurrentPage(res.data.pageNumber);
+        setTotalPages(res.data.totalPages);
+        setTotalItems(res.data.totalItemsCount);
       })
       .catch((err) => {
         console.log(err);
@@ -121,11 +134,14 @@ const OrdersListPage = () => {
   const fetchOrders = async () => {
     await api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
+        `/api/order/all?pageSize=1&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
       )
       .then((res) => {
         console.log(res.data.items);
         setOrders(res.data.items);
+        setCurrentPage(res.data.pageNumber);
+        setTotalPages(res.data.totalPages);
+        setTotalItems(res.data.totalItemsCount);
       })
       .catch((err) => {
         console.log(err);
@@ -148,6 +164,7 @@ const OrdersListPage = () => {
               type="text"
               placeholder="Szukaj zleceń..."
               className="input input-bordered h-full text-black w-full"
+              onChange={(e) => setSearchText(e.target.value)}
             />
 
             <Select
@@ -159,7 +176,10 @@ const OrdersListPage = () => {
                 IndicatorSeparator: () => null,
               }}
             />
-            <button className="btn btn-square h-full">
+            <button
+              className="btn btn-square h-full"
+              onClick={() => searchOrders(1)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -184,19 +204,20 @@ const OrdersListPage = () => {
           {category.name}
         </h1>
       </div>
-      <div className="grid grid-cols-[30%_70%] mt-5">
-        <div>
+      <div className="grid md:grid-cols-[30%_70%] mt-5">
+        <div className="max-md:hidden">
           <div
             data-theme="cupcake"
             className="border collapse collapse-arrow border-base-300 rounded-none"
           >
             <input type="checkbox" />
-            <div className="collapse-title  text-xl font-medium">Kategorie</div>
+            <div className="collapse-title text-xl font-medium">Kategorie</div>
             <div className="collapse-content w-full">
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
                 options={childCategories}
+                value={selectedCategory?.id}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Kategoria"
@@ -209,12 +230,7 @@ const OrdersListPage = () => {
                 menuPortalTarget={document.body}
                 options={subChildCategories}
                 value={selectedSubCategory?.id}
-                getOptionLabel={(option) =>
-                  `${option.name} (${
-                    orders.filter((order) => order.category.id == option.id)
-                      .length
-                  })`
-                }
+                getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Podkategoria"
                 styles={customStyles2}
@@ -237,6 +253,7 @@ const OrdersListPage = () => {
                 options={voivodeships}
                 placeholder="Województwo"
                 styles={customStyles2}
+                onChange={(e) => setVoivodeship(e.value)}
               />
             </div>
           </div>
@@ -244,19 +261,48 @@ const OrdersListPage = () => {
             type="submit"
             data-theme="cupcake"
             className="flex w-full justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-300  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            onClick={() => searchOrders()}
+            onClick={() => searchOrders(1)}
           >
             Szukaj
           </button>
         </div>
         <div className="px-5">
-          <h1 className="text-xl flex justify-between font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-            <span>Lista zleceń</span>
-            <span className="text-sm">Znaleziono {orders.length} wyniki</span>
-          </h1>
+          <FilterMobile
+            datas={{
+              childCategories,
+              handleFirstSelectChange,
+              subChildCategories,
+              selectedCategory,
+              setSelectedSubCategory,
+              selectedSubCategory,
+              setVoivodeship,
+              voivodeships,
+              customStyles2,
+              searchOrders,
+            }}
+          />
+
+          <div className="flex flex-row justify-between">
+            <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+              <span>Lista zleceń</span>
+              <span className="text-sm">Znaleziono {totalItems} wyniki</span>
+            </h1>
+          </div>
           {orders.map((order) => (
             <OrderCard key={order.id} order={order} />
           ))}
+
+          <div className="join flex justify-center mt-5">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className="join-item btn"
+                onClick={() => searchOrders(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
