@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SearchPrincipals = (props) => {
   return (
@@ -66,9 +67,13 @@ const SearchPrincipals = (props) => {
         <div className="categories bg-white text-black">
           <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
             {props.categories.map((e) => (
-              <a
+              <Link
                 key={e.id}
-                href="#"
+                to={`/orders/${e.name
+                  .toLowerCase()
+                  .replaceAll(",", "")
+                  .replaceAll(" ", "-")}`}
+                state={{ category: e }}
                 className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
               >
                 <img
@@ -77,7 +82,7 @@ const SearchPrincipals = (props) => {
                   className="h-full"
                 />
                 <span className="text-[13px]">{e.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

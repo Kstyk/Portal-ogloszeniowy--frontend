@@ -11,11 +11,15 @@ import NavbarContractor from "./components/Navbars/NavbarContractor";
 import RegistrationPage from "./pages/RegistrationPage";
 import ConfigureContractorAccount from "./pages/ConfigureContractorAccount";
 import EditContractorCategories from "./pages/EditContractorCategories";
+import OrdersListPage from "./pages/OrdersListPage";
 
 function App() {
   const { user } = useContext(AuthContext);
   return (
-    <div id="container" className="container w-7/12 m-auto">
+    <div
+      id="container"
+      className="container max-sm:w-full max-lg:w-9/12 lg:w-7/12 m-auto"
+    >
       {user == null ? (
         <Navbar />
       ) : user.TypeOfAccount == "Wykonawca" ? (
@@ -36,6 +40,8 @@ function App() {
           path="/contractor/edit-categories"
           element={<EditContractorCategories />}
         />
+
+        <Route path="/orders/:category" element={<OrdersListPage />} />
       </Routes>
     </div>
   );
