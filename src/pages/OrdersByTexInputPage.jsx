@@ -6,14 +6,16 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import OrderCard from "../components/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
+import { Link } from "react-router-dom";
 
-const OrdersListPage = () => {
+const OrdersByTexInputPage = () => {
   const location = useLocation();
-  const { category } = location.state;
+  const { searchByQuery } = location.state;
   const api = useAxios();
 
   const [childCategories, setChildCategories] = useState([]);
   const [subChildCategories, setSubChildCategories] = useState(null);
+  const [orderResultsCategories, setOrderResultsCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -68,45 +70,38 @@ const OrdersListPage = () => {
     { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
   ];
 
-  const fetchChildCategories = async (e) => {
+  const fetchResultCategories = async () => {
+    setOrderResultsCategories([]);
     await api
-      .get(`/api/category/${e.id}/childCategories`)
+      .get(
+        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&searchText=${searchByQuery}`
+      )
       .then((res) => {
-        setChildCategories(res.data);
+        res.data.items.forEach((order) => {
+          setOrderResultsCategories((arr) => [...arr, order.category]);
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const fetchSubChildCategories = async (cat) => {
-    setLoading(true);
-
-    await api
-      .get(`/api/category/${cat.id}/childCategories`)
-      .then((res) => {
-        setSubChildCategories(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const clearCategories = () => {
+    setOrderResultsCategories([]);
+    setSelectedCategory(null);
   };
 
   const searchOrders = async (currPage) => {
-    console.log(selectedCategory);
-    console.log(selectedSubCategory);
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${category.id}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&searchText=${searchByQuery}`;
     }
-
     await api
       .get(baseurl)
       .then((res) => {
@@ -121,36 +116,15 @@ const OrdersListPage = () => {
   };
 
   const handleFirstSelectChange = (e) => {
-    setSubChildCategories([]);
-    setSelectedSubCategory(null);
     setSelectedCategory(e.id);
-    // Wyczyszczenie wartości w drugim selekcie
-    // Wywołanie funkcji do pobrania nowych danych na podstawie zmienionej wartości w pierwszym selekcie
-    fetchSubChildCategories(e);
-  };
-
-  const fetchOrders = () => {
-    api
-      .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
-      )
-      .then((res) => {
-        console.log(res.data.items);
-        console.log(res.data.totalPages);
-        setOrders(res.data.items);
-        setCurrentPage(res.data.pageNumber);
-        setTotalPages(res.data.totalPages);
-        setTotalItems(res.data.totalItemsCount);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   useEffect(() => {
-    fetchOrders();
-    fetchChildCategories();
-  }, []);
+    console.log(searchByQuery);
+    console.log("rerender");
+    searchOrders(1);
+    fetchResultCategories();
+  }, [location]);
 
   return (
     <div>
@@ -175,9 +149,10 @@ const OrdersListPage = () => {
                 IndicatorSeparator: () => null,
               }}
             />
-            <button
+            <Link
+              to={searchText.length > 0 && `/orders/search/${searchText}`}
               className="btn btn-square h-full"
-              onClick={() => searchOrders(1)}
+              state={{ searchByQuery: searchText }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -193,14 +168,14 @@ const OrdersListPage = () => {
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
 
       <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200">
         <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
-          {category.name}
+          Szukaj: {searchByQuery}
         </h1>
       </div>
       <div className="grid md:grid-cols-[30%_70%] mt-5">
@@ -213,9 +188,10 @@ const OrdersListPage = () => {
             <div className="collapse-title text-xl font-medium">Kategorie</div>
             <div className="collapse-content w-full">
               <Select
+                key={`my_unique_select_key__${selectedCategory?.id}`}
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
-                options={childCategories}
+                options={orderResultsCategories}
                 value={selectedCategory == null ? null : selectedCategory.id}
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
@@ -223,18 +199,13 @@ const OrdersListPage = () => {
                 styles={customStyles2}
                 onChange={(e) => handleFirstSelectChange(e)}
               />
-              <Select
-                key={`subcategory_selec__${selectedCategory}`}
-                className="px-0 h-10"
-                menuPortalTarget={document.body}
-                options={subChildCategories}
-                value={selectedSubCategory?.id}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                placeholder="Podkategoria"
-                styles={customStyles2}
-                onChange={(e) => setSelectedSubCategory(e.id)}
-              />
+              <a
+                data-theme="cupcake"
+                className="font-semibold text-sm mt-3 cursor-pointer"
+                onClick={() => clearCategories()}
+              >
+                Wyczyść kategorie
+              </a>
             </div>
           </div>
           <div
@@ -249,7 +220,6 @@ const OrdersListPage = () => {
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
-                defaultValue={voivodeships[3]}
                 options={voivodeships}
                 placeholder="Województwo"
                 styles={customStyles2}
@@ -293,7 +263,6 @@ const OrdersListPage = () => {
           ))}
 
           <>
-            {console.log(currentPage)}
             <div
               data-theme="cupcake"
               className="join mt-5 flex flex-row justify-center w-full bg-inherit"
@@ -357,4 +326,4 @@ const OrdersListPage = () => {
   );
 };
 
-export default OrdersListPage;
+export default OrdersByTexInputPage;

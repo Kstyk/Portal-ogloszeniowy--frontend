@@ -12,6 +12,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import ConfigureContractorAccount from "./pages/ConfigureContractorAccount";
 import EditContractorCategories from "./pages/EditContractorCategories";
 import OrdersListPage from "./pages/OrdersListPage";
+import OrdersByTexInputPage from "./pages/OrdersByTexInputPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -42,6 +43,10 @@ function App() {
         />
 
         <Route path="/orders/:category" element={<OrdersListPage />} />
+        <Route
+          path="/orders/search/:searchByQuery"
+          element={<OrdersByTexInputPage />}
+        />
       </Routes>
     </div>
   );
