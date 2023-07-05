@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
-const baseURL = "https://oferiaapi.azurewebsites.net";
+const baseURL = "https://localhost:7147";
 
 const useAxios = () => {
   const { authToken, setUser, setAuthToken } = useContext(AuthContext);

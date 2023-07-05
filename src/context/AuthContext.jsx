@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         if (jwtDecode(res.data).TypeOfAccount == "Wykonawca") {
           axios
             .get(
-              `https://oferiaapi.azurewebsites.net/api/category/userCategories/${
+              `https://localhost:7147/api/category/userCategories/${
                 jwtDecode(res.data).Id
               }`
             )
