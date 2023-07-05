@@ -2,7 +2,7 @@
   "name": "zleceniafrontend",
   "private": true,
   "version": "0.0.1",
-  "homepage": "https://zlecenia.azurewebsites.net",
+  "homepage": "https://zlecenia.azurewebsites.net/",
   "type": "module",
   "scripts": {
     "dev": "vite",
