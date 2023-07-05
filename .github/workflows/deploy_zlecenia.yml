@@ -58,4 +58,4 @@ jobs:
           app-name: 'zlecenia'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D3AEA8E7FA2342F4B7849D6DD47AD9C2 }}
-          package: .
+          package: release.zip
