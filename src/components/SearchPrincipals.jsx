@@ -84,11 +84,7 @@ const SearchPrincipals = (props) => {
                 state={{ category: e }}
                 className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
               >
-                <img
-                  src={`./assets/images/icons/${e.id}.png`}
-                  alt={`icon of ${e.name}`}
-                  className="h-full"
-                />
+                <img src={`/images/icons/${e.id}.png`} className="h-full" />
                 <span className="text-[13px]">{e.name}</span>
               </Link>
             ))}

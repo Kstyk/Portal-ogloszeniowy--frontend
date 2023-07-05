@@ -76,7 +76,7 @@ const RegistrationPage = () => {
 
   const fetchStatuses = async () => {
     await axios
-      .get("https://oferiaapi.azurewebsites.net/api/account/statuses")
+      .get("https://localhost:7147/api/account/statuses")
       .then((res) => {
         setStatuses(res.data);
       })
@@ -86,7 +86,7 @@ const RegistrationPage = () => {
   };
   const fetchTypes = async () => {
     await axios
-      .get("https://oferiaapi.azurewebsites.net/api/account/types")
+      .get("https://localhost:7147/api/account/types")
       .then((res) => {
         setTypes(res.data);
       })
@@ -114,7 +114,7 @@ const RegistrationPage = () => {
     console.log(data);
 
     axios
-      .post("https://oferiaapi.azurewebsites.net/api/account/register", data)
+      .post("https://localhost:7147/api/account/register", data)
       .then((res) => {
         console.log(res);
         nav("/login?success");
