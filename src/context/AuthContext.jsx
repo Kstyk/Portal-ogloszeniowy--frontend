@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
     let response = await axios
       .post(
-        "https://oferiaapi.azurewebsites.net/api/account/login",
+        "https://localhost:7147/api/account/login",
         {
           email: e.target.email.value,
           password: e.target.password.value,
