@@ -21,7 +21,7 @@ const OrdersListPage = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [voivodeship, setVoivodeship] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
@@ -99,19 +99,18 @@ const OrdersListPage = () => {
     console.log(selectedSubCategory);
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=1&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${category.id}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${category.id}&searchText=${searchText}`;
     }
 
     await api
       .get(baseurl)
       .then((res) => {
-        console.log(res.data.items);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
@@ -131,13 +130,14 @@ const OrdersListPage = () => {
     fetchSubChildCategories(e);
   };
 
-  const fetchOrders = async () => {
-    await api
+  const fetchOrders = () => {
+    api
       .get(
-        `/api/order/all?pageSize=1&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
+        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
       )
       .then((res) => {
         console.log(res.data.items);
+        console.log(res.data.totalPages);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
@@ -292,17 +292,65 @@ const OrdersListPage = () => {
             <OrderCard key={order.id} order={order} />
           ))}
 
-          <div className="join flex justify-center mt-5">
-            {Array.from({ length: totalPages }, (_, i) => (
+          <>
+            {console.log(currentPage)}
+            <div
+              data-theme="cupcake"
+              className="join mt-5 flex flex-row justify-center w-full bg-inherit"
+            >
               <button
-                key={i + 1}
-                className="join-item btn"
-                onClick={() => searchOrders(i + 1)}
+                className={`join-item btn text-xl ${
+                  currentPage - 1 == 0
+                    ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                    : ""
+                }`}
+                onClick={() => {
+                  currentPage - 1 > 0 && searchOrders(1);
+                }}
               >
-                {i + 1}
+                ⇤
               </button>
-            ))}
-          </div>
+              <button
+                className={`join-item btn ${
+                  currentPage - 1 == 0
+                    ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                    : ""
+                }`}
+                onClick={() => {
+                  currentPage - 1 > 0 && searchOrders(currentPage - 1);
+                }}
+              >
+                «
+              </button>
+              <button className="join-item btn btn-">
+                Strona {currentPage} z {totalPages}
+              </button>
+              <button
+                className={`join-item btn ${
+                  currentPage == totalPages
+                    ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                    : ""
+                }`}
+                onClick={() => {
+                  currentPage != totalPages && searchOrders(currentPage + 1);
+                }}
+              >
+                »
+              </button>
+              <button
+                className={`join-item btn text-xl ${
+                  currentPage == totalPages
+                    ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                    : ""
+                }`}
+                onClick={() => {
+                  currentPage != totalPages && searchOrders(totalPages);
+                }}
+              >
+                ⇥
+              </button>
+            </div>
+          </>
         </div>
       </div>
     </div>
