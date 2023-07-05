@@ -68,10 +68,11 @@ const OrdersListPage = () => {
     { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
   ];
 
-  const fetchChildCategories = async (e) => {
+  const fetchChildCategories = async () => {
     await api
-      .get(`/api/category/${e.id}/childCategories`)
+      .get(`/api/category/${category.id}/childCategories`)
       .then((res) => {
+        console.log("HERE: " + res.data);
         setChildCategories(res.data);
       })
       .catch((err) => {
