@@ -12,7 +12,7 @@ const NavbarContractor = () => {
           className="btn border-none bg-white hover:bg-white normal-case text-xl"
           to="/"
         >
-          <img src="src/assets/images/logo.png" alt="" className="h-full" />
+          <img src="/images/logo.png" alt="" className="h-full" />
         </Link>
       </div>
       <div className="flex-none gap-2">
@@ -20,7 +20,7 @@ const NavbarContractor = () => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="src/assets/images/avatar.jpg" alt="profile-image" />
+              <img src="/images/avatar.jpg" alt="profile-image" />
             </div>
           </label>
           <ul

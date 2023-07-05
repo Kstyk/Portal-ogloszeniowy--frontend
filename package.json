@@ -2,7 +2,7 @@
   "name": "zleceniafrontend",
   "private": true,
   "version": "0.0.1",
-   "type": "module",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -18,7 +18,9 @@
     "react-hook-form": "^7.45.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.14.0",
-    "react-select": "^5.7.3"
+    "react-scripts": "^5.0.1",
+    "react-select": "^5.7.3",
+    "require": "^2.4.20"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
