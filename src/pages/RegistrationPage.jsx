@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
   const [statuses, setStatuses] = useState([]);
-  const [tpyes, setTypes] = useState([]);
+  const [types, setTypes] = useState([]);
 
   const [typeName, setTypeName] = useState(null);
   const [statusName, setStatusName] = useState(null);
-  const [status, setStatus] = useState({});
   const nav = useNavigate();
 
   const {
@@ -143,7 +142,7 @@ const RegistrationPage = () => {
             </label>
 
             <div className=" lg:flex lg:justify-between">
-              {tpyes.map((t) =>
+              {types.map((t) =>
                 t.name == "Zleceniodawca" ? (
                   <div
                     key={t.id}
@@ -281,8 +280,10 @@ const RegistrationPage = () => {
                           name="statusOfUserId"
                           value={s.id}
                           className="radio checked:bg-blue-500"
-                          onChange={() => {
+                          onClick={() => {
                             setStatusName(s.name);
+                          }}
+                          onChange={() => {
                             setValue("statusOfUserId", s.id);
                           }}
                           {...register(
