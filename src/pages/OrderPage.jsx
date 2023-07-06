@@ -232,7 +232,7 @@ const OrderPage = () => {
               </div>
               <div className="collapse collapse-arrow p-0 mb-5 bg-white">
                 <input type="checkbox" />
-                <h2 className="collapse-title text-xl font-semibold mb-3">
+                <h2 className="collapse-title text-xl font-semibold">
                   Oferty wykonania zlecenia
                 </h2>
                 <div className="collapse-content">
