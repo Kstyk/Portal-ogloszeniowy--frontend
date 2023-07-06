@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
     let response = await axios
       .post(
-        "https://localhost:7147/api/account/login",
+        "https://oferiaapi.azurewebsites.net/api/account/login",
         {
           email: e.target.email.value,
           password: e.target.password.value,
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         if (jwtDecode(res.data).TypeOfAccount == "Wykonawca") {
           axios
             .get(
-              `https://localhost:7147/api/category/userCategories/${
+              `https://oferiaapi.azurewebsites.net/api/category/userCategories/${
                 jwtDecode(res.data).Id
               }`
             )
