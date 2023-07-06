@@ -5,7 +5,7 @@ const OfferCard = (props) => {
   const { offer } = props;
 
   return (
-    <div className="bg-white shadow-xl p-5 mb-5">
+    <div className="bg-white border-t-[3px] rounded-t-xl border-t-blue-400 shadow-xl p-5 mb-5">
       <div className="flex flex-row justify-between">
         <div>
           <h1 className="author font-semibold">

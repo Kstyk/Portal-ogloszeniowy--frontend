@@ -106,7 +106,7 @@ const OrderPage = () => {
                 </span>
               </div>
             </div>
-            <div className="mt-10 pt-2 border-t-2 border-dotted description w-full">
+            <div className="mt-10 mb-10 pt-2 border-t-2 border-dotted description w-full">
               <h2 className="text-xl font-semibold mb-3">Opis zlecenia</h2>
               <p className="pl-5">{order?.description}</p>
             </div>
@@ -144,99 +144,107 @@ const OrderPage = () => {
               data-theme="cupcake"
               className=" shadow-xl w-full px-8 pt-5 pb-5 my-5"
             >
-              <h2 className="text-xl font-semibold mb-3">
-                Dodaj swoją ofertę do tego zlecenia{" "}
-              </h2>
-              <form
-                onSubmit={handleSubmit(onSubmit, handleError)}
-                className="form mb-5 flex flex-col justify-between bg-white p-3 rounded-md shadow-xl"
-              >
-                <div className="w-6/12 ">
-                  <h4 className="font-semibold">Proponuję</h4>
-                </div>
-
-                <div className="flex flex-row text-[15px] h-40px items-center">
-                  <label htmlFor="price" className="pr-4 w-3/12">
-                    Cenę:{" "}
-                  </label>
-                  <input
-                    id="price"
-                    name="price"
-                    type="number"
-                    {...register("price", addOfferOptions.price)}
-                    required
-                    className="block h-8 w-6/12 max-md:w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none"
-                  />
-                  <span className="pl-2 text-[12px] max-md:hidden">
-                    zł brutto
-                  </span>
-                </div>
-                <div className="flex flex-row text-[15px] h-40px items-center mt-5">
-                  <label htmlFor="priceFor" className="pr-2 w-3/12">
-                    Za:
-                  </label>
-                  <Controller
-                    name="priceFor"
-                    control={control}
-                    className="!h-8 !py-0"
-                    defaultValue=""
-                    rules={addOfferOptions.priceFor}
-                    render={({ field }) => (
-                      <Select
-                        className="w-6/12 max-md:w-full px-0 h-8 !focus:border-none"
-                        placeholder=""
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            paddingTop: 0,
-                            paddingBottom: 0,
-                          }),
-                        }}
-                        options={[
-                          {
-                            value: "całość",
-                            label: "całość",
-                          },
-                          {
-                            value: "sztuka",
-                            label: "sztukę",
-                          },
-                          {
-                            value: "godzina",
-                            label: "godzinę",
-                          },
-                        ]}
-                        {...field}
-                        label="priceFor"
-                      />
-                    )}
-                  />
-                </div>
-                <textarea
-                  id="content"
-                  name="content"
-                  placeholder="Wprowadź tekst oferty"
-                  {...register("content", addOfferOptions.content)}
-                  className="textarea  w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white focus:outline-none mt-5"
-                />
-                <button
-                  type="submit"
-                  data-theme="cupcake"
-                  className="flex w-full justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-300  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-5"
+              <div className="collapse collapse-arrow p-0 mb-5 bg-white">
+                <input type="checkbox" />
+                <h2 className="collapse-title text-xl font-semibold">
+                  Dodaj swoją ofertę do tego zlecenia{" "}
+                </h2>
+                <form
+                  onSubmit={handleSubmit(onSubmit, handleError)}
+                  className="collapse-content flex flex-col justify-between bg-white rounded-md shadow-xl"
                 >
-                  Proponuj
-                </button>
-              </form>
-              <h2 className="text-xl font-semibold mb-3">
-                Oferty wykonania zlecenia
-              </h2>
-              {order?.offers.length == 0
-                ? "Brak ofert"
-                : order?.offers.map((offer) => (
-                    <div key={offer.id}>
-                      <OfferCard offer={offer} />
-                    </div>
-                  ))}
+                  <div className="w-6/12 ">
+                    <h4 className="font-semibold">Proponuję</h4>
+                  </div>
+
+                  <div className="flex flex-row text-[15px] h-40px items-center">
+                    <label htmlFor="price" className="pr-4 w-3/12">
+                      Cenę:{" "}
+                    </label>
+                    <input
+                      id="price"
+                      name="price"
+                      type="number"
+                      {...register("price", addOfferOptions.price)}
+                      required
+                      className="block h-8 w-6/12 max-md:w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none"
+                    />
+                    <span className="pl-2 text-[12px] max-md:hidden">
+                      zł brutto
+                    </span>
+                  </div>
+                  <div className="flex flex-row text-[15px] h-40px items-center mt-5">
+                    <label htmlFor="priceFor" className="pr-2 w-3/12">
+                      Za:
+                    </label>
+                    <Controller
+                      name="priceFor"
+                      control={control}
+                      className="!h-8 !py-0"
+                      defaultValue=""
+                      rules={addOfferOptions.priceFor}
+                      render={({ field }) => (
+                        <Select
+                          className="w-6/12 max-md:w-full px-0 h-8 !focus:border-none"
+                          placeholder=""
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              paddingTop: 0,
+                              paddingBottom: 0,
+                            }),
+                          }}
+                          options={[
+                            {
+                              value: "całość",
+                              label: "całość",
+                            },
+                            {
+                              value: "sztuka",
+                              label: "sztukę",
+                            },
+                            {
+                              value: "godzina",
+                              label: "godzinę",
+                            },
+                          ]}
+                          {...field}
+                          label="priceFor"
+                        />
+                      )}
+                    />
+                  </div>
+                  <textarea
+                    id="content"
+                    name="content"
+                    placeholder="Wprowadź tekst oferty"
+                    {...register("content", addOfferOptions.content)}
+                    className="textarea  w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white focus:outline-none mt-5"
+                  />
+                  <button
+                    type="submit"
+                    data-theme="cupcake"
+                    className="flex w-full justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-300  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-5"
+                  >
+                    Proponuj
+                  </button>
+                </form>
+              </div>
+              <div className="collapse collapse-arrow p-0 mb-5 bg-white">
+                <input type="checkbox" />
+                <h2 className="collapse-title text-xl font-semibold mb-3">
+                  Oferty wykonania zlecenia
+                </h2>
+                <div className="collapse-content">
+                  {order?.offers.length == 0
+                    ? "Brak ofert"
+                    : order?.offers.map((offer) => (
+                        <div key={offer.id}>
+                          <OfferCard offer={offer} />
+                        </div>
+                      ))}
+                </div>
+              </div>
             </div>
           </div>
           <div className="w-3/12 max-sm:hidden">
