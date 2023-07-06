@@ -13,6 +13,7 @@ import ConfigureContractorAccount from "./pages/ConfigureContractorAccount";
 import EditContractorCategories from "./pages/EditContractorCategories";
 import OrdersListPage from "./pages/OrdersListPage";
 import OrdersByTexInputPage from "./pages/OrdersByTexInputPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -47,6 +48,7 @@ function App() {
           path="/orders/search/:searchByQuery"
           element={<OrdersByTexInputPage />}
         />
+        <Route path="/orders/order/:orderId" element={<OrderPage />} />
       </Routes>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import "../../OrderCard.css";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const OrderCard = ({ order }) => {
   const startDate = order.startDate;
@@ -24,7 +25,13 @@ const OrderCard = ({ order }) => {
         </div>
       </div>
       <div className="card-body max-lg:w-full">
-        <h2 className="card-title">{order.title}</h2>
+        <Link
+          to={`/orders/order/${order.id}`}
+          state={{ orderId: order.id, daysLeft: daysLeft }}
+          className="card-title"
+        >
+          {order.title}
+        </Link>
         <div
           className={`w-full lg:hidden flex flex-start pl-8 py-3 border-y-2 ${
             order.offers.length > 0 ? "!border-blue-400" : ""
