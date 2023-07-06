@@ -6,8 +6,8 @@ const FilterMobileByTextInput = (props) => {
     handleFirstSelectChange,
     selectedCategory,
     setVoivodeship,
+    setCity,
     voivodeships,
-    customStyles2,
     searchOrders,
     orderResultsCategories,
     clearCategories,
@@ -36,7 +36,6 @@ const FilterMobileByTextInput = (props) => {
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option.id}
               placeholder="Kategoria"
-              styles={customStyles2}
               onChange={(e) => handleFirstSelectChange(e)}
             />
             <a
@@ -60,9 +59,17 @@ const FilterMobileByTextInput = (props) => {
               menuPortalTarget={document.body}
               options={voivodeships}
               placeholder="Województwo"
-              styles={customStyles2}
               onChange={(e) => setVoivodeship(e.value)}
             />
+            <div className="input-group h-full w-full rounded-none">
+              <input
+                data-theme=""
+                type="text"
+                placeholder="Miasto"
+                className="input input-bordered pl-2 h-10 text-black w-full bg-white focus:border-blue-500 focus:border-2 !rounded-md !outline-none"
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
           </div>
         </div>
         <button

@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 import { Link } from "react-router-dom";
 import FilterMobileByTextInput from "../components/OrdersListPageComponents/FilterMobileByTextInput";
@@ -22,6 +22,7 @@ const OrdersByTexInputPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [voivodeship, setVoivodeship] = useState("");
+  const [city, setCity] = useState("");
   const [searchText, setSearchText] = useState("");
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,13 +96,13 @@ const OrdersByTexInputPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchByQuery}`;
     }
     await api
       .get(baseurl)
@@ -224,6 +225,15 @@ const OrdersByTexInputPage = () => {
                 styles={customStyles2}
                 onChange={(e) => setVoivodeship(e.value)}
               />
+              <div className="input-group h-full w-full rounded-none">
+                <input
+                  data-theme=""
+                  type="text"
+                  placeholder="Miasto"
+                  className="input input-bordered pl-2 h-10 text-black w-full bg-white focus:border-blue-500 focus:border-2 !rounded-md !outline-none"
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
             </div>
           </div>
           <button
@@ -241,8 +251,8 @@ const OrdersByTexInputPage = () => {
               handleFirstSelectChange,
               selectedCategory,
               setVoivodeship,
+              setCity,
               voivodeships,
-              customStyles2,
               searchOrders,
               orderResultsCategories,
               clearCategories,

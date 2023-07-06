@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 
 const OrdersListPage = () => {
@@ -19,6 +19,7 @@ const OrdersListPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [voivodeship, setVoivodeship] = useState("");
+  const [city, setCity] = useState("");
   const [searchText, setSearchText] = useState("");
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,18 +39,13 @@ const OrdersListPage = () => {
     menu: (provided) => ({ ...provided, zIndex: 9999 }),
   };
 
-  const customStyles2 = {
-    control: (base) => ({
-      ...base,
-    }),
-  };
-
   const options = [
     { value: "zlecenia", label: "zleceń" },
     { value: "wykonawcy", label: "wykonawców" },
   ];
 
   const voivodeships = [
+    { value: "", label: "cała Polska" },
     { value: "dolnośląskie", label: "dolnośląskie" },
     { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
     { value: "lubelskie", label: "lubelskie" },
@@ -96,13 +92,13 @@ const OrdersListPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${category.id}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${category.id}&searchText=${searchText}`;
     }
 
     await api
@@ -216,7 +212,6 @@ const OrdersListPage = () => {
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Kategoria"
-                styles={customStyles2}
                 onChange={(e) => handleFirstSelectChange(e)}
               />
               <Select
@@ -228,7 +223,6 @@ const OrdersListPage = () => {
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Podkategoria"
-                styles={customStyles2}
                 onChange={(e) => setSelectedSubCategory(e.id)}
               />
             </div>
@@ -241,16 +235,24 @@ const OrdersListPage = () => {
             <div className="collapse-title  text-xl font-medium">
               Lokalizacja
             </div>
-            <div className="collapse-content w-full">
+            <div className="collapse-content w-full mb-2">
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
                 defaultValue={voivodeships[3]}
                 options={voivodeships}
                 placeholder="Województwo"
-                styles={customStyles2}
                 onChange={(e) => setVoivodeship(e.value)}
               />
+              <div className="input-group h-full w-full rounded-none">
+                <input
+                  data-theme=""
+                  type="text"
+                  placeholder="Miasto"
+                  className="input input-bordered pl-2 h-10 text-black w-full bg-white focus:border-blue-500 focus:border-2 !rounded-md !outline-none"
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
             </div>
           </div>
           <button
@@ -272,8 +274,8 @@ const OrdersListPage = () => {
               setSelectedSubCategory,
               selectedSubCategory,
               setVoivodeship,
+              setCity,
               voivodeships,
-              customStyles2,
               searchOrders,
             }}
           />
