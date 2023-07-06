@@ -197,13 +197,13 @@ const OrdersListPage = () => {
         </div>
       </div>
 
-      <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200">
+      <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
         <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
           {category.name}
         </h1>
       </div>
       <div className="grid md:grid-cols-[30%_70%] mt-5">
-        <div className="max-md:hidden">
+        <div className="max-md:hidden sticky">
           <div
             data-theme="cupcake"
             className="border collapse collapse-arrow border-base-300 rounded-none"
@@ -286,85 +286,87 @@ const OrdersListPage = () => {
               searchOrders,
             }}
           />
-          {loading ? (
-            <LoadingComponent message="Szukamy wyników..." />
-          ) : (
-            <div>
-              <div className="flex flex-row justify-between">
-                <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-                  <span>Lista zleceń</span>
-                  <span className="text-sm">
-                    Znaleziono {totalItems} wyniki
-                  </span>
-                </h1>
-              </div>
-              {orders.map((order) => (
-                <OrderCard key={order.id} order={order} />
-              ))}
+          <div>
+            {loading ? (
+              <LoadingComponent message="Szukamy wyników..." />
+            ) : (
+              <div>
+                <div className="flex flex-row justify-between">
+                  <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                    <span>Lista zleceń</span>
+                    <span className="text-sm">
+                      Znaleziono {totalItems} wyniki
+                    </span>
+                  </h1>
+                </div>
+                {orders.map((order) => (
+                  <OrderCard key={order.id} order={order} />
+                ))}
 
-              {totalItems > 0 && (
-                <>
-                  <div
-                    data-theme="cupcake"
-                    className="join mt-5 flex flex-row justify-center w-full bg-inherit"
-                  >
-                    <button
-                      className={`join-item btn text-xl ${
-                        currentPage - 1 == 0
-                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        currentPage - 1 > 0 && searchOrders(1);
-                      }}
+                {totalItems > 0 && (
+                  <>
+                    <div
+                      data-theme="cupcake"
+                      className="join mt-5 flex flex-row justify-center w-full bg-inherit"
                     >
-                      ⇤
-                    </button>
-                    <button
-                      className={`join-item btn ${
-                        currentPage - 1 == 0
-                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        currentPage - 1 > 0 && searchOrders(currentPage - 1);
-                      }}
-                    >
-                      «
-                    </button>
-                    <button className="join-item btn btn-">
-                      Strona {currentPage} z {totalPages}
-                    </button>
-                    <button
-                      className={`join-item btn ${
-                        currentPage == totalPages
-                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        currentPage != totalPages &&
-                          searchOrders(currentPage + 1);
-                      }}
-                    >
-                      »
-                    </button>
-                    <button
-                      className={`join-item btn text-xl ${
-                        currentPage == totalPages
-                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        currentPage != totalPages && searchOrders(totalPages);
-                      }}
-                    >
-                      ⇥
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
+                      <button
+                        className={`join-item btn text-xl ${
+                          currentPage - 1 == 0
+                            ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          currentPage - 1 > 0 && searchOrders(1);
+                        }}
+                      >
+                        ⇤
+                      </button>
+                      <button
+                        className={`join-item btn ${
+                          currentPage - 1 == 0
+                            ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          currentPage - 1 > 0 && searchOrders(currentPage - 1);
+                        }}
+                      >
+                        «
+                      </button>
+                      <button className="join-item btn btn-">
+                        Strona {currentPage} z {totalPages}
+                      </button>
+                      <button
+                        className={`join-item btn ${
+                          currentPage == totalPages
+                            ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          currentPage != totalPages &&
+                            searchOrders(currentPage + 1);
+                        }}
+                      >
+                        »
+                      </button>
+                      <button
+                        className={`join-item btn text-xl ${
+                          currentPage == totalPages
+                            ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          currentPage != totalPages && searchOrders(totalPages);
+                        }}
+                      >
+                        ⇥
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
