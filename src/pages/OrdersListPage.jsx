@@ -6,6 +6,7 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
+import LoadingComponent from "../components/LoadingComponent";
 
 const OrdersListPage = () => {
   const location = useLocation();
@@ -86,6 +87,7 @@ const OrdersListPage = () => {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
@@ -123,12 +125,16 @@ const OrdersListPage = () => {
     fetchSubChildCategories(e);
   };
 
-  const fetchOrders = () => {
-    api
+  const fetchOrders = async () => {
+    setLoading(true);
+
+    await api
       .get(
         `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${category.id}`
       )
       .then((res) => {
+        setLoading(false);
+
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
@@ -136,6 +142,7 @@ const OrdersListPage = () => {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
@@ -279,76 +286,84 @@ const OrdersListPage = () => {
               searchOrders,
             }}
           />
-
-          <div className="flex flex-row justify-between">
-            <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-              <span>Lista zleceń</span>
-              <span className="text-sm">Znaleziono {totalItems} wyniki</span>
-            </h1>
-          </div>
-          {orders.map((order) => (
-            <OrderCard key={order.id} order={order} />
-          ))}
-
-          {totalItems > 0 && (
-            <>
-              <div
-                data-theme="cupcake"
-                className="join mt-5 flex flex-row justify-center w-full bg-inherit"
-              >
-                <button
-                  className={`join-item btn text-xl ${
-                    currentPage - 1 == 0
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage - 1 > 0 && searchOrders(1);
-                  }}
-                >
-                  ⇤
-                </button>
-                <button
-                  className={`join-item btn ${
-                    currentPage - 1 == 0
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage - 1 > 0 && searchOrders(currentPage - 1);
-                  }}
-                >
-                  «
-                </button>
-                <button className="join-item btn btn-">
-                  Strona {currentPage} z {totalPages}
-                </button>
-                <button
-                  className={`join-item btn ${
-                    currentPage == totalPages
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage != totalPages && searchOrders(currentPage + 1);
-                  }}
-                >
-                  »
-                </button>
-                <button
-                  className={`join-item btn text-xl ${
-                    currentPage == totalPages
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage != totalPages && searchOrders(totalPages);
-                  }}
-                >
-                  ⇥
-                </button>
+          {loading ? (
+            <LoadingComponent message="Szukamy wyników..." />
+          ) : (
+            <div>
+              <div className="flex flex-row justify-between">
+                <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                  <span>Lista zleceń</span>
+                  <span className="text-sm">
+                    Znaleziono {totalItems} wyniki
+                  </span>
+                </h1>
               </div>
-            </>
+              {orders.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
+
+              {totalItems > 0 && (
+                <>
+                  <div
+                    data-theme="cupcake"
+                    className="join mt-5 flex flex-row justify-center w-full bg-inherit"
+                  >
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && searchOrders(1);
+                      }}
+                    >
+                      ⇤
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && searchOrders(currentPage - 1);
+                      }}
+                    >
+                      «
+                    </button>
+                    <button className="join-item btn btn-">
+                      Strona {currentPage} z {totalPages}
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages &&
+                          searchOrders(currentPage + 1);
+                      }}
+                    >
+                      »
+                    </button>
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages && searchOrders(totalPages);
+                      }}
+                    >
+                      ⇥
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
       </div>
