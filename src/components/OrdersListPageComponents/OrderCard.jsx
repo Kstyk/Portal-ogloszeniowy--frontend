@@ -25,6 +25,9 @@ const OrderCard = ({ order }) => {
         </div>
       </div>
       <div className="card-body max-lg:w-full">
+        <span className="text-sm text-gray-400">
+          Kategoria: {order.category.name}
+        </span>
         <Link
           to={`/orders/order/${order.id}`}
           state={{ orderId: order.id, daysLeft: daysLeft }}
