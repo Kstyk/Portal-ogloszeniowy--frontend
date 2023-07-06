@@ -10,8 +10,8 @@ const FilterMobile = (props) => {
     setSelectedSubCategory,
     selectedSubCategory,
     setVoivodeship,
+    setCity,
     voivodeships,
-    customStyles2,
     searchOrders,
   } = props.datas;
   return (
@@ -47,7 +47,6 @@ const FilterMobile = (props) => {
               getOptionLabel={(option) => option.name}
               getOptionValue={(option) => option.id}
               placeholder="Podkategoria"
-              styles={customStyles2}
               onChange={(e) => setSelectedSubCategory(e.id)}
             />
           </div>
@@ -64,9 +63,17 @@ const FilterMobile = (props) => {
               menuPortalTarget={document.body}
               options={voivodeships}
               placeholder="Województwo"
-              styles={customStyles2}
               onChange={(e) => setVoivodeship(e.value)}
             />
+            <div className="input-group h-full w-full rounded-none">
+              <input
+                data-theme=""
+                type="text"
+                placeholder="Miasto"
+                className="input input-bordered h-10 text-black w-full bg-white focus:border-blue-500 focus:border-2 !rounded-md !outline-none"
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
           </div>
         </div>
         <button

@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import LoadingComponent from "./LoadingComponent";
 
 const SearchContractors = (props) => {
   const { user } = useContext(AuthContext);
   return (
     <div className="absolute left-0 right-0  bg-green-400 text-white">
+      {console.log("loading: " + props.loading)}
       <div className="container lg:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
         <div className="headers text-center">
           <h1 className="text-3xl text-black mb-2 ">Wykonawcy do usług!</h1>
@@ -105,24 +107,30 @@ const SearchContractors = (props) => {
       </div>
 
       {/* main categories */}
-      <div className="categories bg-white text-black">
-        <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
-          {props.categories.map((e) => (
-            <a
-              key={e.id}
-              href="#"
-              className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
-            >
-              <img
-                src={`/images/icons/${e.id}.png`}
-                alt={`icon of ${e.name}`}
-                className="h-full"
-              />
-              <span className="text-[13px]">{e.name}</span>
-            </a>
-          ))}
+      {props.loading ? (
+        <div className="bg-white">
+          <LoadingComponent message="Poczekaj, ładujemy dla Ciebie kategorie..." />
         </div>
-      </div>
+      ) : (
+        <div className="categories bg-white text-black">
+          <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
+            {props.categories.map((e) => (
+              <a
+                key={e.id}
+                href="#"
+                className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
+              >
+                <img
+                  src={`/images/icons/${e.id}.png`}
+                  alt={`icon of ${e.name}`}
+                  className="h-full"
+                />
+                <span className="text-[13px]">{e.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -57,7 +57,9 @@ export const AuthProvider = ({ children }) => {
                 nav("/contractor/add-categories");
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           nav("/");
         }

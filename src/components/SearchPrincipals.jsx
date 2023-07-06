@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LoadingComponent from "./LoadingComponent";
 
 const SearchPrincipals = (props) => {
   const [searchText, setSearchText] = useState("");
@@ -72,24 +73,31 @@ const SearchPrincipals = (props) => {
           </div>
         </div>
         {/* main categories */}
-        <div className="categories bg-white text-black">
-          <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
-            {props.categories.map((e) => (
-              <Link
-                key={e.id}
-                to={`/orders/${e.name
-                  .toLowerCase()
-                  .replaceAll(",", "")
-                  .replaceAll(" ", "-")}`}
-                state={{ category: e }}
-                className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
-              >
-                <img src={`/images/icons/${e.id}.png`} className="h-full" />
-                <span className="text-[13px]">{e.name}</span>
-              </Link>
-            ))}
+
+        {props.loading ? (
+          <div className="bg-white">
+            <LoadingComponent message="Poczekaj, ładujemy dla Ciebie kategorie..." />
           </div>
-        </div>
+        ) : (
+          <div className="categories bg-white text-black">
+            <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
+              {props.categories.map((e) => (
+                <Link
+                  key={e.id}
+                  to={`/orders/${e.name
+                    .toLowerCase()
+                    .replaceAll(",", "")
+                    .replaceAll(" ", "-")}`}
+                  state={{ category: e }}
+                  className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
+                >
+                  <img src={`/images/icons/${e.id}.png`} className="h-full" />
+                  <span className="text-[13px]">{e.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

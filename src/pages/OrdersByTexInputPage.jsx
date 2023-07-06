@@ -4,24 +4,24 @@ import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 import { Link } from "react-router-dom";
 import FilterMobileByTextInput from "../components/OrdersListPageComponents/FilterMobileByTextInput";
+import LoadingComponent from "../components/LoadingComponent";
 
 const OrdersByTexInputPage = () => {
   const location = useLocation();
   const { searchByQuery } = location.state;
   const api = useAxios();
 
-  const [childCategories, setChildCategories] = useState([]);
-  const [subChildCategories, setSubChildCategories] = useState(null);
   const [orderResultsCategories, setOrderResultsCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [voivodeship, setVoivodeship] = useState("");
+  const [city, setCity] = useState("");
   const [searchText, setSearchText] = useState("");
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,23 +95,27 @@ const OrdersByTexInputPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchByQuery}`;
     }
+    setLoading(true);
+
     await api
       .get(baseurl)
       .then((res) => {
+        setLoading(false);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
         setTotalItems(res.data.totalItemsCount);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -224,6 +228,15 @@ const OrdersByTexInputPage = () => {
                 styles={customStyles2}
                 onChange={(e) => setVoivodeship(e.value)}
               />
+              <div className="input-group h-full w-full rounded-none">
+                <input
+                  data-theme=""
+                  type="text"
+                  placeholder="Miasto"
+                  className="input input-bordered pl-2 h-10 text-black w-full bg-white focus:border-blue-500 focus:border-2 !rounded-md !outline-none"
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
             </div>
           </div>
           <button
@@ -241,83 +254,91 @@ const OrdersByTexInputPage = () => {
               handleFirstSelectChange,
               selectedCategory,
               setVoivodeship,
+              setCity,
               voivodeships,
-              customStyles2,
               searchOrders,
               orderResultsCategories,
               clearCategories,
             }}
           />
-
-          <div className="flex flex-row justify-between">
-            <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-              <span>Lista zleceń</span>
-              <span className="text-sm">Znaleziono {totalItems} wyniki</span>
-            </h1>
-          </div>
-          {orders.map((order) => (
-            <OrderCard key={order.id} order={order} />
-          ))}
-
-          {totalItems > 0 && (
-            <>
-              <div
-                data-theme="cupcake"
-                className="join mt-5 flex flex-row justify-center w-full bg-inherit"
-              >
-                <button
-                  className={`join-item btn text-xl ${
-                    currentPage - 1 == 0
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage - 1 > 0 && searchOrders(1);
-                  }}
-                >
-                  ⇤
-                </button>
-                <button
-                  className={`join-item btn ${
-                    currentPage - 1 == 0
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage - 1 > 0 && searchOrders(currentPage - 1);
-                  }}
-                >
-                  «
-                </button>
-                <button className="join-item btn btn-">
-                  Strona {currentPage} z {totalPages}
-                </button>
-                <button
-                  className={`join-item btn ${
-                    currentPage == totalPages
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage != totalPages && searchOrders(currentPage + 1);
-                  }}
-                >
-                  »
-                </button>
-                <button
-                  className={`join-item btn text-xl ${
-                    currentPage == totalPages
-                      ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    currentPage != totalPages && searchOrders(totalPages);
-                  }}
-                >
-                  ⇥
-                </button>
+          {loading ? (
+            <LoadingComponent message="Szukamy wyników..." />
+          ) : (
+            <div>
+              <div className="flex flex-row justify-between">
+                <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                  <span>Lista zleceń</span>
+                  <span className="text-sm">
+                    Znaleziono {totalItems} wyniki
+                  </span>
+                </h1>
               </div>
-            </>
+              {orders.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
+
+              {totalItems > 0 && (
+                <>
+                  <div
+                    data-theme="cupcake"
+                    className="join mt-5 flex flex-row justify-center w-full bg-inherit"
+                  >
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && searchOrders(1);
+                      }}
+                    >
+                      ⇤
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && searchOrders(currentPage - 1);
+                      }}
+                    >
+                      «
+                    </button>
+                    <button className="join-item btn btn-">
+                      Strona {currentPage} z {totalPages}
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages &&
+                          searchOrders(currentPage + 1);
+                      }}
+                    >
+                      »
+                    </button>
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages && searchOrders(totalPages);
+                      }}
+                    >
+                      ⇥
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
       </div>
