@@ -92,13 +92,13 @@ const OrdersListPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${category.id}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${category.id}&searchText=${searchText}`;
     }
 
     await api
@@ -126,7 +126,7 @@ const OrdersListPage = () => {
   const fetchOrders = () => {
     api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&categoryId=${category.id}`
+        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${category.id}`
       )
       .then((res) => {
         setOrders(res.data.items);

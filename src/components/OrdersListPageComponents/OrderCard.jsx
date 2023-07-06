@@ -1,10 +1,16 @@
 import React from "react";
 import "../../OrderCard.css";
+import dayjs from "dayjs";
 
 const OrderCard = ({ order }) => {
   const startDate = order.startDate;
   const dateObj = new Date(startDate);
   const formattedDate = dateObj.toISOString().split("T")[0];
+  const dateNow = dayjs();
+
+  const diffDates = dateNow.diff(formattedDate, "days");
+  const daysLeft = order.publicationDays - diffDates;
+
   return (
     <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
       <div
@@ -41,7 +47,7 @@ const OrderCard = ({ order }) => {
           <div className="flex flex-col mb-2 xl:flex-row  justify-between lg:w-6/12 w-full">
             <span className="text-sm text-slate-500">{formattedDate}</span>
             <span className="text-sm text-slate-500">
-              pozostało {order.publicationDays} dni
+              pozostało {daysLeft} dni
             </span>
           </div>
         </div>

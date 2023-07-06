@@ -14,8 +14,6 @@ const OrdersByTexInputPage = () => {
   const { searchByQuery } = location.state;
   const api = useAxios();
 
-  const [childCategories, setChildCategories] = useState([]);
-  const [subChildCategories, setSubChildCategories] = useState(null);
   const [orderResultsCategories, setOrderResultsCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -96,13 +94,13 @@ const OrdersByTexInputPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=ASC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchByQuery}`;
     }
     await api
       .get(baseurl)
