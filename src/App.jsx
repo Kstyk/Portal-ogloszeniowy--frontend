@@ -52,7 +52,7 @@ function App() {
         />
         <Route path="/orders/order/:orderId" element={<OrderPage />} />
 
-        {user.TypeOfAccount == "Wykonawca" ? (
+        {user != null && user?.TypeOfAccount == "Wykonawca" ? (
           <Route
             path="profile/my-profile"
             element={<ContractorMyProfilePage />}
