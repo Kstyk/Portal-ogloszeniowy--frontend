@@ -9,8 +9,7 @@ import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 import LoadingComponent from "../components/LoadingComponent";
 
 const OrdersListPage = () => {
-  const location = useLocation();
-  const { category } = location.state;
+  const { categoryId, category } = useParams();
   const api = useAxios();
 
   const [childCategories, setChildCategories] = useState([]);
@@ -67,7 +66,7 @@ const OrdersListPage = () => {
 
   const fetchChildCategories = async () => {
     await api
-      .get(`/api/category/${category.id}/childCategories`)
+      .get(`/api/category/${categoryId}/childCategories`)
       .then((res) => {
         setChildCategories(res.data);
       })
@@ -100,7 +99,7 @@ const OrdersListPage = () => {
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${category.id}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
     }
 
     await api
@@ -126,11 +125,13 @@ const OrdersListPage = () => {
   };
 
   const fetchOrders = async () => {
+    console.log("Here: " + categoryId);
+
     setLoading(true);
 
     await api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${category.id}`
+        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${categoryId}`
       )
       .then((res) => {
         setLoading(false);
@@ -199,7 +200,7 @@ const OrdersListPage = () => {
 
       <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
         <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
-          {category.name}
+          {category}
         </h1>
       </div>
       <div className="grid md:grid-cols-[30%_70%] mt-5">
