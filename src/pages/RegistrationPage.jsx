@@ -17,7 +17,6 @@ const RegistrationPage = () => {
     handleSubmit,
     control,
     setValue,
-    getValues,
     watch,
     formState: { errors },
   } = useForm();
@@ -128,7 +127,7 @@ const RegistrationPage = () => {
       <div>
         <img
           className="mx-auto h-20 w-auto"
-          src="src/assets/images/logo.png"
+          src="/images/logo.png"
           alt="Your Company"
         />
         <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-custom-darkgreen">
@@ -279,7 +278,7 @@ const RegistrationPage = () => {
                           type="radio"
                           name="statusOfUserId"
                           value={s.id}
-                          className="radio checked:bg-blue-500"
+                          className="radio checked:bg-custom-darkgreen"
                           onClick={() => {
                             setStatusName(s.name);
                           }}

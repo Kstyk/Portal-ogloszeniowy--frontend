@@ -15,6 +15,7 @@ import OrdersListPage from "./pages/OrdersListPage";
 import OrdersByTexInputPage from "./pages/OrdersByTexInputPage";
 import OrderPage from "./pages/OrderPage";
 import ContractorMyProfilePage from "./pages/ContractorMyProfilePage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -59,6 +60,8 @@ function App() {
         ) : (
           <></>
         )}
+
+        <Route path="profile/edit" element={<EditProfilePage />} />
       </Routes>
     </div>
   );
