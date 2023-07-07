@@ -26,7 +26,7 @@ const SearchPrincipals = (props) => {
                 <Link
                   to={searchText.length > 0 && `/orders/search/${searchText}`}
                   className="btn btn-square h-full"
-                  state={{ searchByQuery: searchText }}
+                  params={{ searchByQuery: searchText }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -84,11 +84,11 @@ const SearchPrincipals = (props) => {
               {props.categories.map((e) => (
                 <Link
                   key={e.id}
-                  to={`/orders/${e.name
+                  to={`/orders/${e.id}/${e.name
                     .toLowerCase()
                     .replaceAll(",", "")
                     .replaceAll(" ", "-")}`}
-                  state={{ category: e }}
+                  params={{ categoryId: e.id, category: e.name }}
                   className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
                 >
                   <img src={`/images/icons/${e.id}.png`} className="h-full" />

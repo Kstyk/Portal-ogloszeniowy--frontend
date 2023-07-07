@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
 import { useState } from "react";
@@ -11,8 +10,7 @@ import FilterMobileByTextInput from "../components/OrdersListPageComponents/Filt
 import LoadingComponent from "../components/LoadingComponent";
 
 const OrdersByTexInputPage = () => {
-  const location = useLocation();
-  const { searchByQuery } = location.state;
+  const { searchByQuery } = useParams();
   const api = useAxios();
 
   const [orderResultsCategories, setOrderResultsCategories] = useState([]);

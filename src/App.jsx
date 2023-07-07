@@ -49,7 +49,10 @@ function App() {
           element={<EditContractorCategories />}
         />
 
-        <Route path="/orders/:category" element={<OrdersListPage />} />
+        <Route
+          path="/orders/:categoryId/:category"
+          element={<OrdersListPage />}
+        />
         <Route
           path="/orders/search/:searchByQuery"
           element={<OrdersByTexInputPage />}
