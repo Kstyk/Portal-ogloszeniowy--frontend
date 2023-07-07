@@ -32,7 +32,7 @@ function App() {
         <NavbarPrincipal />
       )}
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
 
@@ -54,14 +54,14 @@ function App() {
 
         {user != null && user?.TypeOfAccount == "Wykonawca" ? (
           <Route
-            path="profile/my-profile"
+            path="/profile/my-profile"
             element={<ContractorMyProfilePage />}
           />
         ) : (
           <></>
         )}
 
-        <Route path="profile/edit" element={<EditProfilePage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
       </Routes>
     </div>
   );
