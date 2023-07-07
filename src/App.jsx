@@ -15,6 +15,7 @@ import OrdersListPage from "./pages/OrdersListPage";
 import OrdersByTexInputPage from "./pages/OrdersByTexInputPage";
 import OrderPage from "./pages/OrderPage";
 import ContractorMyProfilePage from "./pages/ContractorMyProfilePage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -51,15 +52,16 @@ function App() {
         />
         <Route path="/orders/order/:orderId" element={<OrderPage />} />
 
-        {user != null &&
-          (user?.TypeOfAccount == "Wykonawca" ? (
-            <Route
-              path="profile/my-profile"
-              element={<ContractorMyProfilePage />}
-            />
-          ) : (
-            <></>
-          ))}
+        {user.TypeOfAccount == "Wykonawca" ? (
+          <Route
+            path="profile/my-profile"
+            element={<ContractorMyProfilePage />}
+          />
+        ) : (
+          <></>
+        )}
+
+        <Route path="profile/edit" element={<EditProfilePage />} />
       </Routes>
     </div>
   );
