@@ -16,6 +16,7 @@ import OrdersByTexInputPage from "./pages/OrdersByTexInputPage";
 import OrderPage from "./pages/OrderPage";
 import ContractorMyProfilePage from "./pages/ContractorMyProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
+import Anonymous from "./components/AccessComponents/Anonymous";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -33,8 +34,11 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegistrationPage />} />
+
+        <Route element={<Anonymous />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegistrationPage />} />
+        </Route>
 
         <Route
           path="/contractor/add-categories"
