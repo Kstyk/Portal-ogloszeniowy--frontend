@@ -32,7 +32,6 @@ function App() {
         <NavbarPrincipal />
       )}
       <Routes>
-        <Route path="" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
 
@@ -62,6 +61,8 @@ function App() {
         )}
 
         <Route path="/profile/edit" element={<EditProfilePage />} />
+
+        <Route path="/" element={<MainPage />} />
       </Routes>
     </div>
   );
