@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { Link } from "react-router-dom";
+import ListOfOffers from "./ListOfOffers";
 
 const ContractorMyProfilePage = () => {
   const [profile, setProfile] = useState(null);
