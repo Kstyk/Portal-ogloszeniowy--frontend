@@ -23,11 +23,10 @@ const OrderPage = () => {
     reset,
     formState,
     formState: { errors, isSubmitSuccessful },
-  } = useForm();
+  } = useForm({});
 
   const addOfferOptions = {
-    firstName: { required: "Imię jest wymagane" },
-    lastName: { required: "Nazwisko jest wymagane" },
+    // TODO do uzupełnienia
   };
 
   const fetchOrder = async () => {

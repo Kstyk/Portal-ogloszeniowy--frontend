@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import OfferCardContractor from "../components/ProfileComponents/OfferCardContractor";
+import { useForm, Controller } from "react-hook-form";
 
 const ListOfOffers = () => {
   const api = useAxios();
@@ -10,7 +11,6 @@ const ListOfOffers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const [isActive, setIsActive] = useState(null);
 
   const fetchOffers = async (page) => {
@@ -50,6 +50,17 @@ const ListOfOffers = () => {
     setLoading(false);
   };
 
+  const deleteOffer = (id) => {
+    if (confirm("Jesteś pewny, że chcesz usunąć tę ofertę?")) {
+      api
+        .delete(`/api/order/delete-offer/${id}`)
+        .then(() => fetchOffers(1))
+        .catch((err) => console.log(err));
+    } else {
+      console.log("Nie usunięto!");
+    }
+  };
+
   useEffect(() => {
     fetchOffers(1);
   }, []);
@@ -79,7 +90,7 @@ const ListOfOffers = () => {
                     setIsActive(null);
                     searchOffers(null);
                   }}
-                  checked={isActive == null ? true : false}
+                  defaultChecked={isActive == null ? true : false}
                 />
                 <span className="label-text ml-1">Wszystkie</span>
               </label>
@@ -90,7 +101,7 @@ const ListOfOffers = () => {
                   type="radio"
                   name="active"
                   className="radio checked:bg-blue-500"
-                  checked={isActive ? true : false}
+                  defaultChecked={isActive == true ? true : false}
                   onClick={() => {
                     setIsActive(true);
                     searchOffers(true);
@@ -105,7 +116,7 @@ const ListOfOffers = () => {
                   type="radio"
                   name="active"
                   className="radio checked:bg-blue-500"
-                  checked={isActive == false ? true : false}
+                  defaultChecked={isActive == false ? true : false}
                   onClick={() => {
                     setIsActive(false);
                     searchOffers(false);
@@ -118,7 +129,13 @@ const ListOfOffers = () => {
         </div>
 
         {yourOffers.map((of) => (
-          <OfferCardContractor key={of.id} offer={of} />
+          <OfferCardContractor
+            key={of.id}
+            offer={of}
+            deleteOffer={deleteOffer}
+            fetchOffers={fetchOffers}
+            currentPage={currentPage}
+          />
         ))}
 
         {totalItems > 0 && (
