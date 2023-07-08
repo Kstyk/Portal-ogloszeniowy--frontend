@@ -17,6 +17,7 @@ import OrderPage from "./pages/OrderPage";
 import ContractorMyProfilePage from "./pages/ContractorMyProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 import Anonymous from "./components/AccessComponents/Anonymous";
+import ListOfOffers from "./pages/ListOfOffers";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -60,10 +61,14 @@ function App() {
         <Route path="/orders/order/:orderId" element={<OrderPage />} />
 
         {user != null && user?.TypeOfAccount == "Wykonawca" ? (
-          <Route
-            path="/profile/my-profile"
-            element={<ContractorMyProfilePage />}
-          />
+          <>
+            <Route
+              path="/profile/my-profile"
+              element={<ContractorMyProfilePage />}
+            />
+
+            <Route path="/profile/my-offers" element={<ListOfOffers />} />
+          </>
         ) : (
           <></>
         )}

@@ -30,7 +30,7 @@ const OrderCard = ({ order }) => {
         </span>
         <Link
           to={`/orders/order/${order.id}`}
-          state={{ orderId: order.id, daysLeft: daysLeft }}
+          params={{ orderId: order.id }}
           className="card-title"
         >
           {order.title}
@@ -61,6 +61,7 @@ const OrderCard = ({ order }) => {
             </span>
           </div>
         </div>
+        <div></div>
       </div>
     </div>
   );

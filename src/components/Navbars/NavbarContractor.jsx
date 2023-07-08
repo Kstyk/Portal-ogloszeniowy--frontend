@@ -33,10 +33,10 @@ const NavbarContractor = () => {
               </Link>
             </li>
             <li>
-              <a>Twoje oferty</a>
+              <Link to="/profile/my-offers">Twoje oferty</Link>
             </li>
             <li>
-              <a>Edytuj profil</a>
+              <Link to="/profile/edit">Edytuj profil</Link>
             </li>
             <li>
               <Link to="/contractor/edit-categories">
