@@ -1,28 +1,29 @@
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import LoadingComponent from "./LoadingComponent";
+import { Link } from "react-router-dom";
 
 const SearchContractors = (props) => {
   const { user } = useContext(AuthContext);
   return (
     <div className="absolute left-0 right-0  bg-green-400 text-white">
       {console.log("loading: " + props.loading)}
-      <div className="container lg:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
+      <div className="container xl:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
         <div className="headers text-center">
           <h1 className="text-3xl text-black mb-2 ">Wykonawcy do usług!</h1>
           <h3 className=" text-black">
             Szukasz wykonawcy? Chcesz zlecić pracę?
           </h3>
         </div>
-        <div className="flex justify-between h-[80px] mt-6 border-b-2 border-dotted pb-6">
+        <div className="flex justify-between h-[80px] mt-6 border-b-2 border-dotted pb-6 max-md:flex-col max-md:h-fit">
           {user != null && user.TypeOfAccount == "Zleceniodawca" ? (
             <>
-              <div className="form-control">
-                <div className="input-group h-full">
+              <div className="max-md:w-full">
+                <div className="input-group h-full max-md:flex max-md:justify-center w-fit max-md:w-full">
                   <input
                     type="text"
                     placeholder="Szukaj wykonawcy"
-                    className="input input-bordered h-full text-black"
+                    className="input input-bordered h-full text-black max-md:h-[48px] max-md:w-full"
                   />
                   <button className="btn btn-square h-full">
                     <svg
@@ -42,10 +43,15 @@ const SearchContractors = (props) => {
                   </button>
                 </div>
               </div>
-              <div className="border-2 border-white  text-black rounded-full h-full aspect-square flex items-center">
-                <span className="text-center w-full">LUB</span>
+              <div className="border-2 border-white text-black rounded-full h-full aspect-square flex items-center justify-center max-md:w-fit max-md:p-3 max-md:my-3 max-md:mx-auto">
+                <div className="text-center">LUB</div>
               </div>
-              <button className="btn h-full">Dodaj zlecenie</button>
+              <Link
+                to="/order/add"
+                className="btn h-full w-4/12 max-md:w-full max-md:mx-auto max-[300px]:w-full max-[300px]:mx-0"
+              >
+                Dodaj zlecenie
+              </Link>
             </>
           ) : (
             <>
