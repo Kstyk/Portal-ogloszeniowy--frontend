@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import voivodeships from "../components/content/Voivodeships";
 
 const RegistrationPage = () => {
   const [statuses, setStatuses] = useState([]);
@@ -19,26 +20,7 @@ const RegistrationPage = () => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm();
-
-  const voivodeships = [
-    { value: "dolnośląskie", label: "dolnośląskie" },
-    { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
-    { value: "lubelskie", label: "lubelskie" },
-    { value: "lubuskie", label: "lubuskie" },
-    { value: "łódzkie", label: "łódzkie" },
-    { value: "małopolskie", label: "małopolskie" },
-    { value: "mazowieckie", label: "mazowieckie" },
-    { value: "opolskie", label: "opolskie" },
-    { value: "podkarpackie", label: "podkarpackie" },
-    { value: "podlaskie", label: "podlaskie" },
-    { value: "pomorskie", label: "pomorskie" },
-    { value: "śląskie", label: "śląskie" },
-    { value: "świętokrzyskie", label: "świętokrzyskie" },
-    { value: "warmińskoMazurskie", label: "warmińsko-mazurskie" },
-    { value: "wielkopolskie", label: "wielkopolskie" },
-    { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
-  ];
+  } = useForm({ mode: "all" });
 
   const registerOptions = {
     firstName: { required: "Imię jest wymagane" },
@@ -63,13 +45,19 @@ const RegistrationPage = () => {
         }
       },
     },
-    statusOfUserId: { required: "Status użytkownika jest wymagany" },
-    phoneNumber: { required: "Numer telefonu jest wymagany" },
-    voivodeship: { required: "Województwo jest wymagane" },
-    city: { required: "Miasto jest wymagane" },
-    postalCode: { required: "Kod pocztowy jest wymagany" },
-    street: { required: "Ulica jest wymagana" },
-    buildingNumber: { required: "Numer budynku jest wymagany" },
+    statusOfUserId: { required: "Status użytkownika jest wymagany." },
+    phoneNumber: { required: "Numer telefonu jest wymagany." },
+    voivodeship: { required: "Województwo jest wymagane." },
+    city: { required: "Miasto jest wymagane." },
+    postalCode: {
+      required: "Kod pocztowy jest wymagany.",
+      pattern: {
+        value: /^[0-9]{2}-[0-9]{3}$/,
+        message: "Nieprawidłowy format kodu pocztowego.",
+      },
+    },
+    street: { required: "Ulica jest wymagana." },
+    buildingNumber: { required: "Numer budynku jest wymagany." },
   };
 
   const fetchStatuses = async () => {
@@ -135,7 +123,7 @@ const RegistrationPage = () => {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit, handleError)}>
-          <div className="w-8/12 mx-auto">
+          <div className="w-8/12 mx-auto max-md:w-full">
             <label className="block text-md  leading-6 font-bold text-custom-darkgreen">
               Wybierz typ konta
             </label>
@@ -161,7 +149,7 @@ const RegistrationPage = () => {
                         registerOptions.typeOfAccountId
                       )}
                     />
-                    <h1 className="font-bold uppercase text-center text-xl mb-2 border-bottom border-b-2 border-dashed border-green-500 text-custom-darkgreen">
+                    <h1 className="font-bold uppercase text-center text-[16px] mb-2 border-bottom border-b-2 border-dashed border-green-500 text-custom-darkgreen">
                       {t.name}
                     </h1>
                     <p className="text-center text-sm">
@@ -186,7 +174,7 @@ const RegistrationPage = () => {
                         registerOptions.typeOfAccountId
                       )}
                     />
-                    <h1 className="font-bold uppercase text-center text-xl mb-2 border-bottom border-b-2 border-dashed border-blue-500 text-custom-darkgreen">
+                    <h1 className="font-bold uppercase text-center text-[16px] mb-2 border-bottom border-b-2 border-dashed border-blue-500 text-custom-darkgreen">
                       {t.name}
                     </h1>
                     <p className="text-center text-sm">

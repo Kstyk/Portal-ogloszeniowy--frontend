@@ -39,6 +39,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
       priceFor: pricesFor.find((e) => e.value == offer.priceFor),
       content: offer.content,
     },
+    mode: "all",
   });
 
   const onSubmit = (data) => {
@@ -107,7 +108,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
         </button>
       </div>
       {editing && (
-        <div className="edit-form w-full flex justify-center">
+        <div className={`edit-form w-full flex justify-center`}>
           <form
             onSubmit={handleSubmit(onSubmit, handleError)}
             className="flex flex-col justify-between w-6/12 max-xl:w-8/12 max-md:w-full mt-5 bg-white rounded-md"
