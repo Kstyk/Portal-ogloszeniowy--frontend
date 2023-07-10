@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useLocation } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
+import voivodeships from "../components/content/Voivodeships";
 
 const EditProfilePage = () => {
   const [statuses, setStatuses] = useState([]);
@@ -14,25 +15,6 @@ const EditProfilePage = () => {
   const { profile } = location.state;
   const api = useAxios();
   const nav = useNavigate();
-
-  const voivodeships = [
-    { value: "dolnośląskie", label: "dolnośląskie" },
-    { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
-    { value: "lubelskie", label: "lubelskie" },
-    { value: "lubuskie", label: "lubuskie" },
-    { value: "łódzkie", label: "łódzkie" },
-    { value: "małopolskie", label: "małopolskie" },
-    { value: "mazowieckie", label: "mazowieckie" },
-    { value: "opolskie", label: "opolskie" },
-    { value: "podkarpackie", label: "podkarpackie" },
-    { value: "podlaskie", label: "podlaskie" },
-    { value: "pomorskie", label: "pomorskie" },
-    { value: "śląskie", label: "śląskie" },
-    { value: "świętokrzyskie", label: "świętokrzyskie" },
-    { value: "warmińskoMazurskie", label: "warmińsko-mazurskie" },
-    { value: "wielkopolskie", label: "wielkopolskie" },
-    { value: "zachodnioPomorskie", label: "zachodnio-pomorskie" },
-  ];
 
   const {
     register,
@@ -59,6 +41,7 @@ const EditProfilePage = () => {
       taxIdentificationNumber: profile.taxIdentificationNumber,
       companyName: profile.companyName,
     },
+    mode: "all",
   });
 
   const editUserOptions = {
@@ -68,7 +51,13 @@ const EditProfilePage = () => {
     phoneNumber: { required: "Numer telefonu jest wymagany." },
     voivodeship: { required: "Województwo jest wymagane." },
     city: { required: "Miasto jest wymagane." },
-    postalCode: { required: "Kod pocztowy jest wymagany." },
+    postalCode: {
+      required: "Kod pocztowy jest wymagany.",
+      pattern: {
+        value: /^[0-9]{2}-[0-9]{3}$/,
+        message: "Nieprawidłowy format kodu pocztowego.",
+      },
+    },
     street: { required: "Ulica jest wymagana." },
     buildingNumber: { required: "Numer budynku jest wymagany." },
     description: { required: "Opis działalności jest wymagany." },
