@@ -23,7 +23,7 @@ const OrderPage = () => {
     reset,
     formState,
     formState: { errors, isSubmitSuccessful },
-  } = useForm({});
+  } = useForm({ mode: "all" });
 
   const addOfferOptions = {
     // TODO do uzupełnienia
