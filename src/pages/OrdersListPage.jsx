@@ -56,17 +56,13 @@ const OrdersListPage = () => {
   };
 
   const fetchSubChildCategories = async (cat) => {
-    setLoading(true);
-
     await api
       .get(`/api/category/${cat.id}/childCategories`)
       .then((res) => {
         setSubChildCategories(res.data);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
       });
   };
 
@@ -81,6 +77,7 @@ const OrdersListPage = () => {
     if (selectedSubCategory == null && selectedCategory == null) {
       baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
     }
+    setLoading(true);
 
     await api
       .get(baseurl)
@@ -89,9 +86,11 @@ const OrdersListPage = () => {
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
         setTotalItems(res.data.totalItemsCount);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
@@ -105,8 +104,6 @@ const OrdersListPage = () => {
   };
 
   const fetchOrders = async () => {
-    console.log("Here: " + categoryId);
-
     setLoading(true);
 
     await api
