@@ -21,6 +21,8 @@ import ListOfOffers from "./pages/ListOfOffers";
 import AddOrderPage from "./pages/AddOrderPage";
 import Contractor from "./components/AccessComponents/Contractor";
 import Principal from "./components/AccessComponents/Principal";
+import ContractorsListPage from "./pages/ContractorsListPage";
+import ContractorsListByInputPage from "./pages/ContractorsListByInputPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -62,6 +64,16 @@ function App() {
           element={<OrdersByTexInputPage />}
         />
         <Route path="/orders/order/:orderId" element={<OrderPage />} />
+
+        <Route
+          path="/contractors/:categoryId/:category"
+          element={<ContractorsListPage />}
+        />
+
+        <Route
+          path="/contractors/search/:searchByQuery"
+          element={<ContractorsListByInputPage />}
+        />
 
         <Route element={<Contractor />}>
           <Route
