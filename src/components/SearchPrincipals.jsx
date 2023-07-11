@@ -15,7 +15,7 @@ const SearchPrincipals = (props) => {
             <h3 className=" text-black">Zdobywaj zlecenia!</h3>
           </div>
           <div className="flex justify-between h-[80px] mt-6 border-b-2 border-dotted pb-6">
-            <div className="form-control w-8/12 mx-auto">
+            <div className="form-control w-8/12 max-md:w-full mx-auto">
               <div className="input-group h-full w-full">
                 <input
                   type="text"

@@ -1,4 +1,5 @@
 const voivodeships = [
+  { value: "", label: "cała Polska" },
   { value: "dolnośląskie", label: "dolnośląskie" },
   { value: "kujawskoPomorskie", label: "kujawsko-pomorskie" },
   { value: "lubelskie", label: "lubelskie" },

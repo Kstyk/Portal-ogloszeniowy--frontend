@@ -1,20 +1,20 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
-import { useState } from "react";
-import OrderCard from "../components/OrdersListPageComponents/OrderCard";
-import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 import LoadingComponent from "../components/LoadingComponent";
 import voivodeships from "../components/content/Voivodeships";
+import ContractorCard from "../components/ContractorsListPageComponents/ContractorCard";
+import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 
-const OrdersListPage = () => {
-  const { categoryId, category } = useParams();
+const ContractorsListPage = () => {
   const api = useAxios();
+  const { categoryId, category } = useParams();
 
+  const [loading, setLoading] = useState(false);
   const [childCategories, setChildCategories] = useState([]);
   const [subChildCategories, setSubChildCategories] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [contractors, setContractors] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
@@ -24,25 +24,6 @@ const OrdersListPage = () => {
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-
-  const [orders, setOrders] = useState([]);
-
-  const customStyles = {
-    control: (base) => ({
-      ...base,
-      height: "54px",
-      minHeight: "full",
-      borderRadius: "none",
-      borderColor: "none",
-    }),
-    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-  };
-
-  const options = [
-    { value: "zlecenia", label: "zleceń" },
-    { value: "wykonawcy", label: "wykonawców" },
-  ];
 
   const fetchChildCategories = async () => {
     await api
@@ -66,34 +47,6 @@ const OrdersListPage = () => {
       });
   };
 
-  const searchOrders = async (currPage) => {
-    let baseurl = "";
-    if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
-    } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
-    }
-
-    if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
-    }
-    setLoading(true);
-
-    await api
-      .get(baseurl)
-      .then((res) => {
-        setOrders(res.data.items);
-        setCurrentPage(res.data.pageNumber);
-        setTotalPages(res.data.totalPages);
-        setTotalItems(res.data.totalItemsCount);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  };
-
   const handleFirstSelectChange = (e) => {
     setSubChildCategories([]);
     setSelectedSubCategory(null);
@@ -103,20 +56,50 @@ const OrdersListPage = () => {
     fetchSubChildCategories(e);
   };
 
+  const searchContractors = async (currPage) => {
+    let baseurl = "";
+    if (selectedSubCategory == null) {
+      baseurl = `/api/contractor/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
+    } else {
+      baseurl = `/api/contractor/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+    }
+
+    if (selectedSubCategory == null && selectedCategory == null) {
+      baseurl = `/api/contractor/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
+    }
+    setLoading(true);
+    await api
+      .get(baseurl)
+      .then((res) => {
+        setContractors(res.data.items);
+        setCurrentPage(res.data.pageNumber);
+        setTotalPages(res.data.totalPages);
+        setTotalItems(res.data.totalItemsCount);
+        console.log(res.data.items);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   const fetchOrders = async () => {
     setLoading(true);
 
     await api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${categoryId}`
+        `/api/contractor/all?pageSize=10&pageNumber=1&sortDirection=DESC&categoryId=${categoryId}`
       )
       .then((res) => {
         setLoading(false);
 
-        setOrders(res.data.items);
+        setContractors(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
         setTotalItems(res.data.totalItemsCount);
+
+        console.log(res.data.items);
       })
       .catch((err) => {
         console.log(err);
@@ -125,36 +108,26 @@ const OrdersListPage = () => {
   };
 
   useEffect(() => {
-    fetchOrders();
     fetchChildCategories();
+    fetchOrders();
   }, []);
 
   return (
     <div>
-      <div className="absolute top-[6rem] left-0 right-0 h-[130px] z-0 bg-blue-400 text-white"></div>
+      <div className="absolute top-[6rem] left-0 right-0 h-[130px] z-0 bg-green-400 text-white"></div>
 
       <div className="flex justify-between h-[80px] mt-[4.2rem] border-b-2 border-dotted pb-6 relative z-10">
         <div className="form-control w-full mx-auto">
           <div className="input-group h-full w-full">
             <input
               type="text"
-              placeholder="Szukaj zleceń..."
+              placeholder="Szukaj wykonawców..."
               className="input input-bordered h-full text-black w-full"
               onChange={(e) => setSearchText(e.target.value)}
             />
-
-            <Select
-              className="px-0 h-10 w-6/12"
-              options={options}
-              placeholder="Wśród..."
-              styles={customStyles}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-            />
             <button
               className="btn btn-square h-full"
-              onClick={() => searchOrders(1)}
+              onClick={() => searchContractors(1)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -174,12 +147,12 @@ const OrdersListPage = () => {
           </div>
         </div>
       </div>
-
       <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
-        <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
+        <h1 className="text-2xl text-custom-darkgreen mt-10 uppercase font-bold pb-2">
           {category}
         </h1>
       </div>
+
       <div className="grid md:grid-cols-[30%_70%] mt-5">
         <div className="max-md:hidden sticky">
           <div
@@ -220,11 +193,10 @@ const OrdersListPage = () => {
             <div className="collapse-title  text-xl font-medium">
               Lokalizacja
             </div>
-            <div className="collapse-content w-full mb-2">
+            <div className="collapse-content w-full">
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
-                defaultValue={voivodeships[3]}
                 options={voivodeships}
                 placeholder="Województwo"
                 onChange={(e) => setVoivodeship(e.value)}
@@ -244,7 +216,7 @@ const OrdersListPage = () => {
             type="submit"
             data-theme="cupcake"
             className="flex w-full justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-300  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            onClick={() => searchOrders(1)}
+            onClick={() => searchContractors(1)}
           >
             Szukaj
           </button>
@@ -261,7 +233,7 @@ const OrdersListPage = () => {
               setVoivodeship,
               setCity,
               voivodeships,
-              searchOrders,
+              searchContractors,
             }}
           />
           <div>
@@ -270,15 +242,15 @@ const OrdersListPage = () => {
             ) : (
               <div>
                 <div className="flex flex-row justify-between">
-                  <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-                    <span>Lista zleceń</span>
+                  <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                    <span>Lista wykonawców</span>
                     <span className="text-sm">
                       Znaleziono {totalItems} wyniki
                     </span>
                   </h1>
                 </div>
-                {orders.map((order) => (
-                  <OrderCard key={order.id} order={order} />
+                {contractors.map((contractor) => (
+                  <ContractorCard key={contractor.id} contractor={contractor} />
                 ))}
 
                 {totalItems > 0 && (
@@ -294,7 +266,7 @@ const OrdersListPage = () => {
                             : ""
                         }`}
                         onClick={() => {
-                          currentPage - 1 > 0 && searchOrders(1);
+                          currentPage - 1 > 0 && searchContractors(1);
                         }}
                       >
                         ⇤
@@ -306,7 +278,8 @@ const OrdersListPage = () => {
                             : ""
                         }`}
                         onClick={() => {
-                          currentPage - 1 > 0 && searchOrders(currentPage - 1);
+                          currentPage - 1 > 0 &&
+                            searchContractors(currentPage - 1);
                         }}
                       >
                         «
@@ -322,7 +295,7 @@ const OrdersListPage = () => {
                         }`}
                         onClick={() => {
                           currentPage != totalPages &&
-                            searchOrders(currentPage + 1);
+                            searchContractors(currentPage + 1);
                         }}
                       >
                         »
@@ -334,7 +307,8 @@ const OrdersListPage = () => {
                             : ""
                         }`}
                         onClick={() => {
-                          currentPage != totalPages && searchOrders(totalPages);
+                          currentPage != totalPages &&
+                            searchContractors(totalPages);
                         }}
                       >
                         ⇥
@@ -351,4 +325,4 @@ const OrdersListPage = () => {
   );
 };
 
-export default OrdersListPage;
+export default ContractorsListPage;

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 import useAxios from "../hooks/useAxios";
-import { useState } from "react";
 import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import { Link } from "react-router-dom";
 import FilterMobileByTextInput from "../components/OrdersListPageComponents/FilterMobileByTextInput";
@@ -17,44 +16,19 @@ const OrdersByTexInputPage = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [voivodeship, setVoivodeship] = useState("");
   const [city, setCity] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(searchByQuery);
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
   const [orders, setOrders] = useState([]);
 
-  const customStyles = {
-    control: (base) => ({
-      ...base,
-      height: "54px",
-      minHeight: "full",
-      borderRadius: "none",
-      borderColor: "none",
-    }),
-    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-  };
-
-  const customStyles2 = {
-    control: (base) => ({
-      ...base,
-    }),
-  };
-
-  const options = [
-    { value: "zlecenia", label: "zleceń" },
-    { value: "wykonawcy", label: "wykonawców" },
-  ];
-
   const fetchResultCategories = async () => {
-    setOrderResultsCategories([]);
     await api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=ASC&isActive=true&searchText=${searchByQuery}`
+        `/api/order/all?pageSize=1000&pageNumber=1&sortDirection=ASC&isActive=true&searchText=${searchText}`
       )
       .then((res) => {
         res.data.items.forEach((order) => {
@@ -73,20 +47,18 @@ const OrdersByTexInputPage = () => {
 
   const searchOrders = async (currPage) => {
     let baseurl = "";
-    if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchByQuery}`;
+    if (selectedCategory != null) {
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchByQuery}`;
-    }
-
-    if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchByQuery}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchText}`;
     }
     setLoading(true);
 
     await api
       .get(baseurl)
       .then((res) => {
+        setOrderResultsCategories([]);
+
         setLoading(false);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -106,7 +78,7 @@ const OrdersByTexInputPage = () => {
   useEffect(() => {
     searchOrders(1);
     fetchResultCategories();
-  }, [location]);
+  }, [searchByQuery]);
 
   return (
     <div>
@@ -122,19 +94,10 @@ const OrdersByTexInputPage = () => {
               onChange={(e) => setSearchText(e.target.value)}
             />
 
-            <Select
-              className="px-0 h-10 w-6/12"
-              options={options}
-              placeholder="Wśród..."
-              styles={customStyles}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-            />
             <Link
               to={searchText.length > 0 && `/orders/search/${searchText}`}
               className="btn btn-square h-full"
-              state={{ searchByQuery: searchText }}
+              params={{ searchByQuery: searchText }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -156,8 +119,8 @@ const OrdersByTexInputPage = () => {
       </div>
 
       <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200">
-        <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
-          Szukaj: {searchByQuery}
+        <h1 className="text-2xl text-custom-darkgreen mt-10 uppercase font-bold pb-2">
+          Szukaj: {searchText}
         </h1>
       </div>
       <div className="grid md:grid-cols-[30%_70%] mt-5">
@@ -178,7 +141,6 @@ const OrdersByTexInputPage = () => {
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Kategoria"
-                styles={customStyles2}
                 onChange={(e) => handleFirstSelectChange(e)}
               />
               <a
@@ -204,7 +166,6 @@ const OrdersByTexInputPage = () => {
                 menuPortalTarget={document.body}
                 options={voivodeships}
                 placeholder="Województwo"
-                styles={customStyles2}
                 onChange={(e) => setVoivodeship(e.value)}
               />
               <div className="input-group h-full w-full rounded-none">
@@ -246,8 +207,8 @@ const OrdersByTexInputPage = () => {
             <div>
               <div className="flex flex-row justify-between">
                 <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
-                  <span>Lista zleceń</span>
-                  <span className="text-sm">
+                  <span className="text-custom-darkgreen">Lista zleceń</span>
+                  <span className="text-sm text-custom-darkgreen">
                     Znaleziono {totalItems} wyniki
                   </span>
                 </h1>

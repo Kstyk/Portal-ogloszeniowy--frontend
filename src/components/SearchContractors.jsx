@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import LoadingComponent from "./LoadingComponent";
 import { Link } from "react-router-dom";
 
 const SearchContractors = (props) => {
   const { user } = useContext(AuthContext);
+  const [searchText, setSearchText] = useState("");
+
   return (
     <div className="absolute left-0 right-0  bg-green-400 text-white">
       {console.log("loading: " + props.loading)}
-      <div className="container xl:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
+      <div className="container lg:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
         <div className="headers text-center">
           <h1 className="text-3xl text-black mb-2 ">Wykonawcy do usług!</h1>
           <h3 className=" text-black">
@@ -24,8 +26,16 @@ const SearchContractors = (props) => {
                     type="text"
                     placeholder="Szukaj wykonawcy"
                     className="input input-bordered h-full text-black max-md:h-[48px] max-md:w-full"
+                    onChange={(e) => setSearchText(e.target.value)}
                   />
-                  <button className="btn btn-square h-full">
+                  <Link
+                    to={
+                      searchText.length > 0 &&
+                      `/contractors/search/${searchText}`
+                    }
+                    className="btn btn-square h-full"
+                    params={{ searchByQuery: searchText }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -40,7 +50,7 @@ const SearchContractors = (props) => {
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                       />
                     </svg>
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className="border-2 border-white text-black rounded-full h-full aspect-square flex items-center justify-center max-md:w-fit max-md:p-3 max-md:my-3 max-md:mx-auto">
@@ -121,9 +131,13 @@ const SearchContractors = (props) => {
         <div className="categories bg-white text-black">
           <div className="lg:w-7/12 sm:w-full container m-auto px-5 py-5 grid grid-cols-3 gap-10">
             {props.categories.map((e) => (
-              <a
+              <Link
                 key={e.id}
-                href="#"
+                to={`/contractors/${e.id}/${e.name
+                  .toLowerCase()
+                  .replaceAll(",", "")
+                  .replaceAll(" ", "-")}`}
+                params={{ categoryId: e.id, category: e.name }}
                 className="mb-2 text-center flex flex-row h-10 justify-start items-center gap-2"
               >
                 <img
@@ -132,7 +146,7 @@ const SearchContractors = (props) => {
                   className="h-full"
                 />
                 <span className="text-[13px]">{e.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

@@ -31,7 +31,7 @@ const OrderCard = ({ order }) => {
         <Link
           to={`/orders/order/${order.id}`}
           params={{ orderId: order.id }}
-          className="card-title"
+          className="card-title text-custom-darkgreen"
         >
           {order.title}
         </Link>
@@ -41,9 +41,11 @@ const OrderCard = ({ order }) => {
           }
         `}
         >
-          <span>{order.offers.length} zgłoszeń</span>
+          <span className="text-custom-darkgreen">
+            {order.offers.length} zgłoszeń
+          </span>
         </div>
-        <p>
+        <p className="text-custom-darkgreen">
           {order.description.length < 150
             ? order.description
             : order.description.substring(0, 150) + "..."}
