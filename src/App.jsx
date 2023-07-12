@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import axios from "axios";
-import "./App.css";
+import "./App.scss";
 import NavbarPrincipal from "./components/Navbars/NavbarPrincipal";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
@@ -23,6 +23,7 @@ import Contractor from "./components/AccessComponents/Contractor";
 import Principal from "./components/AccessComponents/Principal";
 import ContractorsListPage from "./pages/ContractorsListPage";
 import ContractorsListByInputPage from "./pages/ContractorsListByInputPage";
+import ContractorPage from "./pages/ContractorPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -74,6 +75,8 @@ function App() {
           path="/contractors/search/:searchByQuery"
           element={<ContractorsListByInputPage />}
         />
+
+        <Route path="/contractors/:contractorId" element={<ContractorPage />} />
 
         <Route element={<Contractor />}>
           <Route

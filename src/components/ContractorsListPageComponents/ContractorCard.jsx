@@ -1,6 +1,5 @@
 import React from "react";
-import "../../OrderCard.css";
-import dayjs from "dayjs";
+import "../../OrderCard.scss";
 import { Link } from "react-router-dom";
 
 const ContractorCard = ({ contractor }) => {
@@ -8,8 +7,8 @@ const ContractorCard = ({ contractor }) => {
     <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
       <div className="card-body max-lg:w-full">
         <Link
-          //   to={`/orders/order/${order.id}`}
-          //   params={{ orderId: order.id }}
+          to={`/contractors/${contractor.id}`}
+          params={{ contractorId: contractor.id }}
           className="card-title text-custom-darkgreen"
         >
           {contractor.firstName} {contractor.lastName}
@@ -18,8 +17,10 @@ const ContractorCard = ({ contractor }) => {
 
         <p className="text-custom-darkgreen">
           {contractor.description.length < 250
-            ? contractor.description
-            : contractor.description.substring(0, 250) + "..."}
+            ? contractor.description.replace(/(<([^>]+)>)/gi, " ")
+            : contractor.description
+                .replace(/(<([^>]+)>)/gi, " ")
+                .substring(0, 250) + "..."}
         </p>
         <div className="card-actions flex flex-col lg:flex-row justify-between">
           <div className="lg:w-5/12 w-full">

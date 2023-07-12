@@ -1,5 +1,5 @@
 import React from "react";
-import "../../OrderCard.css";
+import "../../OrderCard.scss";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
