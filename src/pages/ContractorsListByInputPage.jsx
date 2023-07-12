@@ -24,7 +24,36 @@ const ContractorsListByInputPage = () => {
 
   const [contractors, setContractors] = useState([]);
 
-  const [contractorsCategories, setContractorsCategories] = useState([]);
+  const [mainCategories, setMainCategories] = useState(null);
+  const [childCategories, setChildCategories] = useState(null);
+  const [subChildCategories, setSubChildCategories] = useState(null);
+
+  const fetchMainCategories = async () => {
+    await api
+      .get(`/api/category/main`)
+      .then((res) => {
+        console.log(res.data);
+        setMainCategories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchChildCategories = async (cat) => {
+    await api
+      .get(`/api/category/${cat.id}/childCategories`)
+      .then((res) => {
+        if (childCategories == null) {
+          setChildCategories(res.data);
+        } else {
+          setSubChildCategories(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const searchContractors = async (currPage) => {
     let baseurl = "";
@@ -39,13 +68,6 @@ const ContractorsListByInputPage = () => {
     await api
       .get(baseurl)
       .then((res) => {
-        setContractorsCategories([]);
-        res.data.categories.map((cat) => {
-          console.log(cat);
-          setContractorsCategories((arr) => [...arr, cat]);
-        });
-
-        console.log(res.data);
         setLoading(false);
         setContractors(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -59,17 +81,35 @@ const ContractorsListByInputPage = () => {
   };
 
   const handleFirstSelectChange = (e) => {
-    setSelectedCategory(e.categoryId);
+    setChildCategories(null);
+    setSubChildCategories(null);
+    setSelectedCategory(e.id);
+    fetchChildCategories(e);
+  };
+
+  const handleSecondSelectChange = (e) => {
+    setSubChildCategories(null);
+    setSelectedCategory(e.id);
+    fetchChildCategories(e);
+  };
+
+  const handleThirdSelectChange = (e) => {
+    setSelectedCategory(e.id);
   };
 
   const clearCategories = () => {
-    setContractorsCategories([]);
+    setChildCategories(null);
+    setSubChildCategories(null);
     setSelectedCategory(null);
   };
 
   useEffect(() => {
     searchContractors(1);
   }, [searchByQuery]);
+
+  useEffect(() => {
+    fetchMainCategories();
+  }, []);
 
   return (
     <div>
@@ -80,15 +120,20 @@ const ContractorsListByInputPage = () => {
           <div className="input-group h-full w-full">
             <input
               type="text"
-              placeholder="Szukaj zleceń..."
+              placeholder="Szukaj wykonawców..."
+              defaultValue={searchByQuery}
               className="input input-bordered h-full text-black w-full"
               onChange={(e) => setSearchText(e.target.value)}
             />
 
             <Link
-              to={searchText.length > 0 && `/contractors/search/${searchText}`}
+              to={`/contractors/search/${
+                searchText.length == 0 ? "_" : searchText
+              }`}
               className="btn btn-square h-full"
-              params={{ searchByQuery: searchText }}
+              params={{
+                searchByQuery: searchText.length == 0 ? "" : searchText,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -122,20 +167,51 @@ const ContractorsListByInputPage = () => {
             className="border collapse collapse-arrow border-base-300 rounded-none"
           >
             <input type="checkbox" />
-            <div className="collapse-title text-xl font-medium">Kategoria</div>
+            <div className="collapse-title text-xl font-medium">Kategorie</div>
             <div className="collapse-content w-full">
-              <Select
-                className="px-0 h-10"
-                menuPortalTarget={document.body}
-                options={contractorsCategories}
-                value={
-                  selectedCategory == null ? null : selectedCategory.categoryId
-                }
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.categoryId}
-                placeholder="Kategoria"
-                onChange={(e) => handleFirstSelectChange(e)}
-              />
+              <div className="selects mb-5">
+                <Select
+                  key={`mainCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={mainCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Wszystkie kategorie"
+                  onChange={(e) => handleFirstSelectChange(e)}
+                />
+                {childCategories != null && (
+                  <Select
+                    key={`childCategories`}
+                    className="px-0 h-10"
+                    menuPortalTarget={document.body}
+                    options={childCategories}
+                    value={
+                      selectedCategory == null ? null : selectedCategory.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    placeholder="Kategoria"
+                    onChange={(e) => handleSecondSelectChange(e)}
+                  />
+                )}
+                {subChildCategories != null && (
+                  <Select
+                    key={`subChildCategories`}
+                    className="px-0 h-10"
+                    menuPortalTarget={document.body}
+                    options={subChildCategories}
+                    value={
+                      selectedCategory == null ? null : selectedCategory.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    placeholder="Kategoria"
+                    onChange={(e) => handleThirdSelectChange(e)}
+                  />
+                )}
+              </div>
               <a
                 data-theme="cupcake"
                 className="font-semibold text-sm mt-3 cursor-pointer"
@@ -185,13 +261,17 @@ const ContractorsListByInputPage = () => {
           <ContractorFilterMobileByTextInput
             datas={{
               handleFirstSelectChange,
+              handleSecondSelectChange,
+              handleThirdSelectChange,
               selectedCategory,
               setVoivodeship,
               setCity,
               voivodeships,
               searchContractors,
-              contractorsCategories,
               clearCategories,
+              mainCategories,
+              childCategories,
+              subChildCategories,
             }}
           />
           <div>
