@@ -20,14 +20,14 @@ const FilterMobile = (props) => {
       className="collapse collapse-arrow border border-base-300 rounded-none md:hidden w-full"
     >
       <input type="checkbox" />
-      <div className="collapse-title  text-xl font-medium">Filtruj</div>
+      <div className="collapse-title  text-lg font-medium">Filtruj</div>
       <div className="collapse-content">
         <div
           data-theme="cupcake"
           className="border collapse collapse-arrow border-base-300 rounded-none"
         >
           <input type="checkbox" />
-          <div className="collapse-title  text-xl font-medium">Kategorie</div>
+          <div className="collapse-title  text-lg font-medium">Kategorie</div>
           <div className="collapse-content w-full">
             <Select
               className="px-0 h-10"
@@ -56,7 +56,7 @@ const FilterMobile = (props) => {
           className="collapse collapse-arrow border border-base-300 rounded-none"
         >
           <input type="checkbox" />
-          <div className="collapse-title  text-xl font-medium">Lokalizacja</div>
+          <div className="collapse-title text-lg font-medium">Lokalizacja</div>
           <div className="collapse-content w-full">
             <Select
               className="px-0 h-10"

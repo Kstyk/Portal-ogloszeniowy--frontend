@@ -4,13 +4,17 @@ import Select from "react-select";
 const ContractorFilterMobileByTextInput = (props) => {
   const {
     handleFirstSelectChange,
+    handleSecondSelectChange,
+    handleThirdSelectChange,
     selectedCategory,
     setVoivodeship,
     setCity,
     voivodeships,
     searchContractors,
-    contractorsCategories,
     clearCategories,
+    mainCategories,
+    childCategories,
+    subChildCategories,
   } = props.datas;
   return (
     <div
@@ -27,19 +31,45 @@ const ContractorFilterMobileByTextInput = (props) => {
           <input type="checkbox" />
           <div className="collapse-title  text-xl font-medium">Kategorie</div>
           <div className="collapse-content w-full">
-            <Select
-              key={`my_unique_select_key__${selectedCategory?.categoryId}`}
-              className="px-0 h-10"
-              menuPortalTarget={document.body}
-              options={contractorsCategories}
-              value={
-                selectedCategory == null ? null : selectedCategory.categoryId
-              }
-              getOptionLabel={(option) => option.name}
-              getOptionValue={(option) => option.categoryId}
-              placeholder="Kategoria"
-              onChange={(e) => handleFirstSelectChange(e)}
-            />
+            <div className="selects mb-5">
+              <Select
+                key={`mainCategories`}
+                className="px-0 h-10"
+                menuPortalTarget={document.body}
+                options={mainCategories}
+                value={selectedCategory == null ? null : selectedCategory.id}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
+                placeholder="Wszystkie kategorie"
+                onChange={(e) => handleFirstSelectChange(e)}
+              />
+              {childCategories != null && (
+                <Select
+                  key={`childCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={childCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Kategoria"
+                  onChange={(e) => handleSecondSelectChange(e)}
+                />
+              )}
+              {subChildCategories != null && (
+                <Select
+                  key={`subChildCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={subChildCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Kategoria"
+                  onChange={(e) => handleThirdSelectChange(e)}
+                />
+              )}
+            </div>
             <a
               data-theme="cupcake"
               className="font-semibold text-sm mt-3 cursor-pointer"

@@ -12,10 +12,13 @@ const OrdersByTexInputPage = () => {
   const { searchByQuery } = useParams();
   const api = useAxios();
 
-  const [orderResultsCategories, setOrderResultsCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [mainCategories, setMainCategories] = useState(null);
+  const [childCategories, setChildCategories] = useState(null);
+  const [subChildCategories, setSubChildCategories] = useState(null);
+
   const [voivodeship, setVoivodeship] = useState("");
   const [city, setCity] = useState("");
   const [searchText, setSearchText] = useState(searchByQuery);
@@ -25,15 +28,27 @@ const OrdersByTexInputPage = () => {
 
   const [orders, setOrders] = useState([]);
 
-  const fetchResultCategories = async () => {
+  const fetchMainCategories = async () => {
     await api
-      .get(
-        `/api/order/all?pageSize=1000&pageNumber=1&sortDirection=ASC&isActive=true&searchText=${searchText}`
-      )
+      .get(`/api/category/main`)
       .then((res) => {
-        res.data.items.forEach((order) => {
-          setOrderResultsCategories((arr) => [...arr, order.category]);
-        });
+        console.log(res.data);
+        setMainCategories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchChildCategories = async (cat) => {
+    await api
+      .get(`/api/category/${cat.id}/childCategories`)
+      .then((res) => {
+        if (childCategories == null) {
+          setChildCategories(res.data);
+        } else {
+          setSubChildCategories(res.data);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -41,7 +56,8 @@ const OrdersByTexInputPage = () => {
   };
 
   const clearCategories = () => {
-    setOrderResultsCategories([]);
+    setChildCategories(null);
+    setSubChildCategories(null);
     setSelectedCategory(null);
   };
 
@@ -57,8 +73,6 @@ const OrdersByTexInputPage = () => {
     await api
       .get(baseurl)
       .then((res) => {
-        setOrderResultsCategories([]);
-
         setLoading(false);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -72,13 +86,29 @@ const OrdersByTexInputPage = () => {
   };
 
   const handleFirstSelectChange = (e) => {
+    setChildCategories(null);
+    setSubChildCategories(null);
+    setSelectedCategory(e.id);
+    fetchChildCategories(e);
+  };
+
+  const handleSecondSelectChange = (e) => {
+    setSubChildCategories(null);
+    setSelectedCategory(e.id);
+    fetchChildCategories(e);
+  };
+
+  const handleThirdSelectChange = (e) => {
     setSelectedCategory(e.id);
   };
 
   useEffect(() => {
     searchOrders(1);
-    fetchResultCategories();
   }, [searchByQuery]);
+
+  useEffect(() => {
+    fetchMainCategories();
+  }, []);
 
   return (
     <div>
@@ -91,13 +121,16 @@ const OrdersByTexInputPage = () => {
               type="text"
               placeholder="Szukaj zleceń..."
               className="input input-bordered h-full text-black w-full"
+              defaultValue={searchByQuery}
               onChange={(e) => setSearchText(e.target.value)}
             />
 
             <Link
-              to={searchText.length > 0 && `/orders/search/${searchText}`}
+              to={`/orders/search/${searchText.length == 0 ? "_" : searchText}`}
               className="btn btn-square h-full"
-              params={{ searchByQuery: searchText }}
+              params={{
+                searchByQuery: searchText.length == 0 ? "" : searchText,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,17 +165,49 @@ const OrdersByTexInputPage = () => {
             <input type="checkbox" />
             <div className="collapse-title text-xl font-medium">Kategorie</div>
             <div className="collapse-content w-full">
-              <Select
-                key={`my_unique_select_key__${selectedCategory?.id}`}
-                className="px-0 h-10"
-                menuPortalTarget={document.body}
-                options={orderResultsCategories}
-                value={selectedCategory == null ? null : selectedCategory.id}
-                getOptionLabel={(option) => option.name}
-                getOptionValue={(option) => option.id}
-                placeholder="Kategoria"
-                onChange={(e) => handleFirstSelectChange(e)}
-              />
+              <div className="selects mb-5">
+                <Select
+                  key={`mainCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={mainCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Wszystkie kategorie"
+                  onChange={(e) => handleFirstSelectChange(e)}
+                />
+                {childCategories != null && (
+                  <Select
+                    key={`childCategories`}
+                    className="px-0 h-10"
+                    menuPortalTarget={document.body}
+                    options={childCategories}
+                    value={
+                      selectedCategory == null ? null : selectedCategory.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    placeholder="Kategoria"
+                    onChange={(e) => handleSecondSelectChange(e)}
+                  />
+                )}
+                {subChildCategories != null && (
+                  <Select
+                    key={`subChildCategories`}
+                    className="px-0 h-10"
+                    menuPortalTarget={document.body}
+                    options={subChildCategories}
+                    value={
+                      selectedCategory == null ? null : selectedCategory.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    getOptionValue={(option) => option.id}
+                    placeholder="Kategoria"
+                    onChange={(e) => handleThirdSelectChange(e)}
+                  />
+                )}
+              </div>
               <a
                 data-theme="cupcake"
                 className="font-semibold text-sm mt-3 cursor-pointer"
@@ -192,13 +257,17 @@ const OrdersByTexInputPage = () => {
           <FilterMobileByTextInput
             datas={{
               handleFirstSelectChange,
+              handleSecondSelectChange,
+              handleThirdSelectChange,
               selectedCategory,
               setVoivodeship,
               setCity,
               voivodeships,
               searchOrders,
-              orderResultsCategories,
               clearCategories,
+              mainCategories,
+              childCategories,
+              subChildCategories,
             }}
           />
           {loading ? (

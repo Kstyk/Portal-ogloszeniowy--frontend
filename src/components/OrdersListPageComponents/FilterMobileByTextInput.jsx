@@ -4,13 +4,17 @@ import Select from "react-select";
 const FilterMobileByTextInput = (props) => {
   const {
     handleFirstSelectChange,
+    handleSecondSelectChange,
+    handleThirdSelectChange,
     selectedCategory,
     setVoivodeship,
     setCity,
     voivodeships,
     searchOrders,
-    orderResultsCategories,
     clearCategories,
+    mainCategories,
+    childCategories,
+    subChildCategories,
   } = props.datas;
   return (
     <div
@@ -18,26 +22,54 @@ const FilterMobileByTextInput = (props) => {
       className="collapse collapse-arrow border border-base-300 rounded-none md:hidden w-full"
     >
       <input type="checkbox" />
-      <div className="collapse-title  text-xl font-medium">Filtruj</div>
+      <div className="collapse-title  text-lg font-medium">Filtruj</div>
       <div className="collapse-content">
         <div
           data-theme="cupcake"
           className="border collapse collapse-arrow border-base-300 rounded-none"
         >
           <input type="checkbox" />
-          <div className="collapse-title  text-xl font-medium">Kategorie</div>
+          <div className="collapse-title  text-lg font-medium">Kategorie</div>
           <div className="collapse-content w-full">
-            <Select
-              key={`my_unique_select_key__${selectedCategory?.id}`}
-              className="px-0 h-10"
-              menuPortalTarget={document.body}
-              options={orderResultsCategories}
-              value={selectedCategory == null ? null : selectedCategory.id}
-              getOptionLabel={(option) => option.name}
-              getOptionValue={(option) => option.id}
-              placeholder="Kategoria"
-              onChange={(e) => handleFirstSelectChange(e)}
-            />
+            <div className="selects mb-5">
+              <Select
+                key={`mainCategories`}
+                className="px-0 h-10"
+                menuPortalTarget={document.body}
+                options={mainCategories}
+                value={selectedCategory == null ? null : selectedCategory.id}
+                getOptionLabel={(option) => option.name}
+                getOptionValue={(option) => option.id}
+                placeholder="Wszystkie kategorie"
+                onChange={(e) => handleFirstSelectChange(e)}
+              />
+              {childCategories != null && (
+                <Select
+                  key={`childCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={childCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Kategoria"
+                  onChange={(e) => handleSecondSelectChange(e)}
+                />
+              )}
+              {subChildCategories != null && (
+                <Select
+                  key={`subChildCategories`}
+                  className="px-0 h-10"
+                  menuPortalTarget={document.body}
+                  options={subChildCategories}
+                  value={selectedCategory == null ? null : selectedCategory.id}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option.id}
+                  placeholder="Kategoria"
+                  onChange={(e) => handleThirdSelectChange(e)}
+                />
+              )}
+            </div>
             <a
               data-theme="cupcake"
               className="font-semibold text-sm mt-3 cursor-pointer"
@@ -52,7 +84,7 @@ const FilterMobileByTextInput = (props) => {
           className="collapse collapse-arrow border border-base-300 rounded-none"
         >
           <input type="checkbox" />
-          <div className="collapse-title  text-xl font-medium">Lokalizacja</div>
+          <div className="collapse-title  text-lg font-medium">Lokalizacja</div>
           <div className="collapse-content w-full">
             <Select
               className="px-0 h-10"

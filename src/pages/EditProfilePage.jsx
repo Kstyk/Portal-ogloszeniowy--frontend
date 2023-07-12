@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 import voivodeships from "../components/content/Voivodeships";
+import Editor from "../components/TextEditor/Editor";
 
 const EditProfilePage = () => {
   const [statuses, setStatuses] = useState([]);
@@ -364,13 +365,14 @@ const EditProfilePage = () => {
               >
                 Opis działalności
               </label>
-              <div className="mb-2">
-                <textarea
-                  id="description"
-                  name="description"
+              <div className="mb-2 ">
+                <Editor
+                  description={profile?.description}
+                  setValue={setValue}
+                  fieldName="description"
                   {...register("description", editUserOptions.description)}
-                  className="textarea textarea-bordered w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6"
                 />
+
                 <span className="text-[11px] text-red-400">
                   <span>
                     {errors.description && errors.description.message}
@@ -383,6 +385,7 @@ const EditProfilePage = () => {
                   </span>
                 </span>
               </div>
+
               {statusName == "Firma" ? (
                 <>
                   <label
