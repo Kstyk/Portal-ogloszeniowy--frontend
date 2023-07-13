@@ -93,7 +93,7 @@ const OrderPage = () => {
         {loading ? (
           <LoadingComponent message="Ładowanie..." />
         ) : (
-          <div className="flex flex-row justify-between p-8 pb-0">
+          <div className="flex flex-row justify-between p-8 pb-0 text-custom-darkgreen">
             <div className="w-8/12 max-sm:w-full">
               <h1 className="uppercase text-2xl font-semibold pb-2 border-b-[2px] border-dotted">
                 {order?.title}

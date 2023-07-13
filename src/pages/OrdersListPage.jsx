@@ -176,7 +176,7 @@ const OrdersListPage = () => {
       </div>
 
       <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
-        <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
+        <h1 className="text-2xl text-custom-darkgreen mt-10 uppercase font-bold pb-2">
           {category}
         </h1>
       </div>
@@ -270,7 +270,7 @@ const OrdersListPage = () => {
             ) : (
               <div>
                 <div className="flex flex-row justify-between">
-                  <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                  <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
                     <span>Lista zleceń</span>
                     <span className="text-sm">
                       Znaleziono {totalItems} wyniki
