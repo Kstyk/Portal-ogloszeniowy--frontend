@@ -45,11 +45,13 @@ const OrderCard = ({ order }) => {
             {order.offers.length} zgłoszeń
           </span>
         </div>
-        <p className="text-custom-darkgreen">
-          {order.description.length < 150
-            ? order.description
-            : order.description.substring(0, 150) + "..."}
-        </p>
+        <div className="text-custom-darkgreen">
+          {order.description.length < 250
+            ? order.description.replace(/(<([^>]+)>)/gi, " ")
+            : order.description
+                .replace(/(<([^>]+)>)/gi, " ")
+                .substring(0, 250) + "..."}
+        </div>
         <div className="card-actions flex flex-col lg:flex-row justify-between">
           <div className="lg:w-3/12 w-full">
             <span className="text-sm text-slate-500">

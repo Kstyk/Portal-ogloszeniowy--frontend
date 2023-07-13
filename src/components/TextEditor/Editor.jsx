@@ -12,8 +12,9 @@ import MenuBar from "./MenuBar";
 import "./styles.scss";
 
 const Editor = (props) => {
-  const { fieldName, setValue, description } = props;
-  const [content, setContent] = useState(null);
+  const { fieldName, setValue, fieldValue, setValueHtml } = props;
+  const [content, setContent] = useState(fieldValue);
+  const [contentHtml, setContentHtml] = useState(fieldValue);
 
   const editor = useEditor({
     editorProps: {
@@ -66,15 +67,22 @@ const Editor = (props) => {
         },
       }),
     ],
-    content: description,
+    content: fieldValue,
     onUpdate({ editor }) {
-      setContent(editor.getHTML());
+      setContent(editor.getText());
+      setContentHtml(editor.getHTML());
     },
   });
 
   useEffect(() => {
     setValue(fieldName, content);
-  }, [content]);
+    setValueHtml(contentHtml);
+  }, [content, contentHtml]);
+
+  useEffect(() => {
+    setValue(fieldName, fieldValue);
+    setContentHtml(fieldValue);
+  }, []);
 
   return (
     <div>

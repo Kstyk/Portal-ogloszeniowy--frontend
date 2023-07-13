@@ -7,6 +7,7 @@ import Select from "react-select";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/LoadingComponent";
+import parse from "html-react-parser";
 
 const OrderPage = () => {
   const { orderId } = useParams();
@@ -92,7 +93,7 @@ const OrderPage = () => {
         {loading ? (
           <LoadingComponent message="Ładowanie..." />
         ) : (
-          <div className="flex flex-row justify-between p-8 pb-0">
+          <div className="flex flex-row justify-between p-8 pb-0 text-custom-darkgreen">
             <div className="w-8/12 max-sm:w-full">
               <h1 className="uppercase text-2xl font-semibold pb-2 border-b-[2px] border-dotted">
                 {order?.title}
@@ -127,7 +128,9 @@ const OrderPage = () => {
               </div>
               <div className="mt-10 mb-10 pt-2 border-t-2 border-dotted description w-full">
                 <h2 className="text-xl font-semibold mb-3">Opis zlecenia</h2>
-                <p className="pl-5">{order?.description}</p>
+                <div className="pl-5 pr-5">
+                  {parse("" + order?.description + "")}
+                </div>
               </div>
 
               <div className="w-full sm:hidden mt-5 border-t-2 border-dotted pt-3">

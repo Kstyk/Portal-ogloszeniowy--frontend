@@ -12,6 +12,9 @@ const EditProfilePage = () => {
   const [statuses, setStatuses] = useState([]);
   const [statusName, setStatusName] = useState(null);
   const [backendErrors, setBackendErrors] = useState([]);
+
+  const [contentHtml, setContentHtml] = useState(null);
+
   const location = useLocation();
   const { profile } = location.state;
   const api = useAxios();
@@ -85,6 +88,10 @@ const EditProfilePage = () => {
   const onSubmit = (data) => {
     data.voivodeship = data.voivodeship.value;
 
+    if (contentHtml != null && contentHtml != data.description) {
+      data.description = contentHtml;
+    }
+    console.log(data);
     api
       .put("/api/account/edit", data)
       .then((res) => {
@@ -367,8 +374,11 @@ const EditProfilePage = () => {
               </label>
               <div className="mb-2 ">
                 <Editor
-                  description={profile?.description}
+                  fieldValue={profile?.description}
                   setValue={setValue}
+                  setValueHtml={setContentHtml}
+                  name="description"
+                  id="description"
                   fieldName="description"
                   {...register("description", editUserOptions.description)}
                 />

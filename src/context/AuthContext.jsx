@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   let loginUser = async (e) => {
     e.preventDefault();
 
-    let response = await axios
+    await axios
       .post(
         "https://oferiaapi.azurewebsites.net/api/account/login",
         {
@@ -42,33 +42,38 @@ export const AuthProvider = ({ children }) => {
         setAuthToken(res.data);
         setUser(jwtDecode(res.data));
         localStorage.setItem("authToken", JSON.stringify(res.data));
-
-        if (jwtDecode(res.data).TypeOfAccount == "Wykonawca") {
-          axios
-            .get(
-              `https://oferiaapi.azurewebsites.net/api/category/userCategories/${
-                jwtDecode(res.data).Id
-              }`
-            )
-            .then((res) => {
-              if (res.data.length > 0) {
-                nav("/");
-              } else {
-                nav("/contractor/add-categories");
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          nav("/");
-        }
       })
-
       .catch((err) => {
         console.log(err);
         setError(err.response.data.message);
       });
+  };
+
+  const redirecting = async () => {
+    if (jwtDecode(authToken).TypeOfAccount == "Wykonawca") {
+      console.log(authToken);
+      axios
+        .get(
+          `https://oferiaapi.azurewebsites.net/api/category/userCategories/${
+            jwtDecode(authToken).Id
+          }`
+        )
+        .then((res) => {
+          if (res.data.length > 0) {
+            console.log("here");
+            nav("/");
+          } else {
+            console.log("here2");
+            nav("/contractor/add-categories");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("else");
+      nav("/");
+    }
   };
 
   let logoutUser = () => {
@@ -93,9 +98,14 @@ export const AuthProvider = ({ children }) => {
     if (authToken) {
       setUser(jwtDecode(authToken));
     }
-
     setLoading(false);
   }, [authToken, loading]);
+
+  useEffect(() => {
+    if (authToken != null) {
+      redirecting();
+    }
+  }, [authToken]);
 
   return (
     <AuthContext.Provider value={contextData}>

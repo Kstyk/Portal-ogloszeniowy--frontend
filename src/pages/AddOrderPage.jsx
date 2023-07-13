@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import voivodeships from "../components/content/Voivodeships";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import Editor from "../components/TextEditor/Editor";
 
 const AddOrderPage = () => {
   const nav = useNavigate();
@@ -15,9 +16,12 @@ const AddOrderPage = () => {
   const [backendErrors, setBackendErrors] = useState([]);
   const [selectedCategoryError, setSelectedCategoryError] = useState(null);
 
+  const [contentHtml, setContentHtml] = useState(null);
+
   const {
     register,
     handleSubmit,
+    setValue,
     control,
     formState: { errors },
   } = useForm({ mode: "all" });
@@ -98,6 +102,10 @@ const AddOrderPage = () => {
     if (currentSelectedCategory == null) {
       setSelectedCategoryError("Nie wybrano kategorii zlecenia.");
     } else {
+      if (contentHtml != null && contentHtml != data.description) {
+        data.description = contentHtml;
+      }
+
       data.categoryId = currentSelectedCategory.id;
       data.voivodeship = data.voivodeship.value;
       console.log(data);
@@ -251,26 +259,29 @@ const AddOrderPage = () => {
                   >
                     Opis zlecenia
                   </label>
-                  <div>
-                    <textarea
-                      id="description"
+                  <div className="mb-2 ">
+                    <Editor
+                      fieldValue=""
+                      setValue={setValue}
+                      setValueHtml={setContentHtml}
                       name="description"
-                      type="text"
+                      id="description"
+                      fieldName="description"
                       {...register("description", addOrderOptions.description)}
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                     />
+
+                    <span className="text-[11px] text-red-400">
+                      <span>
+                        {errors.description && errors.description.message}
+                      </span>
+                      <span className="flex flex-col">
+                        {backendErrors?.Description &&
+                          backendErrors.Description.map((err) => (
+                            <span key={err}>{err}</span>
+                          ))}
+                      </span>
+                    </span>
                   </div>
-                  <span className="text-[11px] text-red-400">
-                    <span>
-                      {errors.description && errors.description.message}
-                    </span>
-                    <span className="flex flex-col">
-                      {backendErrors?.Description &&
-                        backendErrors.Description.map((err) => (
-                          <span key={err}>{err}</span>
-                        ))}
-                    </span>
-                  </span>
                   <div>
                     <div className="form-control mt-5">
                       <label className="label cursor-pointer flex justify-start gap-x-5">
