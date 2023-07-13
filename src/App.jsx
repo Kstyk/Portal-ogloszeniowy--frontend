@@ -40,21 +40,10 @@ function App() {
         <NavbarPrincipal />
       )}
       <Routes>
-        <Route path="/" element={<MainPage />} />
-
         <Route element={<Anonymous />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
         </Route>
-
-        <Route
-          path="/contractor/add-categories"
-          element={<ConfigureContractorAccount />}
-        />
-        <Route
-          path="/contractor/edit-categories"
-          element={<EditContractorCategories />}
-        />
 
         <Route
           path="/orders/:categoryId/:category"
@@ -84,13 +73,22 @@ function App() {
             element={<ContractorMyProfilePage />}
           />
           <Route path="/profile/my-offers" element={<ListOfOffers />} />
+          <Route
+            path="/contractor/add-categories"
+            element={<ConfigureContractorAccount />}
+          />
+          <Route
+            path="/contractor/edit-categories"
+            element={<EditContractorCategories />}
+          />
         </Route>
 
         <Route element={<Principal />}>
           <Route path="/order/add" element={<AddOrderPage />} />
         </Route>
 
-        <Route path="profile/edit" element={<EditProfilePage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
+        <Route path="/" element={<MainPage />} />
       </Routes>
     </div>
   );

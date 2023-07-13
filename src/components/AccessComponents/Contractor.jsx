@@ -6,9 +6,15 @@ const Contractor = () => {
   const { user } = useContext(AuthContext);
 
   return user != null && user?.TypeOfAccount == "Wykonawca" ? (
-    <Outlet />
+    <>
+      {console.log("aythrozied")}
+      <Outlet />
+    </>
   ) : (
-    <Navigate to="/" replace />
+    <>
+      {" "}
+      {console.log("unauthorized")} <Navigate to="/" replace />{" "}
+    </>
   );
 };
 

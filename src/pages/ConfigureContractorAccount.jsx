@@ -57,7 +57,6 @@ const ConfigureContractorAccount = () => {
     if (
       selectedCategories.some((item) => item.id == currentSelectedCategory.id)
     ) {
-      console.log("Ta kategoria już znajduje się w liście");
       setError("Ta kategoria już znajduje się w liście");
       setCurrentSelectedCategory(null);
     } else {
@@ -67,8 +66,6 @@ const ConfigureContractorAccount = () => {
       ]);
       setSelectedCategories((current) => [...current, currentSelectedCategory]);
       setCurrentSelectedCategory(null);
-      console.log(selectedCategories);
-      console.log(selectedCategoriesIds);
     }
   };
 
@@ -114,7 +111,6 @@ const ConfigureContractorAccount = () => {
     api
       .post("/api/category/user/add", data)
       .then((res) => {
-        console.log(res);
         nav("/");
       })
       .catch((err) => {
@@ -199,7 +195,7 @@ const ConfigureContractorAccount = () => {
       <div className="grid grid-cols-2 w-full gap-10">
         <h2 className="mt-5 border-b-2">Wybrane kategorie</h2>
         <button
-          type="submit"
+          type="button"
           className="flex  mt-5 w-full justify-center rounded-md bg-custom-darkgreen px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
           onClick={() => addToListCategory()}
         >
@@ -285,7 +281,6 @@ const ConfigureContractorAccount = () => {
 
       <div className="mt-5 mb-5">
         <button
-          type="submit"
           onClick={submitForm}
           className="flex w-full justify-center rounded-md bg-custom-darkgreen px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         >

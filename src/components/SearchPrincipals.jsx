@@ -22,12 +22,12 @@ const SearchPrincipals = (props) => {
                 <input
                   type="text"
                   placeholder="Szukaj zleceń"
-                  className="input input-bordered h-full text-black w-full"
+                  className="input input-bordered h-full max-md:h-[48px] text-black w-full"
                   onChange={(e) => setSearchText(e.target.value)}
                 />
                 <Link
                   to={searchText.length > 0 && `/orders/search/${searchText}`}
-                  className="btn btn-square h-full"
+                  className="btn btn-square h-full max-md:h-[48px]"
                   params={{ searchByQuery: searchText }}
                 >
                   <svg

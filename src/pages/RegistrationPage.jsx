@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import voivodeships from "../components/content/Voivodeships";
+import Editor from "../components/TextEditor/Editor";
 
 const RegistrationPage = () => {
   const [statuses, setStatuses] = useState([]);
@@ -12,6 +13,9 @@ const RegistrationPage = () => {
   const [typeName, setTypeName] = useState(null);
   const [statusName, setStatusName] = useState(null);
   const nav = useNavigate();
+
+  const [contentHtml, setContentHtml] = useState(null);
+  const [backendErrors, setBackendErrors] = useState([]);
 
   const {
     register,
@@ -58,6 +62,9 @@ const RegistrationPage = () => {
     },
     street: { required: "Ulica jest wymagana." },
     buildingNumber: { required: "Numer budynku jest wymagany." },
+    description: { required: "Opis działalności jest wymagany." },
+    companyName: { required: "Nazwa firmy jest wymagana." },
+    taxIdentificationNumber: { required: "Numer NIP jest wymagany." },
   };
 
   const fetchStatuses = async () => {
@@ -97,8 +104,13 @@ const RegistrationPage = () => {
       data.taxIdentificationNumber = "";
       data.companyName = "";
     }
-    console.log(data);
-
+    if (
+      data.typeOfAccountId == 2 &&
+      contentHtml != null &&
+      contentHtml != data.description
+    ) {
+      data.description = contentHtml;
+    }
     axios
       .post("https://localhost:7147/api/account/register", data)
       .then((res) => {
@@ -219,7 +231,6 @@ const RegistrationPage = () => {
                     name="password"
                     type="password"
                     {...register("password", registerOptions.password)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -241,7 +252,6 @@ const RegistrationPage = () => {
                       "confirmPassword",
                       registerOptions.confirmPassword
                     )}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -298,7 +308,6 @@ const RegistrationPage = () => {
                     name="firstName"
                     type="text"
                     {...register("firstName", registerOptions.firstName)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -317,7 +326,6 @@ const RegistrationPage = () => {
                     name="lastName"
                     type="text"
                     {...register("lastName", registerOptions.lastName)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -336,7 +344,6 @@ const RegistrationPage = () => {
                     name="phoneNumber"
                     type="text"
                     {...register("phoneNumber", registerOptions.phoneNumber)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -380,7 +387,6 @@ const RegistrationPage = () => {
                     name="city"
                     type="text"
                     {...register("city", registerOptions.city)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -399,7 +405,6 @@ const RegistrationPage = () => {
                     name="postalCode"
                     type="text"
                     {...register("postalCode", registerOptions.postalCode)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -418,7 +423,6 @@ const RegistrationPage = () => {
                     name="street"
                     type="text"
                     {...register("street", registerOptions.street)}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -440,7 +444,6 @@ const RegistrationPage = () => {
                       "buildingNumber",
                       registerOptions.buildingNumber
                     )}
-                    required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
@@ -464,7 +467,6 @@ const RegistrationPage = () => {
                           "companyName",
                           registerOptions.companyName
                         )}
-                        required
                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                       />
                     </div>
@@ -483,7 +485,6 @@ const RegistrationPage = () => {
                           "taxIdentificationNumber",
                           registerOptions.taxIdentificationNumber
                         )}
-                        required
                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                       />
                     </div>
@@ -499,16 +500,31 @@ const RegistrationPage = () => {
                     >
                       Opis działalności
                     </label>
-                    <div className="mb-2">
-                      <textarea
-                        id="description"
+                    <div className="mb-2 ">
+                      <Editor
+                        fieldValue=""
+                        setValue={setValue}
+                        setValueHtml={setContentHtml}
                         name="description"
+                        id="description"
+                        fieldName="description"
                         {...register(
                           "description",
                           registerOptions.description
                         )}
-                        className="textarea textarea-bordered w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6"
                       />
+
+                      <span className="text-[11px] text-red-400">
+                        <span>
+                          {errors.description && errors.description.message}
+                        </span>
+                        <span className="flex flex-col">
+                          {backendErrors?.Description &&
+                            backendErrors.Description.map((err) => (
+                              <span key={err}>{err}</span>
+                            ))}
+                        </span>
+                      </span>
                     </div>
                   </>
                 ) : (
