@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { useForm, Controller } from "react-hook-form";
-import voivodeships from "../components/content/Voivodeships";
+import voivodeships from "../components/content/VoivodeshipsWithoutPoland";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/TextEditor/Editor";

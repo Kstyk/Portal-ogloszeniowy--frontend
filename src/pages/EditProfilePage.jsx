@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
 import Select from "react-select";
-import { useLocation } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
-import voivodeships from "../components/content/Voivodeships";
+import voivodeships from "../components/content/VoivodeshipsWithoutPoland";
 import Editor from "../components/TextEditor/Editor";
-import AuthContext from "../context/AuthContext";
-import LoadingComponent from "../components/LoadingComponent";
+
 
 const EditProfilePage = () => {
   const [description, setDescription] = useState();

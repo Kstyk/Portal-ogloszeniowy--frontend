@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
-import voivodeships from "../components/content/Voivodeships";
+import voivodeships from "../components/content/VoivodeshipsWithoutPoland";
 import Editor from "../components/TextEditor/Editor";
 
 const RegistrationPage = () => {
