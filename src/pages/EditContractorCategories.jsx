@@ -79,8 +79,6 @@ const EditContractorCategories = () => {
       ]);
       setSelectedCategories((current) => [...current, currentSelectedCategory]);
       setCurrentSelectedCategory(null);
-      console.log(selectedCategories);
-      console.log(selectedCategoriesIds);
     }
   };
 
