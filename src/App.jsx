@@ -24,6 +24,8 @@ import Principal from "./components/AccessComponents/Principal";
 import ContractorsListPage from "./pages/ContractorsListPage";
 import ContractorsListByInputPage from "./pages/ContractorsListByInputPage";
 import ContractorPage from "./pages/ContractorPage";
+import ListOfMyOrders from "./pages/ListOfMyOrders";
+import OffersToOrderPage from "./pages/OffersToOrderPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -40,6 +42,8 @@ function App() {
         <NavbarPrincipal />
       )}
       <Routes>
+        <Route path="/" element={<MainPage />} />
+
         <Route element={<Anonymous />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
@@ -85,10 +89,14 @@ function App() {
 
         <Route element={<Principal />}>
           <Route path="/order/add" element={<AddOrderPage />} />
+          <Route
+            path="/order/:orderId/offers"
+            element={<OffersToOrderPage />}
+          />
+          <Route path="/profile/my-orders" element={<ListOfMyOrders />} />
         </Route>
 
         <Route path="/profile/edit" element={<EditProfilePage />} />
-        <Route path="/" element={<MainPage />} />
       </Routes>
     </div>
   );
