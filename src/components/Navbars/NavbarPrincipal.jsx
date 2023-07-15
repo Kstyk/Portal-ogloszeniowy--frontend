@@ -28,7 +28,7 @@ const NavbarPrincipal = () => {
             className="mt-3 z-[100] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Twoje zlecenia</a>
+              <Link to="/profile/my-orders">Twoje zlecenia</Link>
             </li>
             <li>
               <Link to="/profile/edit">Edytuj profil</Link>

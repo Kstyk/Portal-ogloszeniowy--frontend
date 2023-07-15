@@ -1,5 +1,6 @@
 import React from "react";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 const OfferCard = (props) => {
   const { offer } = props;
@@ -8,11 +9,14 @@ const OfferCard = (props) => {
     <div className="bg-white border-t-[3px] rounded-t-xl border-t-blue-400 shadow-xl p-5 mb-5">
       <div className="flex flex-row justify-between">
         <div>
-          <h1 className="author font-semibold">
-            {offer?.companyName != ""
+          <Link
+            to={`/contractors/${offer.userId}`}
+            className="author font-semibold block"
+          >
+            {offer?.companyName != "" && offer?.companyName != null
               ? offer.companyName
               : offer.firstName + " " + offer.lastName}
-          </h1>
+          </Link>
           <span>{dayjs(offer.publicDate).format("YYYY-MM-DD - HH:mm")}</span>
         </div>
         <div className="price w-4/12 text-center">

@@ -56,13 +56,9 @@ const ContractorPage = () => {
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-green-400 text-white"></div>
       <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-black">
         <h1 className="text-2xl font-semibold border-b-2 border-green-400 pb-1">
-          {profile?.companyName != "" ? (
-            profile?.companyName
-          ) : (
-            <>
-              {profile?.firstName} {profile?.lastName}
-            </>
-          )}
+          {profile?.companyName != "" && profile?.companyName != null
+            ? profile?.companyName
+            : profile?.firstName + " " + profile?.lastName}
         </h1>
         <div className="tabs tabs-boxed bg-white d-flex justify-start mt-5 pb-0 px-0 border-b-2 border-green-400">
           <a
