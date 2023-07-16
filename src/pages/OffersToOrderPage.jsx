@@ -4,6 +4,7 @@ import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/LoadingComponent";
 import OfferCardWithWinnerButton from "../components/OrdersListPageComponents/OfferCardWithWinnerButton";
+import Select from "react-select";
 
 const OffersToOrderPage = () => {
   const { orderId } = useParams();
@@ -113,6 +114,7 @@ const OffersToOrderPage = () => {
                 {winner != null ? "Wszystkie oferty" : "Złożone oferty"}
               </label>
             </div>
+            <div className="sort"></div>
             <div className="mt-5">
               {offers.length == 0
                 ? "Brak ofert."
