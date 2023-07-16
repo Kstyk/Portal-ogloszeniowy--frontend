@@ -11,12 +11,15 @@ const OffersToOrderPage = () => {
   const api = useAxios();
   const [order, setOrder] = useState();
   const [offers, setOffers] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [winner, setWinner] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const nav = useNavigate();
 
-  const fetchOrder = async () => {
+  const fetchOrder = async (page) => {
     setLoading(true);
     await api
       .get(`/api/order/${orderId}`)
@@ -44,11 +47,14 @@ const OffersToOrderPage = () => {
       });
   };
 
-  const fetchOffers = async () => {
+  const fetchOffers = async (page) => {
     await api
-      .get(`/api/order/${orderId}/offers`)
+      .get(`/api/order/${orderId}/offers?pageNumber=${page}&pageSize=10`)
       .then((res) => {
-        setOffers(res.data);
+        setOffers(res.data.items);
+        setCurrentPage(res.data.pageNumber);
+        setTotalPages(res.data.totalPages);
+        setTotalItems(res.data.totalItemsCount);
         setLoading(false);
       })
       .catch((err) => {
@@ -78,7 +84,7 @@ const OffersToOrderPage = () => {
   useEffect(() => {
     fetchOrder();
     fetchWinner();
-    fetchOffers();
+    fetchOffers(1);
   }, []);
 
   return (
@@ -126,6 +132,67 @@ const OffersToOrderPage = () => {
                       setAsWinner={setAsWinner}
                     />
                   ))}
+              {totalItems > 0 && (
+                <>
+                  <div
+                    data-theme="cupcake"
+                    className="join mt-10 flex flex-row justify-center w-full bg-inherit"
+                  >
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && fetchOffers(1);
+                      }}
+                    >
+                      ⇤
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage - 1 == 0
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage - 1 > 0 && fetchOffers(currentPage - 1);
+                      }}
+                    >
+                      «
+                    </button>
+                    <button className="join-item btn btn-">
+                      Strona {currentPage} z {totalPages}
+                    </button>
+                    <button
+                      className={`join-item btn ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages &&
+                          fetchOffers(currentPage + 1);
+                      }}
+                    >
+                      »
+                    </button>
+                    <button
+                      className={`join-item btn text-xl ${
+                        currentPage == totalPages
+                          ? "text-gray-300 cursor-default hover:bg-base-200 hover:border-base-200"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        currentPage != totalPages && fetchOffers(totalPages);
+                      }}
+                    >
+                      ⇥
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </>

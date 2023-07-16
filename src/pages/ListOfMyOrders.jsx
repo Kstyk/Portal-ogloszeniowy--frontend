@@ -22,9 +22,20 @@ const ListOfMyOrders = () => {
   ];
 
   const fetchOrders = async (page) => {
+    let baseurl = `api/order/logged-user/orders?pageSize=10&pageNumber=${page}`;
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     setLoading(true);
+
     await api
-      .get(`api/order/logged-user/orders?pageSize=10&pageNumber=${page}`)
+      .get(baseurl)
       .then((res) => {
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
