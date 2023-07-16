@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import OrderCardPrincipal from "../components/ProfileComponents/OrderCardPrincipal";
+import Select from "react-select";
 
 const ListOfMyOrders = () => {
   const api = useAxios();
@@ -11,12 +12,31 @@ const ListOfMyOrders = () => {
   const [isActive, setIsActive] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [sortDirection, setSortDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState("StartDate");
+
+  const sortOptions = [
+    { value: "StartDate", label: "Data startu" },
+    { value: "Title", label: "Tytuł" },
+    { value: "Budget", label: "Budżet" },
+  ];
+
   const fetchOrders = async (page) => {
+    let baseurl = `api/order/logged-user/orders?pageSize=10&pageNumber=${page}`;
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     setLoading(true);
+
     await api
-      .get(`api/order/logged-user/orders?pageSize=10&pageNumber=${page}`)
+      .get(baseurl)
       .then((res) => {
-        console.log(res.data);
         setOrders(res.data.items);
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
@@ -33,10 +53,19 @@ const ListOfMyOrders = () => {
     let baseurl = "";
     if (obj == null) {
       obj = "";
-      baseurl = `/api/order/logged-user/orders?pageSize=10&pageNumber=1&sortDirection=DESC`;
+      baseurl = `/api/order/logged-user/orders?pageSize=10&pageNumber=1`;
     } else {
-      baseurl = `/api/order/logged-user/orders?pageSize=10&pageNumber=1&isActive=${obj}&sortDirection=DESC`;
+      baseurl = `/api/order/logged-user/orders?pageSize=10&pageNumber=1&isActive=${obj}`;
     }
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     await api
       .get(baseurl)
       .then((res) => {
@@ -63,6 +92,46 @@ const ListOfMyOrders = () => {
           <h1 className="text-2xl mt-10 uppercase font-bold pb-2">
             Twoje zlecenia
           </h1>
+        </div>
+        <div className="sort flex flex-row justify-between gap-x-3 phone:h-[40px] max-phone:flex-col max-phone:gap-y-1 mt-5">
+          <Select
+            className="px-0 h-full w-4/12 max-phone:w-full"
+            options={sortOptions}
+            placeholder="Sortuj po"
+            onChange={(e) => setSortBy(e.value)}
+            styles={{
+              control: (style) => ({
+                ...style,
+                minHeight: 0,
+                height: "40px",
+                // rest of styling
+              }),
+            }}
+          />
+          <Select
+            className="px-0 h-full w-4/12 max-phone:w-full"
+            options={[
+              { value: "DESC", label: "malejąco" },
+              { value: "ASC", label: "rosnąco" },
+            ]}
+            placeholder="Kierunek"
+            onChange={(e) => setSortDirection(e.value)}
+            styles={{
+              control: (style) => ({
+                ...style,
+                minHeight: 0,
+                height: "40px",
+                // rest of styling
+              }),
+            }}
+          />
+          <button
+            type="button"
+            className="btn btn-outline min-h-full h-full max-phone:h-[40px] phone:w-3/12"
+            onClick={() => searchOrders(isActive)}
+          >
+            Szukaj
+          </button>
         </div>
         <div className="ifActive border-b-2 pb-2 mb-2 ">
           <label className="block text-xl leading-6 font-bold mt-5">
@@ -123,16 +192,17 @@ const ListOfMyOrders = () => {
           </div>
         </div>
 
-        {orders.map((or) => (
-          <OrderCardPrincipal
-            key={or.id}
-            order={or}
-            // deleteOffer={deleteOffer}
-            searchOrders={searchOrders}
-            currentPage={currentPage}
-          />
-        ))}
-
+        <div>
+          {orders.map((or) => (
+            <OrderCardPrincipal
+              key={or.id}
+              order={or}
+              // deleteOffer={deleteOffer}
+              searchOrders={searchOrders}
+              currentPage={currentPage}
+            />
+          ))}
+        </div>
         {totalItems > 0 && (
           <>
             <div

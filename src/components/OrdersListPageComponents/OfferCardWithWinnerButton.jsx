@@ -7,8 +7,12 @@ const OfferCardWithWinnerButton = (props) => {
   const { offer, order, setAsWinner } = props;
 
   return (
-    <div className="bg-white shadow-xl p-5 mb-5">
-      {console.log(order)}
+    <div
+      className={`bg-white shadow-xl p-5 mb-5 ${
+        offer.isWinner ? "border-l-2 border-t-2 border-green-400" : ""
+      }`}
+    >
+      {console.log(offer)}
       <div className="flex flex-row justify-between">
         <div>
           <Link
@@ -34,7 +38,6 @@ const OfferCardWithWinnerButton = (props) => {
       </p>
       {order?.winnerOfferId != offer?.id && order?.winnerOfferId == null ? (
         <div className="mt-5">
-          {console.log(order?.winnerOfferId)}
           <div
             onClick={() => setAsWinner(offer?.id)}
             className="btn btn-outline w-6/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto"
