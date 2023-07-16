@@ -10,6 +10,8 @@ const OffersToOrderPage = () => {
   const api = useAxios();
   const [order, setOrder] = useState();
   const [offers, setOffers] = useState([]);
+  const [winner, setWinner] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const nav = useNavigate();
 
@@ -25,11 +27,26 @@ const OffersToOrderPage = () => {
       });
   };
 
+  const fetchWinner = async () => {
+    await api
+      .get(`/api/order/${orderId}/get-winner`)
+      .then((res) => {
+        console.log(res);
+        if (res.status == 204) {
+          setWinner(null);
+        } else {
+          setWinner(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const fetchOffers = async () => {
     await api
       .get(`/api/order/${orderId}/offers`)
       .then((res) => {
-        console.log(res.data);
         setOffers(res.data);
         setLoading(false);
       })
@@ -42,14 +59,11 @@ const OffersToOrderPage = () => {
   };
 
   const setAsWinner = (id) => {
-    console.log(orderId);
-    console.log(id);
     if (
       confirm(
         "Jesteś pewny, że chcesz wybrać tę ofertę? Później już nie będziesz mógł zmienić swojej oferty!"
       )
     ) {
-      console.log(id);
       api
         .put(`/api/order/${orderId}/set-winner/${id}`)
         .then((res) => {
@@ -62,6 +76,7 @@ const OffersToOrderPage = () => {
 
   useEffect(() => {
     fetchOrder();
+    fetchWinner();
     fetchOffers();
   }, []);
 
@@ -77,6 +92,26 @@ const OffersToOrderPage = () => {
               <h1 className="text-2xl mt-10 uppercase font-bold pb-2">
                 Oferty do zlecenia: {order?.title}
               </h1>
+            </div>
+            {winner != null && (
+              <>
+                <div className="border-b-2 border-gray-200 pb-2 mt-5 mb-5">
+                  <label className="block text-xl leading-6 font-bold">
+                    Wygrana oferta
+                  </label>
+                </div>
+                <OfferCardWithWinnerButton
+                  key={winner.id}
+                  offer={winner}
+                  order={order}
+                  setAsWinner={setAsWinner}
+                />
+              </>
+            )}
+            <div className="border-b-2 border-gray-200 pb-2 mt-5">
+              <label className="block text-xl leading-6 font-bold ">
+                {winner != null ? "Wszystkie oferty" : "Złożone oferty"}
+              </label>
             </div>
             <div className="mt-5">
               {offers.length == 0
