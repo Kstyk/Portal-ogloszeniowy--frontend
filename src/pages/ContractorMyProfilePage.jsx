@@ -14,7 +14,7 @@ const ContractorMyProfilePage = () => {
 
   const fetchProfile = async () => {
     await api
-      .get(`/api/account/loggedProfile`)
+      .get(`/api/account/logged-profile`)
       .then((res) => {
         setProfile(res.data);
       })
@@ -25,7 +25,7 @@ const ContractorMyProfilePage = () => {
 
   const fetchUserCategories = async () => {
     await api
-      .get(`/api/category/userCategories`)
+      .get(`/api/category/user-categories`)
       .then((res) => {
         setUserCategories(res.data);
       })
@@ -36,7 +36,7 @@ const ContractorMyProfilePage = () => {
 
   const fetchAreaOfWork = async () => {
     await api
-      .get(`/api/account/areaOfWork`)
+      .get(`/api/account/area-of-work`)
       .then((res) => {
         console.log(res.data);
         setAreaOfWork(res.data);

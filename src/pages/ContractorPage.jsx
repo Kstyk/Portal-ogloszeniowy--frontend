@@ -25,7 +25,7 @@ const ContractorPage = () => {
 
   const fetchAreaOfWork = async () => {
     await api
-      .get(`/api/contractor/${contractorId}/areaOfWork`)
+      .get(`/api/contractor/${contractorId}/area-of-work`)
       .then((res) => {
         setAreaOfWork(res.data);
       })
@@ -36,7 +36,7 @@ const ContractorPage = () => {
 
   const fetchUserCategories = async () => {
     await api
-      .get(`/api/category/userCategories/${contractorId}`)
+      .get(`/api/category/user-categories/${contractorId}`)
       .then((res) => {
         setUserCategories(res.data);
       })

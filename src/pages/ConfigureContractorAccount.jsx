@@ -32,7 +32,7 @@ const ConfigureContractorAccount = () => {
     setSubsubCategories([]);
     setCurrentSelectedCategory(cat);
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         setSubCategories(res.data);
       })
@@ -44,7 +44,7 @@ const ConfigureContractorAccount = () => {
   const fetchSubSubCategories = async (cat) => {
     setCurrentSelectedCategory(cat);
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         setSubsubCategories(res.data);
       })

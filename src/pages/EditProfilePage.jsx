@@ -66,7 +66,7 @@ const EditProfilePage = () => {
   const fetchProfile = async () => {
     setLoading(true);
     await api
-      .get(`/api/account/loggedProfile`)
+      .get(`/api/account/logged-profile`)
       .then((res) => {
         setDescription(res.data.description);
         setProfile(res.data);

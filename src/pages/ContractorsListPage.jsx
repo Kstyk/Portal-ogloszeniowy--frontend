@@ -27,7 +27,7 @@ const ContractorsListPage = () => {
 
   const fetchChildCategories = async () => {
     await api
-      .get(`/api/category/${categoryId}/childCategories`)
+      .get(`/api/category/${categoryId}/child-categories`)
       .then((res) => {
         setChildCategories(res.data);
       })
@@ -38,7 +38,7 @@ const ContractorsListPage = () => {
 
   const fetchSubChildCategories = async (cat) => {
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         setSubChildCategories(res.data);
       })

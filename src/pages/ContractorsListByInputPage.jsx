@@ -42,7 +42,7 @@ const ContractorsListByInputPage = () => {
 
   const fetchChildCategories = async (cat) => {
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         if (childCategories == null) {
           setChildCategories(res.data);

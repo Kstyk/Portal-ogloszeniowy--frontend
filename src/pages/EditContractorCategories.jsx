@@ -19,7 +19,7 @@ const EditContractorCategories = () => {
 
   const fetchCurrentCategories = async () => {
     await api
-      .get("/api/category/userCategories")
+      .get("/api/category/user-categories")
       .then((res) => {
         setCurrentCategories(res.data);
         console.log(res.data);
@@ -44,7 +44,7 @@ const EditContractorCategories = () => {
     setSubsubCategories([]);
     setCurrentSelectedCategory(cat);
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         setSubCategories(res.data);
       })
@@ -56,7 +56,7 @@ const EditContractorCategories = () => {
   const fetchSubSubCategories = async (cat) => {
     setCurrentSelectedCategory(cat);
     await api
-      .get(`/api/category/${cat.id}/childCategories`)
+      .get(`/api/category/${cat.id}/child-categories`)
       .then((res) => {
         setSubsubCategories(res.data);
       })

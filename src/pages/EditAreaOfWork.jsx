@@ -19,7 +19,7 @@ const EditAreaOfWork = () => {
   const fetchAreaOfWork = async () => {
     setLoading(true);
     await api
-      .get("/api/account/areaOfWork")
+      .get("/api/account/area-of-work")
       .then((res) => {
         setAreaOfWork(res.data);
         if (res.data != null) {
@@ -59,7 +59,7 @@ const EditAreaOfWork = () => {
     }
 
     api
-      .put(`/api/account/areaOfWork/edit`, data)
+      .put(`/api/account/area-of-work/edit`, data)
       .then((res) => {
         nav("/profile/my-profile");
       })
