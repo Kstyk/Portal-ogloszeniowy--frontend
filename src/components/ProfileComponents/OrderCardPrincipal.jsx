@@ -28,9 +28,15 @@ const OrderCardPrincipal = ({ order, searchOrders }) => {
         Liczba ofert: <span className="font-bold">{order.offers.length}</span>
       </span>
       <div className="flex flex-row justify-start gap-x-5 gap-y-1 border-t-2 pt-3 max-md:flex-col">
-        <div className="btn btn-outline w-2/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto">
-          Edytuj
-        </div>
+        {order.isActive && (
+          <Link
+            to={`/profile/my-orders/${order.id}/edit`}
+            className="btn btn-outline w-2/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto"
+            params={{ orderId: order.id }}
+          >
+            Edytuj
+          </Link>
+        )}
         <Link
           to={`/order/${order.id}/offers`}
           className="btn btn-outline w-2/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto"

@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import voivodeships from "../components/content/VoivodeshipsWithoutPoland";
 import Editor from "../components/TextEditor/Editor";
 
-
 const EditProfilePage = () => {
   const [description, setDescription] = useState();
   const [statuses, setStatuses] = useState([]);
@@ -71,6 +70,7 @@ const EditProfilePage = () => {
       .then((res) => {
         setDescription(res.data.description);
         setProfile(res.data);
+        setStatusName(res.data.statusOfUser.name);
         setValue("city", res.data.address.city);
         setValue("postalCode", res.data.address.postalCode);
         setValue("street", res.data.address.street);
@@ -80,6 +80,7 @@ const EditProfilePage = () => {
         setValue("phoneNumber", res.data.phoneNumber);
         setValue("statusOfUserId", res.data.statusOfUser.id);
         setValue("description", res.data.description);
+        setValue("typeOfAccountId", res.data.typeOfAccount.id);
         setValue(
           "voivodeship",
           voivodeships.find((voi) => {
@@ -100,11 +101,10 @@ const EditProfilePage = () => {
     if (contentHtml != null && contentHtml != data.description) {
       data.description = contentHtml;
     }
-    console.log(data);
     api
       .put("/api/account/edit", data)
       .then((res) => {
-        nav("/profile/my-profile");
+        nav("/");
       })
       .catch((err) => {
         setBackendErrors(err.response.data.errors);
@@ -382,35 +382,43 @@ const EditProfilePage = () => {
                     </span>
                   </span>
                 </div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm leading-6 font-bold text-custom-darkgreen"
-                >
-                  Opis działalności
-                </label>
-                <div className="mb-2 ">
-                  <Editor
-                    fieldValue={getValues("description")}
-                    setValue={setValue}
-                    setValueHtml={setContentHtml}
-                    name="description"
-                    id="description"
-                    fieldName="description"
-                    {...register("description", editUserOptions.description)}
-                  />
+                {profile?.typeOfAccount.name == "Wykonawca" && (
+                  <>
+                    {" "}
+                    <label
+                      htmlFor="description"
+                      className="block text-sm leading-6 font-bold text-custom-darkgreen"
+                    >
+                      Opis działalności
+                    </label>
+                    <div className="mb-2 ">
+                      <Editor
+                        fieldValue={getValues("description")}
+                        setValue={setValue}
+                        setValueHtml={setContentHtml}
+                        name="description"
+                        id="description"
+                        fieldName="description"
+                        {...register(
+                          "description",
+                          editUserOptions.description
+                        )}
+                      />
 
-                  <span className="text-[11px] text-red-400">
-                    <span>
-                      {errors.description && errors.description.message}
-                    </span>
-                    <span className="flex flex-col">
-                      {backendErrors?.Description &&
-                        backendErrors.Description.map((err) => (
-                          <span key={err}>{err}</span>
-                        ))}
-                    </span>
-                  </span>
-                </div>
+                      <span className="text-[11px] text-red-400">
+                        <span>
+                          {errors.description && errors.description.message}
+                        </span>
+                        <span className="flex flex-col">
+                          {backendErrors?.Description &&
+                            backendErrors.Description.map((err) => (
+                              <span key={err}>{err}</span>
+                            ))}
+                        </span>
+                      </span>
+                    </div>
+                  </>
+                )}
                 {statusName == "Firma" ? (
                   <>
                     <label

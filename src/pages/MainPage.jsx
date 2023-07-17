@@ -16,7 +16,6 @@ const MainPage = () => {
       .get("/api/category/main")
       .then((res) => {
         setMainCategories(res.data);
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {

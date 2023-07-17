@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import OfferCardContractor from "../components/ProfileComponents/OfferCardContractor";
 import { useForm, Controller } from "react-hook-form";
+import SortOffers from "../components/OrdersListPageComponents/SortOffers";
 
 const ListOfOffers = () => {
   const api = useAxios();
@@ -13,13 +14,24 @@ const ListOfOffers = () => {
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(null);
 
+  const [sortDirection, setSortDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState("PublicDate");
+
   const fetchOffers = async (page) => {
     setLoading(true);
 
+    let baseurl = `api/order/offers/all?pageSize=10&pageNumber=${page}`;
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     await api
-      .get(
-        `api/order/offers/all?pageSize=10&pageNumber=${page}&sortDirection=DESC`
-      )
+      .get(baseurl)
       .then((res) => {
         setYourOffers(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -35,10 +47,18 @@ const ListOfOffers = () => {
     setLoading(true);
     if (obj == null) obj = "";
 
+    let baseurl = `/api/order/offers/all?pageSize=10&pageNumber=1&isActive=${obj}`;
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     await api
-      .get(
-        `api/order/offers/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=${obj}`
-      )
+      .get(baseurl)
       .then((res) => {
         setYourOffers(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -74,7 +94,17 @@ const ListOfOffers = () => {
             Twoje złożone oferty
           </h1>
         </div>
-
+        <SortOffers
+          data={{
+            sortBy,
+            setSortBy,
+            sortDirection,
+            setSortDirection,
+            page: currentPage,
+            isActive,
+            searchOffers: searchOffers,
+          }}
+        />
         <div className="ifActive border-b-2 pb-2 mb-2">
           <label className="block text-xl leading-6 font-bold mt-5">
             Statusy zleceń

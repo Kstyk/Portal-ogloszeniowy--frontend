@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import OrderCardPrincipal from "../components/ProfileComponents/OrderCardPrincipal";
-import Select from "react-select";
+import SortOrders from "../components/OrdersListPageComponents/SortOrders";
 
 const ListOfMyOrders = () => {
   const api = useAxios();
@@ -14,12 +14,6 @@ const ListOfMyOrders = () => {
 
   const [sortDirection, setSortDirection] = useState("DESC");
   const [sortBy, setSortBy] = useState("StartDate");
-
-  const sortOptions = [
-    { value: "StartDate", label: "Data startu" },
-    { value: "Title", label: "Tytuł" },
-    { value: "Budget", label: "Budżet" },
-  ];
 
   const fetchOrders = async (page) => {
     let baseurl = `api/order/logged-user/orders?pageSize=10&pageNumber=${page}`;
@@ -93,46 +87,14 @@ const ListOfMyOrders = () => {
             Twoje zlecenia
           </h1>
         </div>
-        <div className="sort flex flex-row justify-between gap-x-3 phone:h-[40px] max-phone:flex-col max-phone:gap-y-1 mt-5">
-          <Select
-            className="px-0 h-full w-4/12 max-phone:w-full"
-            options={sortOptions}
-            placeholder="Sortuj po"
-            onChange={(e) => setSortBy(e.value)}
-            styles={{
-              control: (style) => ({
-                ...style,
-                minHeight: 0,
-                height: "40px",
-                // rest of styling
-              }),
-            }}
-          />
-          <Select
-            className="px-0 h-full w-4/12 max-phone:w-full"
-            options={[
-              { value: "DESC", label: "malejąco" },
-              { value: "ASC", label: "rosnąco" },
-            ]}
-            placeholder="Kierunek"
-            onChange={(e) => setSortDirection(e.value)}
-            styles={{
-              control: (style) => ({
-                ...style,
-                minHeight: 0,
-                height: "40px",
-                // rest of styling
-              }),
-            }}
-          />
-          <button
-            type="button"
-            className="btn btn-outline min-h-full h-full max-phone:h-[40px] phone:w-3/12"
-            onClick={() => searchOrders(isActive)}
-          >
-            Szukaj
-          </button>
-        </div>
+        <SortOrders
+          data={{
+            setSortBy,
+            isActive,
+            setSortDirection,
+            searchOrders,
+          }}
+        />
         <div className="ifActive border-b-2 pb-2 mb-2 ">
           <label className="block text-xl leading-6 font-bold mt-5">
             Statusy zleceń

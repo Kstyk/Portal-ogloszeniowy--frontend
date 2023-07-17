@@ -7,6 +7,7 @@ import OrderCard from "../components/OrdersListPageComponents/OrderCard";
 import FilterMobile from "../components/OrdersListPageComponents/FilterMobile";
 import LoadingComponent from "../components/LoadingComponent";
 import voivodeships from "../components/content/Voivodeships";
+import SortOrders from "../components/OrdersListPageComponents/SortOrders";
 
 const OrdersListPage = () => {
   const { categoryId, category } = useParams();
@@ -26,6 +27,10 @@ const OrdersListPage = () => {
   const [totalItems, setTotalItems] = useState(0);
 
   const [orders, setOrders] = useState([]);
+
+  const [isActive, setIsActive] = useState(true);
+  const [sortDirection, setSortDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState("StartDate");
 
   const customStyles = {
     control: (base) => ({
@@ -69,14 +74,23 @@ const OrdersListPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedSubCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedSubCategory}&searchText=${searchText}`;
     }
 
     if (selectedSubCategory == null && selectedCategory == null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${categoryId}&searchText=${searchText}`;
     }
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     setLoading(true);
 
     await api
@@ -108,7 +122,7 @@ const OrdersListPage = () => {
 
     await api
       .get(
-        `/api/order/all?pageSize=10&pageNumber=1&sortDirection=DESC&isActive=true&categoryId=${categoryId}`
+        `/api/order/all?pageSize=10&pageNumber=1&isActive=${isActive}&categoryId=${categoryId}`
       )
       .then((res) => {
         setLoading(false);
@@ -261,6 +275,14 @@ const OrdersListPage = () => {
               setVoivodeship,
               setCity,
               voivodeships,
+              searchOrders,
+            }}
+          />
+          <SortOrders
+            data={{
+              setSortBy,
+              isActive: 1,
+              setSortDirection,
               searchOrders,
             }}
           />

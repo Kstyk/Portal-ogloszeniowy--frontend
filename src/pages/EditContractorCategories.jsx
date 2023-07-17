@@ -139,7 +139,7 @@ const EditContractorCategories = () => {
   };
 
   return (
-    <div>
+    <div className="max-phone:mx-2">
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-custom-darkgreen">
         Wykonawco!
       </h2>
@@ -147,12 +147,14 @@ const EditContractorCategories = () => {
         Tutaj możesz dodać lub usunąć wcześniej wybrane kategorie.
       </h2>
       <div className="grid grid-cols-1 w-full gap-10">
-        <h2 className="mt-5 border-b-2">Obecne kategorie</h2>
+        <h2 className="mt-5 border-b-2 text-custom-darkgreen">
+          Obecne kategorie
+        </h2>
       </div>
       <ul className="w-full mb-6 mt-2">
         {currentCategories.map((e) => (
           <div key={e.id} className="w-full text-sm breadcrumbs pb-0">
-            <ul className="gap-0">
+            <ul className="gap-0 text-custom-darkgreen">
               <li>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -188,45 +190,81 @@ const EditContractorCategories = () => {
           </div>
         ))}
       </ul>
-      <div className="grid grid-cols-3 gap-2 text-sm h-[200px]">
-        <ul className="h-full overflow-auto border-[1px] rounded-lg">
-          {mainCategories.map((cat) => (
-            <li
-              key={cat.id}
-              className={`hover:bg-slate-200 pl-2 ${
-                cat.id == currentSelectedCategory?.id ? "font-bold" : ""
-              }`}
-            >
-              <span onClick={() => fetchSubCategories(cat)}>{cat.name}</span>
-            </li>
-          ))}
-        </ul>
-        <ul className="h-full overflow-auto border-[1px] rounded-lg">
-          {subCategories.map((cat) => (
-            <li
-              key={cat.id}
-              className={`hover:bg-slate-200 pl-2 ${
-                cat.id == currentSelectedCategory?.id ? "font-bold" : ""
-              }`}
-            >
-              <span onClick={() => fetchSubSubCategories(cat)}>{cat.name}</span>
-            </li>
-          ))}
-        </ul>
-        <ul className="h-full overflow-auto border-[1px] rounded-lg">
-          {subsubCategories.map((cat) => (
-            <li
-              key={cat.id}
-              className={`hover:bg-slate-200 pl-2 ${
-                cat.id == currentSelectedCategory?.id ? "font-bold" : ""
-              }`}
-            >
-              <span onClick={() => setCurrentSelectedCategory(cat)}>
-                {cat.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+      <div className="grid md:grid-cols-3 max-md:grid-cols-1 gap-2 text-sm  w-full">
+        <div>
+          <label className="block text-sm font-bold leading-6 text-custom-darkgreen">
+            Główna kategoria
+          </label>
+          <ul className="h-[200px] max-md:h-[150px] overflow-auto border-[1px] rounded-lg">
+            {mainCategories.map((cat) => (
+              <li
+                key={cat.id}
+                className={`hover:bg-slate-200 pl-2 border-b-[1px] ${
+                  cat.id == currentSelectedCategory?.id ? "font-bold" : ""
+                }`}
+              >
+                <span
+                  className="text-custom-darkgreen"
+                  onClick={() => fetchSubCategories(cat)}
+                >
+                  {cat.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {subCategories.length > 0 ? (
+          <div>
+            <label className="block text-sm font-bold leading-6 text-custom-darkgreen">
+              Podkategoria
+            </label>
+            <ul className="h-[200px] max-md:h-[150px] overflow-auto border-[1px] rounded-lg">
+              {subCategories.map((cat) => (
+                <li
+                  key={cat.id}
+                  className={`hover:bg-slate-200 pl-2 border-b-[1px] ${
+                    cat.id == currentSelectedCategory?.id ? "font-bold" : ""
+                  }`}
+                >
+                  <span
+                    className="text-custom-darkgreen"
+                    onClick={() => fetchSubSubCategories(cat)}
+                  >
+                    {cat.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+        {subsubCategories.length > 0 ? (
+          <div>
+            <label className="block text-sm font-bold leading-6 text-custom-darkgreen">
+              Podkategoria
+            </label>
+            <ul className="h-[200px] max-md:h-[150px] overflow-auto border-[1px] rounded-lg">
+              {subsubCategories.map((cat) => (
+                <li
+                  key={cat.id}
+                  className={`hover:bg-slate-200 pl-2 border-b-[1px] ${
+                    cat.id == currentSelectedCategory?.id ? "font-bold" : ""
+                  }`}
+                >
+                  <span
+                    className="text-custom-darkgreen"
+                    onClick={() => setCurrentSelectedCategory(cat)}
+                  >
+                    {cat.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       {error != null ? (
         <div className="alert alert-error mt-5 py-2">
@@ -251,7 +289,9 @@ const EditContractorCategories = () => {
         ""
       )}
       <div className="grid grid-cols-2 w-full gap-10">
-        <h2 className="mt-5 border-b-2">Wybrane kategorie</h2>
+        <h2 className="mt-5 border-b-2 text-custom-darkgreen">
+          Wybrane kategorie
+        </h2>
         <button
           type="submit"
           className="flex  mt-5 w-full justify-center rounded-md bg-custom-darkgreen px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
@@ -263,7 +303,7 @@ const EditContractorCategories = () => {
       <ul>
         {selectedCategories.map((e) => (
           <div key={e.id} className="text-sm breadcrumbs pb-0">
-            <ul className="gap-0">
+            <ul className="gap-0 text-custom-darkgreen">
               <li>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

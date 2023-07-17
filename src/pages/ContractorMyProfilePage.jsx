@@ -60,9 +60,9 @@ const ContractorMyProfilePage = () => {
   return (
     <div>
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-blue-400 text-white"></div>
-      <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-black">
+      <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
         <h1 className="text-2xl font-semibold border-b-2 border-blue-400 pb-1">
-          {profile?.companyName != "" ? (
+          {profile?.companyName != "" && profile?.companyName != null ? (
             profile?.companyName
           ) : (
             <>
@@ -179,8 +179,8 @@ const ContractorMyProfilePage = () => {
                     Edytuj
                   </Link>
                 </h3>
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-col">
+                <div className="flex flex-row justify-start max-phone:flex-col max-phone:gap-y-5">
+                  <div className="flex flex-col phone:w-6/12">
                     <h4 className="font-bold">Adres:</h4>
                     <span>Województwo {profile?.address.voivodeship},</span>
                     <span>
@@ -191,7 +191,7 @@ const ContractorMyProfilePage = () => {
                       {profile?.address.buildingNumber}
                     </span>
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col phone:w-6/12">
                     <h4 className="font-bold">Kontakt:</h4>
                     <span>Numer telefonu: {profile?.phoneNumber},</span>
 

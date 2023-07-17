@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import FilterMobileByTextInput from "../components/OrdersListPageComponents/FilterMobileByTextInput";
 import LoadingComponent from "../components/LoadingComponent";
 import voivodeships from "../components/content/Voivodeships";
+import SortOrders from "../components/OrdersListPageComponents/SortOrders";
 
 const OrdersByTexInputPage = () => {
   const { searchByQuery } = useParams();
@@ -25,8 +26,11 @@ const OrdersByTexInputPage = () => {
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-
   const [orders, setOrders] = useState([]);
+
+  const [isActive, setIsActive] = useState(true);
+  const [sortDirection, setSortDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState("StartDate");
 
   const fetchMainCategories = async () => {
     await api
@@ -64,10 +68,19 @@ const OrdersByTexInputPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedCategory != null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}C&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&sortDirection=DESC&isActive=true&voivodeship=${voivodeship}&city=${city}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&searchText=${searchText}`;
     }
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     setLoading(true);
 
     await api
@@ -268,6 +281,14 @@ const OrdersByTexInputPage = () => {
               mainCategories,
               childCategories,
               subChildCategories,
+            }}
+          />
+          <SortOrders
+            data={{
+              setSortBy,
+              isActive: 1,
+              setSortDirection,
+              searchOrders,
             }}
           />
           {loading ? (

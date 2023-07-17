@@ -141,7 +141,7 @@ const AddOrderPage = () => {
             </label>
             <div className="grid md:grid-cols-3 max-md:grid-cols-1 gap-2 text-sm  w-full">
               <div className="">
-                <label className="block text-sm font-medium leading-6 text-gray-900">
+                <label className="block text-sm font-bold leading-6 text-custom-darkgreen">
                   Główna kategoria
                 </label>
                 <ul className="h-[200px] max-md:h-[150px] overflow-auto border-[1px] rounded-lg">
@@ -161,7 +161,7 @@ const AddOrderPage = () => {
               </div>
               {subCategories.length > 0 ? (
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
+                  <label className="block text-sm font-bold leading-6 text-custom-darkgreen">
                     Podkategoria
                   </label>
                   <ul className="h-[200px] overflow-auto border-[1px] rounded-lg">
@@ -186,7 +186,7 @@ const AddOrderPage = () => {
               )}
               {subsubCategories.length > 0 ? (
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
+                  <label className="block text-sm leading-6 text-custom-darkgreen font-bold">
                     Podkategoria
                   </label>
                   <ul className="h-[200px] overflow-auto border-[1px] rounded-lg">
