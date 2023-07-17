@@ -117,7 +117,7 @@ const RegistrationPage = () => {
         console.log(res);
         nav("/login?success");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setBackendErrors(err.response.data.errors));
   };
 
   const handleError = (errors) => {};

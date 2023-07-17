@@ -27,6 +27,7 @@ import ContractorPage from "./pages/ContractorPage";
 import ListOfMyOrders from "./pages/ListOfMyOrders";
 import OffersToOrderPage from "./pages/OffersToOrderPage";
 import EditOrderPage from "./pages/EditOrderPage";
+import EditAreaOfWork from "./pages/EditAreaOfWork";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -85,6 +86,10 @@ function App() {
           <Route
             path="/contractor/edit-categories"
             element={<EditContractorCategories />}
+          />
+          <Route
+            path="/contractor/edit-area-of-work"
+            element={<EditAreaOfWork />}
           />
         </Route>
 

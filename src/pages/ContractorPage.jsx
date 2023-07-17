@@ -142,8 +142,8 @@ const ContractorPage = () => {
                 <h3 className="font-bold border-b-[1px] mb-2 flex flex-row justify-between items-center pb-2">
                   <span>Dane kontaktowe</span>
                 </h3>
-                <div className="flex flex-row justify-between">
-                  <div className="flex flex-col">
+                <div className="flex flex-row justify-start max-phone:flex-col max-phone:gap-y-5">
+                  <div className="flex flex-col phone:w-6/12">
                     <h4 className="font-bold">Adres:</h4>
                     <span>Województwo {profile?.address.voivodeship},</span>
                     <span>
@@ -154,7 +154,7 @@ const ContractorPage = () => {
                       {profile?.address.buildingNumber}
                     </span>
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col phone:w-6/12">
                     <h4 className="font-bold">Kontakt:</h4>
                     <span>Numer telefonu: {profile?.phoneNumber},</span>
 
