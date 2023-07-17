@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/LoadingComponent";
 import OfferCardWithWinnerButton from "../components/OrdersListPageComponents/OfferCardWithWinnerButton";
 import Select from "react-select";
+import SortOffers from "../components/OrdersListPageComponents/SortOffers";
 
 const OffersToOrderPage = () => {
   const { orderId } = useParams();
@@ -16,10 +17,13 @@ const OffersToOrderPage = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [winner, setWinner] = useState(null);
 
+  const [sortDirection, setSortDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState("PublicDate");
+
   const [loading, setLoading] = useState(true);
   const nav = useNavigate();
 
-  const fetchOrder = async (page) => {
+  const fetchOrder = async () => {
     setLoading(true);
     await api
       .get(`/api/order/${orderId}`)
@@ -48,8 +52,17 @@ const OffersToOrderPage = () => {
   };
 
   const fetchOffers = async (page) => {
+    let baseurl = `/api/order/${orderId}/offers?pageNumber=${page}&pageSize=10`;
+
+    if (sortBy != null) {
+      baseurl = baseurl + `&sortBy=${sortBy}`;
+    }
+    if (sortDirection != null) {
+      baseurl = baseurl + `&sortDirection=${sortDirection}`;
+    }
+
     await api
-      .get(`/api/order/${orderId}/offers?pageNumber=${page}&pageSize=10`)
+      .get(baseurl)
       .then((res) => {
         setOffers(res.data.items);
         setCurrentPage(res.data.pageNumber);
@@ -120,7 +133,17 @@ const OffersToOrderPage = () => {
                 {winner != null ? "Wszystkie oferty" : "Złożone oferty"}
               </label>
             </div>
-            <div className="sort"></div>
+            <SortOffers
+              data={{
+                sortBy,
+                setSortBy,
+                sortDirection,
+                setSortDirection,
+                page: currentPage,
+                searchOffers: fetchOffers,
+              }}
+            />
+
             <div className="mt-5">
               {offers.length == 0
                 ? "Brak ofert."
