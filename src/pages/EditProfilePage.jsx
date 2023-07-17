@@ -108,7 +108,6 @@ const EditProfilePage = () => {
       })
       .catch((err) => {
         setBackendErrors(err.response.data.errors);
-        console.log(err.response.data.errors);
       });
   };
 

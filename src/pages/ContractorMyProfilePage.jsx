@@ -126,6 +126,7 @@ const ContractorMyProfilePage = () => {
                 <Link
                   className="px-5 border-b-2 border-l-2 mr-2 border-custom-darkgreen hover:border-t-2 hover:border-r-2 hover:border-l-0 hover:border-b-0
                 transition-all ease-in duration-75"
+                  to="/contractor/edit-area-of-work"
                 >
                   Edytuj
                 </Link>
