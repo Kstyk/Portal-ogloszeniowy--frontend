@@ -75,7 +75,7 @@ const Editor = (props) => {
   });
 
   useEffect(() => {
-    setValue(fieldName, content);
+    setValue(fieldName, content != null ? content.trim() : content);
     setValueHtml(contentHtml);
   }, [content, contentHtml]);
 

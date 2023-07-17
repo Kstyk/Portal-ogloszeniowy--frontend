@@ -26,6 +26,7 @@ import ContractorsListByInputPage from "./pages/ContractorsListByInputPage";
 import ContractorPage from "./pages/ContractorPage";
 import ListOfMyOrders from "./pages/ListOfMyOrders";
 import OffersToOrderPage from "./pages/OffersToOrderPage";
+import EditOrderPage from "./pages/EditOrderPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -94,6 +95,10 @@ function App() {
             element={<OffersToOrderPage />}
           />
           <Route path="/profile/my-orders" element={<ListOfMyOrders />} />
+          <Route
+            path="/profile/my-orders/:orderId/edit"
+            element={<EditOrderPage />}
+          />
         </Route>
 
         <Route path="/profile/edit" element={<EditProfilePage />} />
