@@ -9,7 +9,6 @@ const SearchContractors = (props) => {
 
   return (
     <div className="absolute left-0 right-0  bg-green-400 text-white">
-      {console.log("loading: " + props.loading)}
       <div className="container lg:w-7/12 sm:w-full m-auto px-5 border-x-2 border-x-white h-full py-5 ">
         <div className="headers text-center">
           <h1 className="text-3xl max-phone:text-2xl text-black mb-2 ">

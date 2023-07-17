@@ -4,6 +4,8 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 import Heading from "@tiptap/extension-heading";
 import { mergeAttributes } from "@tiptap/core";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -25,7 +27,8 @@ const Editor = (props) => {
     },
     extensions: [
       Underline,
-      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      Subscript,
+      Superscript,
       TextStyle.configure({ types: [ListItem.name] }),
       TextAlign.configure({
         types: ["heading", "paragraph"],

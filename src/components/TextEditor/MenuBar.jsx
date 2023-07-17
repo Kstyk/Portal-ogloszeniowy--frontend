@@ -6,15 +6,16 @@ const MenuBar = ({ editor }) => {
   }
 
   const buttonClassActive =
-    "bg-custom-darkgreen text-white active:bg-custom-darkgreen font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150";
+    "w-[12.5%] max-[300px]:w-1/6 bg-custom-darkgreen text-white active:bg-custom-darkgreen font-bold uppercase text-xs px-2 py-2 shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150";
 
   const buttonClass =
-    "bg-slate-200 text-custom-darkgreen active:bg-white font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150";
+    "w-[12.5%] max-[300px]:w-1/6 bg-slate-200 text-custom-darkgreen active:bg-white font-bold uppercase text-xs px-2 py-2 shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 border-none";
 
   return (
-    <div className="w-full flex flex-row flex-wrap justify-center gap-x-1">
+    <div className="w-full flex flex-row flex-wrap content-stretch">
       <button
         type="button"
+        title="Nagłówek pierwszego stopnia"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={` ${
           editor.isActive("heading", { level: 1 })
@@ -27,6 +28,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("heading", { level: 1 }) ? "white" : ""}
@@ -36,6 +38,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Nagłówek drugiego stopnia"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={
           editor.isActive("heading", { level: 2 })
@@ -48,6 +51,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("heading", { level: 2 }) ? "white" : ""}
@@ -57,6 +61,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Nagłówek trzeciego stopnia"
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={
           editor.isActive("heading", { level: 3 })
@@ -69,6 +74,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("heading", { level: 3 }) ? "white" : ""}
@@ -78,6 +84,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Paragraf"
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={
           editor.isActive("paragraph") ? buttonClassActive : buttonClass
@@ -88,6 +95,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("paragraph") ? "white" : ""}
@@ -97,6 +105,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Pogrubienie"
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? buttonClassActive : buttonClass}
       >
@@ -105,6 +114,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("bold") ? "white" : ""}
@@ -114,6 +124,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Kursywa"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={editor.isActive("italic") ? buttonClassActive : buttonClass}
       >
@@ -122,6 +133,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("italic") ? "white" : ""}
@@ -131,6 +143,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Podkreślenie"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         className={
           editor.isActive("underline") ? buttonClassActive : buttonClass
@@ -141,6 +154,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("underline") ? "white" : ""}
@@ -150,6 +164,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Przekreślenie"
         onClick={() => editor.chain().focus().toggleStrike().run()}
         className={editor.isActive("strike") ? buttonClassActive : buttonClass}
       >
@@ -158,6 +173,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("strike") ? "white" : ""}
@@ -167,6 +183,49 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Indeks górny"
+        onClick={() => editor.chain().focus().toggleSuperscript().run()}
+        className={
+          editor.isActive("superscript") ? buttonClassActive : buttonClass
+        }
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 -960 960 960"
+          width="24"
+          className="mx-auto"
+        >
+          <path
+            fill={editor.isActive("superscript") ? "white" : ""}
+            d="M760-600v-80q0-17 11.5-28.5T800-720h80v-40H760v-40h120q17 0 28.5 11.5T920-760v40q0 17-11.5 28.5T880-680h-80v40h120v40H760ZM235-160l185-291-172-269h106l124 200h4l123-200h107L539-451l186 291H618L482-377h-4L342-160H235Z"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        title="Indeks dolny"
+        onClick={() => editor.chain().focus().toggleSubscript().run()}
+        className={
+          editor.isActive("subscript") ? buttonClassActive : buttonClass
+        }
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 -960 960 960"
+          width="24"
+          className="mx-auto"
+        >
+          <path
+            fill={editor.isActive("subscript") ? "white" : ""}
+            d="M760-160v-80q0-17 11.5-28.5T800-280h80v-40H760v-40h120q17 0 28.5 11.5T920-320v40q0 17-11.5 28.5T880-240h-80v40h120v40H760Zm-525-80 185-291-172-269h106l124 200h4l123-200h107L539-531l186 291H618L482-457h-4L342-240H235Z"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        title="Lista nieponumerowana"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={
           editor.isActive("bulletList") ? buttonClassActive : buttonClass
@@ -177,6 +236,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("bulletList") ? "white" : ""}
@@ -186,6 +246,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Lista ponumerowana"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={
           editor.isActive("orderedList") ? buttonClassActive : buttonClass
@@ -196,6 +257,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive("orderedList") ? "white" : ""}
@@ -205,6 +267,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Wyrównianie do lewej"
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
         className={
           editor.isActive({ textAlign: "left" })
@@ -217,6 +280,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive({ textAlign: "left" }) ? "white" : ""}
@@ -226,6 +290,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Wyśrodkowanie"
         onClick={() => editor.chain().focus().setTextAlign("center").run()}
         className={
           editor.isActive({ textAlign: "center" })
@@ -238,6 +303,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive({ textAlign: "center" }) ? "white" : ""}
@@ -247,6 +313,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Wyrównanie do prawej"
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
         className={
           editor.isActive({ textAlign: "right" })
@@ -259,6 +326,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive({ textAlign: "right" }) ? "white" : ""}
@@ -268,6 +336,7 @@ const MenuBar = ({ editor }) => {
       </button>
       <button
         type="button"
+        title="Wyjustowanie"
         onClick={() => editor.chain().focus().setTextAlign("justify").run()}
         className={
           editor.isActive({ textAlign: "justify" })
@@ -280,6 +349,7 @@ const MenuBar = ({ editor }) => {
           height="24"
           viewBox="0 -960 960 960"
           width="24"
+          className="mx-auto"
         >
           <path
             fill={editor.isActive({ textAlign: "justify" }) ? "white" : ""}
