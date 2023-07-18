@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import voivodeships from "../components/content/VoivodeshipsWithoutPoland";
 import Editor from "../components/TextEditor/Editor";
+import { backendUrl } from "../components/content/BackendUrl";
 
 const RegistrationPage = () => {
   const [statuses, setStatuses] = useState([]);
@@ -69,7 +70,7 @@ const RegistrationPage = () => {
 
   const fetchStatuses = async () => {
     await axios
-      .get("https://oferiaapi.azurewebsites.net/api/account/statuses")
+      .get(`${backendUrl}/api/account/statuses`)
       .then((res) => {
         setStatuses(res.data);
       })
@@ -79,7 +80,7 @@ const RegistrationPage = () => {
   };
   const fetchTypes = async () => {
     await axios
-      .get("https://oferiaapi.azurewebsites.net/api/account/types")
+      .get(`${backendUrl}/api/account/types`)
       .then((res) => {
         setTypes(res.data);
       })
@@ -112,7 +113,7 @@ const RegistrationPage = () => {
       data.description = contentHtml;
     }
     axios
-      .post("https://oferiaapi.azurewebsites.net/api/account/register", data)
+      .post(`${backendUrl}/api/account/register`, data)
       .then((res) => {
         console.log(res);
         nav("/login?success");

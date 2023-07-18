@@ -3,8 +3,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { backendUrl } from "../components/content/BackendUrl";
 
-const baseURL = "https://oferiaapi.azurewebsites.net";
+const baseURL = backendUrl;
 
 const useAxios = () => {
   const { authToken, setUser, setAuthToken } = useContext(AuthContext);

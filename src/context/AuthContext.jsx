@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { backendUrl } from "../components/content/BackendUrl";
 
 const AuthContext = createContext();
 
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
     await axios
       .post(
-        "https://oferiaapi.azurewebsites.net/api/account/login",
+        `${backendUrl}/api/account/login`,
         {
           email: e.target.email.value,
           password: e.target.password.value,
@@ -46,7 +47,7 @@ export const AuthProvider = ({ children }) => {
         if (jwtDecode(res.data).TypeOfAccount == "Wykonawca") {
           axios
             .get(
-              `https://oferiaapi.azurewebsites.net/api/category/user-categories/${
+              `${backendUrl}/api/category/user-categories/${
                 jwtDecode(res.data).Id
               }`
             )
