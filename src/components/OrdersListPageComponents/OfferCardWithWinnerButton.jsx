@@ -12,7 +12,6 @@ const OfferCardWithWinnerButton = (props) => {
         offer.isWinner ? "border-l-2 border-t-2 border-green-400" : ""
       }`}
     >
-      {console.log(offer)}
       <div className="flex flex-row justify-between">
         <div>
           <Link

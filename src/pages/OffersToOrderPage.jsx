@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/LoadingComponent";
 import OfferCardWithWinnerButton from "../components/OrdersListPageComponents/OfferCardWithWinnerButton";
 import Select from "react-select";
 import SortOffers from "../components/OrdersListPageComponents/SortOffers";
+import MessageComponent from "../components/MessageComponent";
 
 const OffersToOrderPage = () => {
   const { orderId } = useParams();
@@ -114,7 +115,8 @@ const OffersToOrderPage = () => {
               </h1>
             </div>
             {winner != null && (
-              <>
+              <div className="pt-5">
+                <MessageComponent message="Pomyślnie dodałeś opinię wykonawcy Twojego zlecenia." />
                 <div className="border-b-2 border-gray-200 pb-2 mt-5 mb-5">
                   <label className="block text-xl leading-6 font-bold">
                     Wygrana oferta
@@ -126,7 +128,22 @@ const OffersToOrderPage = () => {
                   order={order}
                   setAsWinner={setAsWinner}
                 />
-              </>
+                {order?.winnerOfferId == winner.id &&
+                  winner?.isRated != true && (
+                    <div className="mt-2">
+                      <Link
+                        className="btn btn-outline w-full rounded-none"
+                        to={`/order/${order?.id}/offers/${winner?.id}/add-opinion`}
+                        params={{
+                          orderId: order?.id,
+                          offerId: winner?.id,
+                        }}
+                      >
+                        Dodaj opinię o wykonawcy wygranej oferty
+                      </Link>
+                    </div>
+                  )}
+              </div>
             )}
             <div className="border-b-2 border-gray-200 pb-2 mt-5">
               <label className="block text-xl leading-6 font-bold ">

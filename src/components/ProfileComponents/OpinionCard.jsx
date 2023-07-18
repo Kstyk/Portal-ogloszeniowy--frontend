@@ -26,7 +26,7 @@ const OpinionCard = (props) => {
         <div className="flex flex-row py-5 max-[900px]:flex-col border-b-2">
           <div className="w-6/12 max-[900px]:w-full pr-3 border-r-2 max-[900px]:border-r-0 max-[900px]:border-b-2 max-[900px]:pb-5 flex flex-col gap-y-2">
             <div className="flex flex-row justify-between items-center max-[320px]:flex-col max-[320px]:justify-center">
-              <label htmlFor="rating-1" className="max-phone:text-sm">
+              <label htmlFor="workQuality" className="max-phone:text-sm">
                 Jakość pracy
               </label>
               <div className="rating">
@@ -34,7 +34,7 @@ const OpinionCard = (props) => {
                   <input
                     key={index}
                     type="radio"
-                    name="rating-1"
+                    name="workQuality"
                     className="mask mask-star bg-custom-darkgreen"
                     checked={opinion?.workQuality == index + 1 ? true : false}
                     readOnly
@@ -43,7 +43,7 @@ const OpinionCard = (props) => {
               </div>
             </div>
             <div className="flex flex-row justify-between items-center max-[320px]:flex-col max-[320px]:justify-center">
-              <label htmlFor="rating-1" className="max-phone:text-sm">
+              <label htmlFor="punctuality" className="max-phone:text-sm">
                 Terminowość
               </label>
               <div className="rating">
@@ -51,7 +51,7 @@ const OpinionCard = (props) => {
                   <input
                     key={index}
                     type="radio"
-                    name="rating-punctuality"
+                    name="punctuality"
                     className="mask mask-star bg-custom-darkgreen"
                     checked={opinion?.punctuality == index + 1 ? true : false}
                     readOnly
@@ -60,7 +60,7 @@ const OpinionCard = (props) => {
               </div>
             </div>
             <div className="flex flex-row justify-between items-center max-[320px]:flex-col max-[320px]:justify-center">
-              <label htmlFor="rating-1" className="max-phone:text-sm">
+              <label htmlFor="comunication" className="max-phone:text-sm">
                 Komunikacja
               </label>
               <div className="rating">
@@ -68,7 +68,7 @@ const OpinionCard = (props) => {
                   <input
                     key={index}
                     type="radio"
-                    name="rating-1"
+                    name="comunication"
                     className="mask mask-star bg-custom-darkgreen"
                     checked={opinion?.comunication == index + 1 ? true : false}
                     readOnly
@@ -77,7 +77,10 @@ const OpinionCard = (props) => {
               </div>
             </div>
             <div className="flex flex-row justify-between items-center max-[320px]:flex-col max-[320px]:justify-center">
-              <label htmlFor="rating-1" className="max-phone:text-sm">
+              <label
+                htmlFor="meetingTheConditions"
+                className="max-phone:text-sm"
+              >
                 Spełnianie warunków
               </label>
               <div className="rating">
@@ -85,7 +88,7 @@ const OpinionCard = (props) => {
                   <input
                     key={index}
                     type="radio"
-                    name="rating-1"
+                    name="meetingTheConditions"
                     className="mask mask-star bg-custom-darkgreen"
                     checked={
                       opinion?.meetingTheConditions == index + 1 ? true : false
