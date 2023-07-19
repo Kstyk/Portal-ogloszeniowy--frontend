@@ -16,6 +16,7 @@ const OrderPage = () => {
   const [daysLeft, setDaysLeft] = useState();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [backendErrors, setBackendErrors] = useState([]);
 
   const {
     register,
@@ -27,7 +28,15 @@ const OrderPage = () => {
   } = useForm({ mode: "all" });
 
   const addOfferOptions = {
-    // TODO do uzupełnienia
+    price: {
+      required: "Szacowany koszt jest wymagany.",
+    },
+    priceFor: {
+      required: "Określenie przedmiotu szacowanych kosztów jest wymagane.",
+    },
+    content: {
+      required: "Określenie treści oferty jest wymagane.",
+    },
   };
 
   const fetchOrder = async () => {
@@ -54,6 +63,7 @@ const OrderPage = () => {
   };
 
   const onSubmit = (data) => {
+    setBackendErrors([]);
     data.priceFor = data.priceFor.value;
 
     api
@@ -73,9 +83,12 @@ const OrderPage = () => {
           alert(
             "Twoje konto jest typu 'Zleceniodawca', nie możesz składać ofert wykonania zleceń"
           );
-        } else {
+        } else if (err.response.status == 409) {
           alert(err.response.data.message);
-          console.log(err.response);
+        } else if (err.response.status == 400) {
+          setBackendErrors(err.response.data.errors);
+        } else {
+          console.log(err);
         }
       });
   };
@@ -193,13 +206,21 @@ const OrderPage = () => {
                           name="price"
                           type="number"
                           {...register("price", addOfferOptions.price)}
-                          required
                           className="block h-8 w-6/12 max-md:w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 outline-none"
                         />
                         <span className="pl-2 text-[12px] max-md:hidden">
                           zł brutto
                         </span>
                       </div>
+                      <span className="text-[11px] text-red-400">
+                        <span>{errors.price && errors.price.message}</span>
+                        <span className="flex flex-col">
+                          {backendErrors?.Price &&
+                            backendErrors.Price.map((err) => (
+                              <span key={err}>{err}</span>
+                            ))}
+                        </span>
+                      </span>
                       <div className="flex flex-row text-[15px] h-40px items-center mt-5">
                         <label htmlFor="priceFor" className="pr-2 w-3/12">
                           Za:
@@ -217,8 +238,8 @@ const OrderPage = () => {
                               styles={{
                                 control: (base) => ({
                                   ...base,
-                                  paddingTop: 0,
-                                  paddingBottom: 0,
+                                  minHeight: "32px",
+                                  height: "32px",
                                 }),
                               }}
                               options={[
@@ -241,6 +262,17 @@ const OrderPage = () => {
                           )}
                         />
                       </div>
+                      <span className="text-[11px] text-red-400">
+                        <span>
+                          {errors.priceFor && errors.priceFor.message}
+                        </span>
+                        <span className="flex flex-col">
+                          {backendErrors?.PriceFor &&
+                            backendErrors.PriceFor.map((err) => (
+                              <span key={err}>{err}</span>
+                            ))}
+                        </span>
+                      </span>
                       <textarea
                         id="content"
                         name="content"
@@ -248,6 +280,15 @@ const OrderPage = () => {
                         {...register("content", addOfferOptions.content)}
                         className="textarea  w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white focus:outline-none mt-5"
                       />
+                      <span className="text-[11px] text-red-400">
+                        <span>{errors.content && errors.content.message}</span>
+                        <span className="flex flex-col">
+                          {backendErrors?.Content &&
+                            backendErrors.Content.map((err) => (
+                              <span key={err}>{err}</span>
+                            ))}
+                        </span>
+                      </span>
                       <button
                         type="submit"
                         data-theme="cupcake"

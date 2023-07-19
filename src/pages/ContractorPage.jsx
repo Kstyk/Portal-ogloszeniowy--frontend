@@ -75,7 +75,7 @@ const ContractorPage = () => {
       {loading ? (
         <LoadingComponent message="Ładowanie" />
       ) : (
-        <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-black">
+        <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
           <h1 className="text-2xl font-semibold border-b-2 border-green-400 pb-1">
             {profile?.companyName != "" && profile?.companyName != null
               ? profile?.companyName
@@ -109,7 +109,7 @@ const ContractorPage = () => {
           </div>
 
           {activeTab == 1 && (
-            <div className="py-5 phone:pl-5 flex gap-y-6 flex-col">
+            <div className="py-5 flex gap-y-6 flex-col">
               <div
                 data-theme="winter"
                 className="card shadow-xl pl-4 py-4 rounded-none bg-base-200"
@@ -159,7 +159,7 @@ const ContractorPage = () => {
 
           {activeTab == 3 && (
             <div>
-              <div className="py-5 phone:pl-5 flex gap-y-6 flex-col">
+              <div className="py-5 flex gap-y-6 flex-col">
                 <div
                   data-theme="winter"
                   className="card shadow-xl px-4 py-4 rounded-none bg-base-200"

@@ -21,7 +21,7 @@ const OrderCardPrincipal = ({ order, searchOrders }) => {
             : "Zakończono zlecenie"}
         </span>
       </span>
-      <Link to={`/orders/order/${order.id}`} className="card-title">
+      <Link to={`/orders/order/${order.id}`} className="card-title ">
         {order.title}
       </Link>
       <span>

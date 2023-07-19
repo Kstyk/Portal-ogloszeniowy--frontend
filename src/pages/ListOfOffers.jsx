@@ -90,7 +90,7 @@ const ListOfOffers = () => {
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-blue-400 text-white"></div>
       <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-black">
         <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
-          <h1 className="text-2xl text-black mt-10 uppercase font-bold pb-2">
+          <h1 className="text-2xl text-custom-darkgreen mt-10 uppercase font-bold pb-2">
             Twoje złożone oferty
           </h1>
         </div>
@@ -105,7 +105,7 @@ const ListOfOffers = () => {
             searchOffers: searchOffers,
           }}
         />
-        <div className="ifActive border-b-2 pb-2 mb-2">
+        <div className="ifActive border-b-2 pb-2 mb-2 text-custom-darkgreen">
           <label className="block text-xl leading-6 font-bold mt-5">
             Statusy zleceń
           </label>
@@ -122,7 +122,9 @@ const ListOfOffers = () => {
                   }}
                   defaultChecked={isActive == null ? true : false}
                 />
-                <span className="label-text ml-1">Wszystkie</span>
+                <span className="label-text ml-1 text-custom-darkgreen">
+                  Wszystkie
+                </span>
               </label>
             </div>
             <div className="form-control">
@@ -137,7 +139,9 @@ const ListOfOffers = () => {
                     searchOffers(true);
                   }}
                 />
-                <span className="label-text ml-1">Aktywne</span>
+                <span className="label-text ml-1 text-custom-darkgreen">
+                  Aktywne
+                </span>
               </label>
             </div>
             <div className="form-control">
@@ -152,7 +156,9 @@ const ListOfOffers = () => {
                     searchOffers(false);
                   }}
                 />
-                <span className="label-text ml-1">Zakońćzone</span>
+                <span className="label-text ml-1 text-custom-darkgreen">
+                  Zakońćzone
+                </span>
               </label>
             </div>
           </div>
