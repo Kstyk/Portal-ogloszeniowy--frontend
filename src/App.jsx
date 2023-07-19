@@ -29,6 +29,8 @@ import OffersToOrderPage from "./pages/OffersToOrderPage";
 import EditOrderPage from "./pages/EditOrderPage";
 import EditAreaOfWork from "./pages/EditAreaOfWork";
 import AddOpinionPage from "./pages/AddOpinionPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -50,6 +52,8 @@ function App() {
         <Route element={<Anonymous />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
 
         <Route

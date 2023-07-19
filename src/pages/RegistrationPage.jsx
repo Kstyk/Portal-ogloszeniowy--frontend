@@ -33,10 +33,6 @@ const RegistrationPage = () => {
     email: { required: "Email jest wymagany" },
     password: {
       required: "Hasło jest wymagane",
-      // pattern: {
-      //   value: /[A-Za-z]{3}/,
-      //   message: "Niepoprawny format hasła",
-      // },
       minLength: {
         value: 4,
         message: "Hasło musi mieć przynajmniej 4 znaki",
@@ -63,9 +59,9 @@ const RegistrationPage = () => {
     },
     street: { required: "Ulica jest wymagana." },
     buildingNumber: { required: "Numer budynku jest wymagany." },
-    description: { required: "Opis działalności jest wymagany." },
-    companyName: { required: "Nazwa firmy jest wymagana." },
-    taxIdentificationNumber: { required: "Numer NIP jest wymagany." },
+    // description: { required: "Opis działalności jest wymagany." },
+    // companyName: { required: "Nazwa firmy jest wymagana." },
+    // taxIdentificationNumber: { required: "Numer NIP jest wymagany." },
   };
 
   const fetchStatuses = async () => {
@@ -95,6 +91,7 @@ const RegistrationPage = () => {
   }, []);
 
   const onSubmit = (data) => {
+    setBackendErrors([]);
     // Handle form submission
     data.voivodeship = data.voivodeship.value;
 
@@ -112,13 +109,18 @@ const RegistrationPage = () => {
     ) {
       data.description = contentHtml;
     }
+
+    console.log(data);
     axios
       .post(`${backendUrl}/api/account/register`, data)
       .then((res) => {
         console.log(res);
         nav("/login?success");
       })
-      .catch((err) => setBackendErrors(err.response.data.errors));
+      .catch((err) => {
+        console.log(err);
+        setBackendErrors(err.response.data.errors);
+      });
   };
 
   const handleError = (errors) => {};
@@ -217,7 +219,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.email && errors.email.message}
+                    <span>{errors.email && errors.email.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.Email &&
+                        backendErrors.Email.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -235,7 +243,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.password && errors.password.message}
+                    <span>{errors.password && errors.password.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.Password &&
+                        backendErrors.Password.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -256,7 +270,15 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.confirmPassword && errors.confirmPassword.message}
+                    <span>
+                      {errors.confirmPassword && errors.confirmPassword.message}
+                    </span>
+                    <span className="flex flex-col">
+                      {backendErrors?.ConfirmPassword &&
+                        backendErrors.ConfirmPassword.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
 
@@ -294,9 +316,16 @@ const RegistrationPage = () => {
                   </div>
                 ))}
                 <span className="text-[11px] text-red-400">
-                  {errors.statusOfUserId && errors.statusOfUserId.message}
+                  <span>
+                    {errors.statusOfUserId && errors.statusOfUserId.message}
+                  </span>
+                  <span className="flex flex-col">
+                    {backendErrors?.StatusOfUserId &&
+                      backendErrors.StatusOfUserId.map((err) => (
+                        <span key={err}>{err}</span>
+                      ))}
+                  </span>
                 </span>
-
                 <label
                   htmlFor="firstName"
                   className="block text-sm leading-6 font-bold text-custom-darkgreen"
@@ -312,7 +341,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.firstName && errors.firstName.message}
+                    <span>{errors.firstName && errors.firstName.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.FirstName &&
+                        backendErrors.FirstName.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -330,7 +365,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.lastName && errors.lastName.message}
+                    <span>{errors.lastName && errors.lastName.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.LastName &&
+                        backendErrors.LastName.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -348,7 +389,15 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.phoneNumber && errors.phoneNumber.message}
+                    <span>
+                      {errors.phoneNumber && errors.phoneNumber.message}
+                    </span>
+                    <span className="flex flex-col">
+                      {backendErrors?.PhoneNumber &&
+                        backendErrors.PhoneNumber.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -373,7 +422,15 @@ const RegistrationPage = () => {
                     )}
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.voivodeship && errors.voivodeship.message}
+                    <span>
+                      {errors.voivodeship && errors.voivodeship.message}
+                    </span>
+                    <span className="flex flex-col">
+                      {backendErrors?.Voivodeship &&
+                        backendErrors.Voivodeship.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -391,7 +448,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.city && errors.city.message}
+                    <span>{errors.city && errors.city.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.City &&
+                        backendErrors.City.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -409,7 +472,15 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.postalCode && errors.postalCode.message}
+                    <span>
+                      {errors.postalCode && errors.postalCode.message}
+                    </span>
+                    <span className="flex flex-col">
+                      {backendErrors?.PostalCode &&
+                        backendErrors.PostalCode.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -427,7 +498,13 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.street && errors.street.message}
+                    <span>{errors.street && errors.street.message}</span>
+                    <span className="flex flex-col">
+                      {backendErrors?.Street &&
+                        backendErrors.Street.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 <label
@@ -448,7 +525,15 @@ const RegistrationPage = () => {
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                   />
                   <span className="text-[11px] text-red-400">
-                    {errors.buildingNumber && errors.buildingNumber.message}
+                    <span>
+                      {errors.buildingNumber && errors.buildingNumber.message}
+                    </span>
+                    <span className="flex flex-col">
+                      {backendErrors?.BuildingNumber &&
+                        backendErrors.BuildingNumber.map((err) => (
+                          <span key={err}>{err}</span>
+                        ))}
+                    </span>
                   </span>
                 </div>
                 {statusName == "Firma" ? (
@@ -471,6 +556,17 @@ const RegistrationPage = () => {
                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                       />
                     </div>
+                    <span className="text-[11px] text-red-400">
+                      <span>
+                        {errors.companyName && errors.companyName.message}
+                      </span>
+                      <span className="flex flex-col">
+                        {backendErrors?.CompanyName &&
+                          backendErrors.CompanyName.map((err) => (
+                            <span key={err}>{err}</span>
+                          ))}
+                      </span>
+                    </span>
                     <label
                       htmlFor="taxIdentificationNumber"
                       className="block text-sm leading-6 font-bold text-custom-darkgreen"
@@ -489,6 +585,18 @@ const RegistrationPage = () => {
                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
                       />
                     </div>
+                    <span className="text-[11px] text-red-400">
+                      <span>
+                        {errors.taxIdentificationNumber &&
+                          errors.taxIdentificationNumber.message}
+                      </span>
+                      <span className="flex flex-col">
+                        {backendErrors?.TaxIdentificationNumber &&
+                          backendErrors.TaxIdentificationNumber.map((err) => (
+                            <span key={err}>{err}</span>
+                          ))}
+                      </span>
+                    </span>
                   </>
                 ) : (
                   ""
