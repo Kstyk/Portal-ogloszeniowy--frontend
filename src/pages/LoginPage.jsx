@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import MessageComponent from "../components/MessageComponent";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const { loginUser, error, setError } = useContext(AuthContext);
@@ -71,12 +72,12 @@ const LoginPage = () => {
                 Hasło
               </label>
               <div className="text-sm">
-                <a
-                  href="#"
+                <Link
+                  to="/forgot-password"
                   className="font-semibold text-custom-darkgreen hover:text-custom-darkgreen"
                 >
                   Zapomniałeś hasła?
-                </a>
+                </Link>
               </div>
             </div>
             <div className="mt-2">
