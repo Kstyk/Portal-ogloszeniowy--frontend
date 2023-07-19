@@ -120,7 +120,7 @@ const ContractorMyProfilePage = () => {
           </div>
 
           {activeTab == 1 && (
-            <div className="py-5 phone:pl-5 flex gap-y-6 flex-col">
+            <div className="py-5 flex gap-y-6 flex-col">
               <div
                 data-theme="winter"
                 className="card shadow-xl pl-4 py-4 rounded-none bg-base-200"
@@ -192,7 +192,7 @@ const ContractorMyProfilePage = () => {
 
           {activeTab == 3 && (
             <div>
-              <div className="py-5 phone:pl-5 flex gap-y-6 flex-col">
+              <div className="py-5 flex gap-y-6 flex-col">
                 <div
                   data-theme="winter"
                   className="card shadow-xl px-4 py-4 rounded-none bg-base-200"

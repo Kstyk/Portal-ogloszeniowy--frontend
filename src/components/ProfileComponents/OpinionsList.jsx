@@ -22,7 +22,9 @@ const OpinionsList = (props) => {
         <h4 className="text-right pb-2 border-b-[1px] mb-2">
           Średnia ocena ze wszystkich zleceń:{" "}
           <span className="font-bold">
-            {(sumRateTotal / opinions.length).toFixed(2)}
+            {sumRateTotal == 0
+              ? "Brak ocen"
+              : (sumRateTotal / opinions.length).toFixed(2)}
           </span>
         </h4>
         {opinions?.map((opinion) => (

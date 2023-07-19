@@ -25,7 +25,7 @@ const SortOffers = (props) => {
   return (
     <div className="sort flex flex-row justify-between gap-x-3 phone:h-[40px] max-phone:flex-col max-phone:gap-y-1 mt-5">
       <Select
-        className="px-0 h-full w-4/12 max-phone:w-full"
+        className="px-0 h-full w-4/12 max-phone:w-full text-custom-darkgreen"
         options={sortOptions}
         placeholder="Sortuj po"
         defaultValue={sortOptions.find((e) => e.value == sortBy)}
@@ -40,7 +40,7 @@ const SortOffers = (props) => {
         }}
       />
       <Select
-        className="px-0 h-full w-4/12 max-phone:w-full"
+        className="px-0 h-full w-4/12 max-phone:w-full text-custom-darkgreen"
         options={sortDirectionOptions}
         placeholder="Kierunek"
         onChange={(e) => setSortDirection(e.value)}

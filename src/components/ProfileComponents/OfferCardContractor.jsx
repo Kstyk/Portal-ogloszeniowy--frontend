@@ -14,6 +14,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
   const diffDates = dateNow.diff(formattedDate, "days");
   const daysLeft = offer.publicationDays - diffDates;
   const [editing, setEditing] = useState(false);
+  const [backendErrors, setBackendErrors] = useState([]);
   const api = useAxios();
 
   const pricesFor = [
@@ -31,9 +32,22 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
     },
   ];
   const addOfferOptions = {
-    // TODO do uzupełnienia
+    price: {
+      required: "Szacowany koszt jest wymagany.",
+    },
+    priceFor: {
+      required: "Określenie przedmiotu szacowanych kosztów jest wymagane.",
+    },
+    content: {
+      required: "Określenie treści oferty jest wymagane.",
+    },
   };
-  const { register, handleSubmit, control, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       price: offer.price,
       priceFor: pricesFor.find((e) => e.value == offer.priceFor),
@@ -54,14 +68,21 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
         fetchOffers(1);
       })
       .catch((err) => {
-        console.log(err.response);
+        if (err.response.status == 400) {
+          setBackendErrors(err.response.data.errors);
+        }
       });
   };
 
   const handleError = (errors) => {};
 
   return (
-    <div className="card-body max-lg:w-full shadow-xl">
+    <div className="card-body max-lg:w-full shadow-xl text-custom-darkgreen">
+      {offer.isWinner && (
+        <div className="px-5 py-3 bg-gradient-to-l from-blue-400 to-blue-100 font-bold">
+          Zwycięska oferta
+        </div>
+      )}
       <span className="text-sm text-gray-400 flex flex-row justify-between">
         <span>Kategoria: {offer.category.name}</span>
         <span>
@@ -94,18 +115,25 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
       </span>
 
       <div className="flex flex-row justify-between gap-x-5 border-t-2 pt-3">
-        <div
-          className="btn btn-outline w-2/12 max-md:w-4/12 max-[300px]:w-5/12 rounded-none"
-          onClick={() => setEditing(!editing)}
-        >
-          Edytuj
-        </div>
-        <button
-          className="btn btn-outline btn-error w-2/12 max-md:w-4/12 max-[300px]:w-5/12 rounded-none"
-          onClick={() => deleteOffer(offer.id)}
-        >
-          Usuń
-        </button>
+        {offer.isWinner ? (
+          ""
+        ) : (
+          <>
+            <div
+              className="btn btn-outline w-2/12 max-md:w-4/12 max-[300px]:w-5/12 rounded-none"
+              onClick={() => setEditing(!editing)}
+            >
+              Edytuj
+            </div>
+
+            <button
+              className="btn btn-outline btn-error w-2/12 max-md:w-4/12 max-[300px]:w-5/12 rounded-none"
+              onClick={() => deleteOffer(offer.id)}
+            >
+              Usuń
+            </button>
+          </>
+        )}
       </div>
       {editing && (
         <div className={`edit-form w-full flex justify-center`}>
@@ -127,6 +155,15 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
               />
               <span className="pl-2 text-[12px] max-md:hidden">zł brutto</span>
             </div>
+            <span className="text-[11px] text-red-400 mt-1">
+              <span>{errors.price && errors.price.message}</span>
+              <span className="flex flex-col">
+                {backendErrors?.Price &&
+                  backendErrors.Price.map((err) => (
+                    <span key={err}>{err}</span>
+                  ))}
+              </span>
+            </span>
             <div className="flex flex-row text-[15px] h-40px items-center mt-5">
               <label htmlFor="priceFor" className="pr-2 w-3/12">
                 Za:
@@ -154,6 +191,15 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
                 )}
               />
             </div>
+            <span className="text-[11px] text-red-400 mt-1">
+              <span>{errors.firstName && errors.firstName.message}</span>
+              <span className="flex flex-col">
+                {backendErrors?.FirstName &&
+                  backendErrors.FirstName.map((err) => (
+                    <span key={err}>{err}</span>
+                  ))}
+              </span>
+            </span>
             <textarea
               id="content"
               name="content"
@@ -161,6 +207,15 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
               {...register("content", addOfferOptions.content)}
               className="textarea  w-full block rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white focus:outline-none mt-5"
             />
+            <span className="text-[11px] text-red-400 mt-1">
+              <span>{errors.content && errors.content.message}</span>
+              <span className="flex flex-col">
+                {backendErrors?.Content &&
+                  backendErrors.Content.map((err) => (
+                    <span key={err}>{err}</span>
+                  ))}
+              </span>
+            </span>
             <button
               type="submit"
               className="flex w-full btn-outline justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-100 border-[1px]  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-5"
