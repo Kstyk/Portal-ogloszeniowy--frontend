@@ -48,37 +48,44 @@ const SearchPrincipals = (props) => {
               </div>
             </div>
           </div>
-
-          <div className="stats mt-6 flex justify-between bg-inherit h-[180px]">
-            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title text-white max-phone:text-base">
-                  1 045
-                </h2>
-                <p className="text-black text-xs">
-                  Aktualnych zleceń ze wszystkich kategorii
-                </p>
+          {props.loading ? (
+            <div className="bg-inherit">
+              <LoadingComponent message="Pobieramy statystyki..." /> )
+            </div>
+          ) : (
+            <div className="stats mt-6 flex justify-between bg-inherit h-[180px]">
+              <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title text-white max-phone:text-base">
+                    {props.statistic?.amountOfOrders}
+                  </h2>
+                  <p className="text-black text-xs">
+                    Aktualnych zleceń ze wszystkich kategorii
+                  </p>
+                </div>
+              </div>
+              <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title text-white max-phone:text-base">
+                    {props.statistic?.totalValueOfOrders} zł
+                  </h2>
+                  <p className="text-black text-xs">
+                    Wartość aktualnych zleceń
+                  </p>
+                </div>
+              </div>
+              <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title text-white max-phone:text-base">
+                    38
+                  </h2>
+                  <p className="text-black text-xs">
+                    Nowych zleceń każdego dnia!
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title text-white max-phone:text-base">
-                  1,1 mln zł
-                </h2>
-                <p className="text-black text-xs">Wartość aktualnych zleceń</p>
-              </div>
-            </div>
-            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-              <div className="card-body items-center text-center">
-                <h2 className="card-title text-white max-phone:text-base">
-                  38
-                </h2>
-                <p className="text-black text-xs">
-                  Nowych zleceń każdego dnia!
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
         {/* main categories */}
 
