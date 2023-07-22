@@ -23,6 +23,7 @@ const RegistrationPage = () => {
     handleSubmit,
     control,
     setValue,
+    getValues,
     watch,
     formState: { errors },
   } = useForm({ mode: "all" });
@@ -47,7 +48,14 @@ const RegistrationPage = () => {
       },
     },
     statusOfUserId: { required: "Status użytkownika jest wymagany." },
-    phoneNumber: { required: "Numer telefonu jest wymagany." },
+    phoneNumber: {
+      required: "Numer telefonu jest wymagany.",
+      pattern: {
+        value:
+          /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
+        message: "Nieprawidłowy format numeru telefonu",
+      },
+    },
     voivodeship: { required: "Województwo jest wymagane." },
     city: { required: "Miasto jest wymagane." },
     postalCode: {
@@ -148,7 +156,9 @@ const RegistrationPage = () => {
                 t.name == "Zleceniodawca" ? (
                   <div
                     key={t.id}
-                    className="lg:w-[48%] w-full p-5 bg-green-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md"
+                    className={`lg:w-[48%] w-full p-5 bg-green-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md
+                     ${getValues("typeOfAccountId") != t.id ? "opacity-50" : ""}
+                    `}
                     name="typeOfAccountId"
                     onClick={() => {
                       setTypeName(t.name);
@@ -174,7 +184,9 @@ const RegistrationPage = () => {
                 ) : (
                   <div
                     key={t.id}
-                    className="lg:w-[48%] w-full p-5 bg-blue-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md"
+                    className={`lg:w-[48%] w-full p-5 bg-blue-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md ${
+                      getValues("typeOfAccountId") != t.id ? "opacity-50" : ""
+                    }`}
                     onClick={() => {
                       setTypeName(t.name);
                       setValue("typeOfAccountId", t.id);
@@ -415,6 +427,7 @@ const RegistrationPage = () => {
                     render={({ field }) => (
                       <Select
                         className="w-full px-0 h-10"
+                        placeholder="Województwo"
                         options={voivodeships}
                         {...field}
                         label="Voivodeship"

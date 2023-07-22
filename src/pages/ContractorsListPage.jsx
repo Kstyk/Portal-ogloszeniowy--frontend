@@ -13,7 +13,7 @@ const ContractorsListPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [childCategories, setChildCategories] = useState([]);
-  const [subChildCategories, setSubChildCategories] = useState(null);
+  const [subChildCategories, setSubChildCategories] = useState([]);
   const [contractors, setContractors] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState(null);

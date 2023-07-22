@@ -34,7 +34,14 @@ const EditProfilePage = () => {
     firstName: { required: "Imię jest wymagane." },
     lastName: { required: "Nazwisko jest wymagane." },
     statusOfUserId: { required: "Status użytkownika jest wymagany." },
-    phoneNumber: { required: "Numer telefonu jest wymagany." },
+    phoneNumber: {
+      required: "Numer telefonu jest wymagany.",
+      pattern: {
+        value:
+          /^[^a-zA-Z]*\+?\d{1,4}[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}[^a-zA-Z]*$/,
+        message: "Nieprawidłowy format numeru telefonu",
+      },
+    },
     voivodeship: { required: "Województwo jest wymagane." },
     city: { required: "Miasto jest wymagane." },
     postalCode: {
