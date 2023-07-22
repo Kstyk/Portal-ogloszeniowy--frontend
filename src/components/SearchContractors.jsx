@@ -99,35 +99,44 @@ const SearchContractors = (props) => {
             </div>
           </div>
         )}
-
-        <div className="stats mt-6 flex justify-between bg-inherit h-[180px]">
-          <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-            <div className="card-body items-center text-center">
-              <h2 className="card-title text-white max-phone:text-base">
-                177 932
-              </h2>
-              <p className="text-black text-xs">
-                Tylu wykonawców czeka na Twoje zlecenie!
-              </p>
+        {props.loading ? (
+          <div className="bg-inherit">
+            <LoadingComponent message="Pobieramy statystyki..." /> )
+          </div>
+        ) : (
+          <div className="stats mt-6 flex justify-between bg-inherit h-[180px]">
+            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+              <div className="card-body items-center text-center">
+                <h2 className="card-title text-white max-phone:text-base">
+                  {props.statistic?.amountOfContractors}
+                </h2>
+                <p className="text-black text-xs">
+                  Tylu wykonawców czeka na Twoje zlecenie!
+                </p>
+              </div>
+            </div>
+            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+              <div className="card-body items-center text-center">
+                <h2 className="card-title text-white max-phone:text-base">
+                  {props.statistic?.averageOffersForOneOrder}
+                </h2>
+                <p className="text-black text-xs">
+                  Średnia ilość propozycji wykonania na 1 zlecenie.
+                </p>
+              </div>
+            </div>
+            <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
+              <div className="card-body items-center text-center">
+                <h2 className="card-title text-white max-phone:text-base">
+                  30%
+                </h2>
+                <p className="text-black text-xs">
+                  Tyle możesz zaoszczędzić dzięki zleceniu prac na Zlecenia.pl
+                </p>
+              </div>
             </div>
           </div>
-          <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-            <div className="card-body items-center text-center">
-              <h2 className="card-title text-white max-phone:text-base">2</h2>
-              <p className="text-black text-xs">
-                Średnia ilość propozycji wykonania na 1 zlecenie.
-              </p>
-            </div>
-          </div>
-          <div className="card w-[12rem] max-phone:w-1/3 bg-inherit text-neutral-content border-none">
-            <div className="card-body items-center text-center">
-              <h2 className="card-title text-white max-phone:text-base">30%</h2>
-              <p className="text-black text-xs">
-                Tyle możesz zaoszczędzić dzięki zleceniu prac na Zlecenia.pl
-              </p>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* main categories */}

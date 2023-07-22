@@ -7,11 +7,10 @@ const MainPage = () => {
   const [activeTab, setActiveTab] = useState("principal");
   const [mainCategories, setMainCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [statistic, setStatistic] = useState(null);
   const api = useAxios();
 
   const fetchMainCategories = async () => {
-    setLoading(true);
-
     await api
       .get("/api/category/main")
       .then((res) => {
@@ -24,7 +23,19 @@ const MainPage = () => {
       });
   };
 
+  const fetchStatistics = async () => {
+    setLoading(true);
+
+    await api
+      .get("api/order/statistics")
+      .then((res) => {
+        setStatistic(res.data);
+      })
+      .catch((err) => {});
+  };
+
   useEffect(() => {
+    fetchStatistics();
     fetchMainCategories();
   }, []);
 
@@ -51,9 +62,17 @@ const MainPage = () => {
         </div>
         <div className="search-bar h-[400px]">
           {activeTab == "principal" ? (
-            <SearchContractors categories={mainCategories} loading={loading} />
+            <SearchContractors
+              categories={mainCategories}
+              loading={loading}
+              statistic={statistic}
+            />
           ) : (
-            <SearchPrincipals categories={mainCategories} loading={loading} />
+            <SearchPrincipals
+              categories={mainCategories}
+              loading={loading}
+              statistic={statistic}
+            />
           )}
         </div>
       </div>
