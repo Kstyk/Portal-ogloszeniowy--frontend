@@ -4,7 +4,7 @@ import AuthContext from "../../context/AuthContext";
 import "./Navbar.scss";
 
 const NavbarPrincipal = () => {
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ const NavbarPrincipal = () => {
         </div>
         <div className="flex-none gap-2">
           <div className="form-control pr-5 mr-5 border-r-2">
-            Cześć, username
+            Cześć, {user.FirstName} {user.LastName}
           </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

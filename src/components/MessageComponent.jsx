@@ -3,16 +3,18 @@ import { useLocation } from "react-router-dom";
 
 const MessageComponent = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [logout, setLogout] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     // Sprawdź, czy URL zawiera parametr "?success"
     setIsSuccess(location.search.includes("?success"));
+    setLogout(location.search.includes("?logout"));
   }, [location]);
 
   return (
     <div
-      style={{ display: isSuccess ? "inline-flex" : "none" }}
+      style={{ display: isSuccess || logout ? "inline-flex" : "none" }}
       className="alert alert-success mb-3"
     >
       <svg
@@ -29,7 +31,11 @@ const MessageComponent = (props) => {
         />
       </svg>
 
-      <span className="text-center w-full">{props.message}</span>
+      {logout ? (
+        <span className="text-center w-full">{props.logoutMessage}</span>
+      ) : (
+        <span className="text-center w-full">{props.message}</span>
+      )}
     </div>
   );
 };

@@ -22,10 +22,18 @@ const ContractorCard = ({ contractor }) => {
                 .replace(/(<([^>]+)>)/gi, " ")
                 .substring(0, 250) + "..."}
         </p>
-        <div className="card-actions flex flex-col lg:flex-row justify-between">
-          <div className="lg:w-5/12 w-full">
-            <span className="text-sm text-slate-500">
-              {contractor.address.city}, {contractor.address.voivodeship}
+        <div className="flex flex-row justify-between">
+          <div className="card-actions flex flex-col lg:flex-row justify-between">
+            <div className="lg:w-5/12 w-full">
+              <span className="text-sm text-slate-500">
+                {contractor.address.city}, {contractor.address.voivodeship}
+              </span>
+            </div>
+          </div>
+          <div className="max-phone:text-sm text-custom-darkgreen">
+            <span>Średnia ocena: </span>
+            <span className="font-bold">
+              {contractor?.averageRate ? contractor.averageRate : "Brak ocen"}
             </span>
           </div>
         </div>
