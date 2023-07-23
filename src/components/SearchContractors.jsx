@@ -21,12 +21,12 @@ const SearchContractors = (props) => {
 
         {user != null && user.TypeOfAccount == "Zleceniodawca" ? (
           <div className="flex justify-between h-fit mt-6 border-b-2 border-dotted pb-6 max-md:flex-col ">
-            <div className="max-md:w-full">
-              <div className="input-group h-full max-md:flex max-md:justify-center w-fit max-md:w-full">
+            <div className="max-md:w-full  md:w-4/12">
+              <div className="input-group h-full max-md:flex max-md:justify-center w-fit max-md:w-full w-full">
                 <input
                   type="text"
                   placeholder="Szukaj wykonawcy"
-                  className="input input-bordered h-full text-black max-md:h-[48px] max-md:w-full"
+                  className="input input-bordered h-full text-black max-md:h-[48px] w-full"
                   onChange={(e) => setSearchText(e.target.value)}
                 />
                 <Link
