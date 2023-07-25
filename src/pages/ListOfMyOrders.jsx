@@ -43,6 +43,24 @@ const ListOfMyOrders = () => {
     setLoading(false);
   };
 
+  const endOrder = (orderId) => {
+    if (
+      confirm(
+        "Jesteś pewny, że chcesz zakończyć to zlecenie przed czasem? Nie wybrałeś zwycięzcy zlecenia."
+      )
+    ) {
+      api
+        .put(`/api/order/${orderId}/end-order`)
+        .then((res) => {
+          console.log(res);
+          fetchOrders(1);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log("");
+    }
+  };
+
   const searchOrders = async (obj) => {
     setLoading(true);
     let baseurl = "";
@@ -161,7 +179,7 @@ const ListOfMyOrders = () => {
             <OrderCardPrincipal
               key={or.id}
               order={or}
-              // deleteOffer={deleteOffer}
+              endOrder={endOrder}
               searchOrders={searchOrders}
               currentPage={currentPage}
             />

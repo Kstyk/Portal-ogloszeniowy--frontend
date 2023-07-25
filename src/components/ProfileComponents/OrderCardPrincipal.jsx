@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-const OrderCardPrincipal = ({ order, searchOrders }) => {
+const OrderCardPrincipal = ({ order, searchOrders, endOrder }) => {
   const startDate = order.startDate;
   const dateObj = new Date(startDate);
   const formattedDate = dateObj.toISOString().split("T")[0];
@@ -45,7 +45,10 @@ const OrderCardPrincipal = ({ order, searchOrders }) => {
           Lista ofert
         </Link>
         {order.isActive && (
-          <button className="btn btn-outline btn-error w-2/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto">
+          <button
+            className="btn btn-outline btn-error w-2/12 max-md:w-8/12 max-phone:w-full rounded-none max-md:mx-auto"
+            onClick={() => endOrder(order.id)}
+          >
             Zakończ zlecenie
           </button>
         )}
