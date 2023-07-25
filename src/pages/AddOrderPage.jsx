@@ -14,6 +14,7 @@ const AddOrderPage = () => {
   const [subsubCategories, setSubsubCategories] = useState([]);
   const [currentSelectedCategory, setCurrentSelectedCategory] = useState(null);
   const [backendErrors, setBackendErrors] = useState([]);
+  const [existAdress, setExistAdress] = useState(false);
   const [selectedCategoryError, setSelectedCategoryError] = useState(null);
 
   const [contentHtml, setContentHtml] = useState(null);
@@ -22,6 +23,7 @@ const AddOrderPage = () => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     control,
     formState: { errors },
   } = useForm({ mode: "all" });
@@ -108,12 +110,12 @@ const AddOrderPage = () => {
 
       data.categoryId = currentSelectedCategory.id;
       data.voivodeship = data.voivodeship.value;
-      console.log(data);
+      // console.log(data);
 
       api
         .post(`/api/order/add`, data)
         .then((res) => {
-          nav("/?successAdd");
+          nav("/profile/my-orders?success");
         })
         .catch((err) => {
           setBackendErrors(err.response.data.errors);
@@ -261,12 +263,14 @@ const AddOrderPage = () => {
                   </label>
                   <div className="mb-2 ">
                     <Editor
-                      fieldValue=""
-                      setValue={setValue}
-                      setValueHtml={setContentHtml}
+                      data={{
+                        fieldValue: "",
+                        setValue: setValue,
+                        setValueHtml: setContentHtml,
+                        fieldName: "description",
+                      }}
                       name="description"
                       id="description"
-                      fieldName="description"
                       {...register("description", addOrderOptions.description)}
                     />
 
@@ -356,146 +360,188 @@ const AddOrderPage = () => {
                 </div>
                 <div className="w-full md:w-5/12">
                   <h1 className="text-lg font-semibold mt-5">Adres zlecenia</h1>
-                  <label
-                    htmlFor="voivodeship"
-                    className="block text-sm leading-6 font-bold text-custom-darkgreen mt-5"
-                  >
-                    Województwo
-                  </label>
-                  <div className="mb-2">
-                    <Controller
-                      name="voivodeship"
-                      control={control}
-                      defaultValue=""
-                      render={({ field }) => (
-                        <Select
-                          className="w-full px-0 h-10"
-                          placeholder="Województwo"
-                          options={voivodeships}
-                          {...register(
-                            "voivodeship",
-                            addOrderOptions.voivodeship
+                  <div>
+                    <div className="form-control mt-5">
+                      <label className="label cursor-pointer flex justify-start gap-x-5">
+                        <Controller
+                          name="addressId"
+                          id="addressId"
+                          control={control}
+                          render={({ field }) => (
+                            <input
+                              name="addressId"
+                              type="checkbox"
+                              {...register("addressId")}
+                              className="checkbox checkbox-accent"
+                              onChange={() => setExistAdress(!existAdress)}
+                            />
                           )}
-                          {...field}
-                          label="Voivodeship"
                         />
-                      )}
-                    />
-                    <span className="text-[11px] text-red-400">
-                      <span>
-                        {errors.voivodeship && errors.voivodeship.message}
-                      </span>
-                      <span className="flex flex-col">
-                        {backendErrors?.Voivodeship &&
-                          backendErrors.Voivodeship.map((err) => (
-                            <span key={err}>{err}</span>
-                          ))}
-                      </span>
-                    </span>
+                        <span className="label-text font-bold text-custom-darkgreen">
+                          Użyj adresu podanego przy rejestracji
+                        </span>
+                      </label>
+                    </div>
                   </div>
-                  <label
-                    htmlFor="city"
-                    className="block text-sm leading-6 font-bold text-custom-darkgreen"
-                  >
-                    Miejscowość
-                  </label>
-                  <div className="mb-2">
-                    <input
-                      id="city"
-                      name="city"
-                      type="text"
-                      {...register("city", addOrderOptions.city)}
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
-                    />
-                    <span className="text-[11px] text-red-400">
-                      <span>{errors.city && errors.city.message}</span>
-                      <span className="flex flex-col">
-                        {backendErrors?.City &&
-                          backendErrors.City.map((err) => (
-                            <span key={err}>{err}</span>
-                          ))}
-                      </span>
-                    </span>
-                  </div>
-                  <label
-                    htmlFor="postalCode"
-                    className="block text-sm leading-6 font-bold text-custom-darkgreen"
-                  >
-                    Kod pocztowy
-                  </label>
-                  <div className="mb-2">
-                    <input
-                      id="postalCode"
-                      name="postalCode"
-                      type="text"
-                      {...register("postalCode", addOrderOptions.postalCode)}
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
-                    />
-                    <span className="text-[11px] text-red-400">
-                      <span>
-                        {errors.postalCode && errors.postalCode.message}
-                      </span>
-                      <span className="flex flex-col">
-                        {backendErrors?.PostalCode &&
-                          backendErrors.PostalCode.map((err) => (
-                            <span key={err}>{err}</span>
-                          ))}
-                      </span>
-                    </span>
-                  </div>
-                  <label
-                    htmlFor="street"
-                    className="block text-sm leading-6 font-bold text-custom-darkgreen"
-                  >
-                    Ulica
-                  </label>
-                  <div className="mb-2">
-                    <input
-                      id="street"
-                      name="street"
-                      type="text"
-                      {...register("street", addOrderOptions.street)}
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
-                    />
-                    <span className="text-[11px] text-red-400">
-                      <span>{errors.street && errors.street.message}</span>
-                      <span className="flex flex-col">
-                        {backendErrors?.Street &&
-                          backendErrors.Street.map((err) => (
-                            <span key={err}>{err}</span>
-                          ))}
-                      </span>
-                    </span>
-                  </div>
-                  <label
-                    htmlFor="buildingNumber"
-                    className="block text-sm leading-6 font-bold text-custom-darkgreen"
-                  >
-                    Numer budynku
-                  </label>
-                  <div className="mb-2">
-                    <input
-                      id="buildingNumber"
-                      name="buildingNumber"
-                      type="text"
-                      {...register(
-                        "buildingNumber",
-                        addOrderOptions.buildingNumber
-                      )}
-                      className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
-                    />
-                    <span className="text-[11px] text-red-400">
-                      <span>
-                        {errors.buildingNumber && errors.buildingNumber.message}
-                      </span>
-                      <span className="flex flex-col">
-                        {backendErrors?.BuildingNumber &&
-                          backendErrors.BuildingNumber.map((err) => (
-                            <span key={err}>{err}</span>
-                          ))}
-                      </span>
-                    </span>
-                  </div>
+                  {existAdress == true ? (
+                    ""
+                  ) : (
+                    <>
+                      <div className="container mx-auto pt-5">
+                        <div className="relative border border-t-gray-600">
+                          <h2 className="absolute flex top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <span className="bg-white px-2 text-sm font-medium">
+                              Lub
+                            </span>
+                          </h2>
+                        </div>
+                      </div>
+                      <label
+                        htmlFor="voivodeship"
+                        className="block text-sm leading-6 font-bold text-custom-darkgreen mt-5"
+                      >
+                        Województwo
+                      </label>
+                      <div className="mb-2">
+                        <Controller
+                          name="voivodeship"
+                          control={control}
+                          defaultValue=""
+                          render={({ field }) => (
+                            <Select
+                              className="w-full px-0 h-10"
+                              placeholder="Województwo"
+                              options={voivodeships}
+                              {...register(
+                                "voivodeship",
+                                addOrderOptions.voivodeship
+                              )}
+                              {...field}
+                              label="Voivodeship"
+                            />
+                          )}
+                        />
+                        <span className="text-[11px] text-red-400">
+                          <span>
+                            {errors.voivodeship && errors.voivodeship.message}
+                          </span>
+                          <span className="flex flex-col">
+                            {backendErrors?.Voivodeship &&
+                              backendErrors.Voivodeship.map((err) => (
+                                <span key={err}>{err}</span>
+                              ))}
+                          </span>
+                        </span>
+                      </div>
+                      <label
+                        htmlFor="city"
+                        className="block text-sm leading-6 font-bold text-custom-darkgreen"
+                      >
+                        Miejscowość
+                      </label>
+                      <div className="mb-2">
+                        <input
+                          id="city"
+                          name="city"
+                          type="text"
+                          {...register("city", addOrderOptions.city)}
+                          className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
+                        />
+                        <span className="text-[11px] text-red-400">
+                          <span>{errors.city && errors.city.message}</span>
+                          <span className="flex flex-col">
+                            {backendErrors?.City &&
+                              backendErrors.City.map((err) => (
+                                <span key={err}>{err}</span>
+                              ))}
+                          </span>
+                        </span>
+                      </div>
+                      <label
+                        htmlFor="postalCode"
+                        className="block text-sm leading-6 font-bold text-custom-darkgreen"
+                      >
+                        Kod pocztowy
+                      </label>
+                      <div className="mb-2">
+                        <input
+                          id="postalCode"
+                          name="postalCode"
+                          type="text"
+                          {...register(
+                            "postalCode",
+                            addOrderOptions.postalCode
+                          )}
+                          className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
+                        />
+                        <span className="text-[11px] text-red-400">
+                          <span>
+                            {errors.postalCode && errors.postalCode.message}
+                          </span>
+                          <span className="flex flex-col">
+                            {backendErrors?.PostalCode &&
+                              backendErrors.PostalCode.map((err) => (
+                                <span key={err}>{err}</span>
+                              ))}
+                          </span>
+                        </span>
+                      </div>
+                      <label
+                        htmlFor="street"
+                        className="block text-sm leading-6 font-bold text-custom-darkgreen"
+                      >
+                        Ulica
+                      </label>
+                      <div className="mb-2">
+                        <input
+                          id="street"
+                          name="street"
+                          type="text"
+                          {...register("street", addOrderOptions.street)}
+                          className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
+                        />
+                        <span className="text-[11px] text-red-400">
+                          <span>{errors.street && errors.street.message}</span>
+                          <span className="flex flex-col">
+                            {backendErrors?.Street &&
+                              backendErrors.Street.map((err) => (
+                                <span key={err}>{err}</span>
+                              ))}
+                          </span>
+                        </span>
+                      </div>
+                      <label
+                        htmlFor="buildingNumber"
+                        className="block text-sm leading-6 font-bold text-custom-darkgreen"
+                      >
+                        Numer budynku
+                      </label>
+                      <div className="mb-2">
+                        <input
+                          id="buildingNumber"
+                          name="buildingNumber"
+                          type="text"
+                          {...register(
+                            "buildingNumber",
+                            addOrderOptions.buildingNumber
+                          )}
+                          className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-700  sm:text-sm sm:leading-6 outline-none"
+                        />
+                        <span className="text-[11px] text-red-400">
+                          <span>
+                            {errors.buildingNumber &&
+                              errors.buildingNumber.message}
+                          </span>
+                          <span className="flex flex-col">
+                            {backendErrors?.BuildingNumber &&
+                              backendErrors.BuildingNumber.map((err) => (
+                                <span key={err}>{err}</span>
+                              ))}
+                          </span>
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
               <button

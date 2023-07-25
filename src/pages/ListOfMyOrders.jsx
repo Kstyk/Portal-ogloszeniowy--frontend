@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import OrderCardPrincipal from "../components/ProfileComponents/OrderCardPrincipal";
 import SortOrders from "../components/OrdersListPageComponents/SortOrders";
+import MessageComponent from "../components/MessageComponent";
 
 const ListOfMyOrders = () => {
   const api = useAxios();
@@ -82,11 +83,12 @@ const ListOfMyOrders = () => {
     <div>
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-green-400 text-white"></div>
       <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
-        <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
+        <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto mb-3">
           <h1 className="text-2xl mt-10 uppercase font-bold pb-2">
             Twoje zlecenia
           </h1>
         </div>
+        <MessageComponent message="Opublikowałeś nowe zlecenie." />
         <SortOrders
           data={{
             setSortBy,
