@@ -29,21 +29,27 @@ const RegistrationPage = () => {
   } = useForm({ mode: "all" });
 
   const registerOptions = {
-    firstName: { required: "Imię jest wymagane" },
-    lastName: { required: "Nazwisko jest wymagane" },
-    email: { required: "Email jest wymagany" },
+    firstName: { required: "Imię jest wymagane." },
+    lastName: { required: "Nazwisko jest wymagane." },
+    email: {
+      required: "Email jest wymagany",
+      pattern: {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: "Nieprawidłowy format adresu e-mail.",
+      },
+    },
     password: {
-      required: "Hasło jest wymagane",
+      required: "Hasło jest wymagane.",
       minLength: {
         value: 4,
-        message: "Hasło musi mieć przynajmniej 4 znaki",
+        message: "Hasło musi mieć przynajmniej 4 znaki.",
       },
     },
     confirmPassword: {
-      required: "Musisz powtórzyć hasło",
+      required: "Musisz powtórzyć hasło.",
       validate: (val) => {
         if (watch("password") != val) {
-          return "Hasła nie są identyczne";
+          return "Hasła nie są identyczne.";
         }
       },
     },
@@ -156,7 +162,7 @@ const RegistrationPage = () => {
                 t.name == "Zleceniodawca" ? (
                   <div
                     key={t.id}
-                    className={`lg:w-[48%] w-full p-5 bg-green-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md
+                    className={`lg:w-[48%] w-full max-lg:mb-3 p-5 bg-green-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md
                      ${getValues("typeOfAccountId") != t.id ? "opacity-50" : ""}
                     `}
                     name="typeOfAccountId"
