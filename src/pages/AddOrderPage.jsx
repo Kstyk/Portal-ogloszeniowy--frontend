@@ -263,12 +263,10 @@ const AddOrderPage = () => {
                   </label>
                   <div className="mb-2 ">
                     <Editor
-                      data={{
-                        fieldValue: "",
-                        setValue: setValue,
-                        setValueHtml: setContentHtml,
-                        fieldName: "description",
-                      }}
+                      fieldName="description"
+                      fieldValue=""
+                      setValue={setValue}
+                      setValueHtml={setContentHtml}
                       name="description"
                       id="description"
                       {...register("description", addOrderOptions.description)}

@@ -13,7 +13,7 @@ import MenuBar from "./MenuBar";
 import "./styles.scss";
 
 const Editor = (props) => {
-  const { fieldName, setValue, fieldValue, setValueHtml } = props.data;
+  const { fieldName, setValue, fieldValue, setValueHtml } = props;
   const [content, setContent] = useState(fieldValue);
   const [contentHtml, setContentHtml] = useState(fieldValue);
 
