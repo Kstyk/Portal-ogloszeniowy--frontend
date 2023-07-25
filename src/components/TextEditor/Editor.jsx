@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from "@tiptap/extension-text-align";
@@ -14,7 +13,7 @@ import MenuBar from "./MenuBar";
 import "./styles.scss";
 
 const Editor = (props) => {
-  const { fieldName, setValue, fieldValue, setValueHtml } = props;
+  const { fieldName, setValue, fieldValue, setValueHtml } = props.data;
   const [content, setContent] = useState(fieldValue);
   const [contentHtml, setContentHtml] = useState(fieldValue);
 
@@ -50,7 +49,7 @@ const Editor = (props) => {
         },
       }),
       Heading.configure({ levels: [1, 2, 3] }).extend({
-        levels: [1, 2],
+        levels: [1, 2, 3],
         renderHTML({ node, HTMLAttributes }) {
           const level = this.options.levels.includes(node.attrs.level)
             ? node.attrs.level
@@ -89,7 +88,7 @@ const Editor = (props) => {
 
   return (
     <div>
-      <MenuBar editor={editor} />
+      <MenuBar editorComponent={editor} />
       <EditorContent editor={editor} className="max-h-[280px]" />
     </div>
   );
