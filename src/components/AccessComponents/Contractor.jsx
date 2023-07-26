@@ -7,13 +7,11 @@ const Contractor = () => {
 
   return user != null && user?.TypeOfAccount == "Wykonawca" ? (
     <>
-      {console.log("aythrozied")}
       <Outlet />
     </>
   ) : (
     <>
-      {" "}
-      {console.log("unauthorized")} <Navigate to="/" replace />{" "}
+      <Navigate to="/" replace />
     </>
   );
 };

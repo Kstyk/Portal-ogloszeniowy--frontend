@@ -36,7 +36,6 @@ const OrdersByTexInputPage = () => {
     await api
       .get(`/api/category/main`)
       .then((res) => {
-        console.log(res.data);
         setMainCategories(res.data);
       })
       .catch((err) => {

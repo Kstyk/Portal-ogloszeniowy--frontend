@@ -224,7 +224,7 @@ const OrdersListPage = () => {
             <div className="collapse-title  text-xl font-medium">
               Lokalizacja
             </div>
-            <div className="collapse-content w-full mb-2">
+            <div className="collapse-content w-full">
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}

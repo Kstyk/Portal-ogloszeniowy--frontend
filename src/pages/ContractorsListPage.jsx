@@ -98,8 +98,6 @@ const ContractorsListPage = () => {
         setCurrentPage(res.data.pageNumber);
         setTotalPages(res.data.totalPages);
         setTotalItems(res.data.totalItemsCount);
-
-        console.log(res.data.items);
       })
       .catch((err) => {
         console.log(err);
