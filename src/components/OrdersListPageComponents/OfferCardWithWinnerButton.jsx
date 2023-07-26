@@ -32,7 +32,7 @@ const OfferCardWithWinnerButton = (props) => {
           </p>
         </div>
       </div>
-      <p className="py-3 mt-3 border-dotted border-t-2 border-b-2">
+      <p className="py-3 mt-3 border-dotted border-t-2 border-b-2 break-words">
         {offer?.content}
       </p>
       {order?.winnerOfferId != offer?.id && order?.winnerOfferId == null ? (

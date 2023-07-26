@@ -242,8 +242,14 @@ const ContractorsListPage = () => {
                 <div className="flex flex-row justify-between">
                   <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted mb-3">
                     <span>Lista wykonawców</span>
-                    <span className="text-sm">
-                      Znaleziono {totalItems} wyniki
+                    <span className="text-sm text-custom-darkgreen">
+                      Znaleziono {totalItems}{" "}
+                      {(totalItems == 0 || totalItems > 4) && "wyników"}
+                      {(totalItems == 2 ||
+                        totalItems == 3 ||
+                        totalItems == 4) &&
+                        "wyniki"}
+                      {totalItems == 1 && "wynik"}
                     </span>
                   </h1>
                 </div>

@@ -303,7 +303,7 @@ const OrderPage = () => {
                 ) : (
                   ""
                 )}
-                <div className="collapse collapse-arrow p-0 mb-5 bg-white rounded-none">
+                <div className="collapse collapse-arrow p-0 bg-white rounded-none">
                   <input type="checkbox" />
                   <h2 className="collapse-title text-lg font-semibold">
                     Oferty wykonania zlecenia

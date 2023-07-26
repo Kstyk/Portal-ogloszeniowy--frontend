@@ -33,7 +33,9 @@ const OfferCard = (props) => {
             </p>
           </div>
         </div>
-        <p className="pt-3 mt-3 border-dotted border-t-2">{offer.content}</p>
+        <p className="pt-3 mt-3 border-dotted border-t-2 break-words">
+          {offer.content}
+        </p>
       </div>
     </div>
   );

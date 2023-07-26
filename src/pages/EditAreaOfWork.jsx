@@ -90,7 +90,7 @@ const EditAreaOfWork = () => {
                   name="wholeCountry"
                   id="wholeCountry"
                   checked={option == "Polska" ? true : false}
-                  className="radio checked:bg-blue-500 rounded-full mr-5"
+                  className="radio checked:bg-custom-darkgreen rounded-full mr-5"
                   onChange={() => {
                     setOption("Polska");
                     console.log("Polska");
@@ -105,7 +105,7 @@ const EditAreaOfWork = () => {
                     name="voivodeship"
                     id="voivodeship"
                     checked={option == "Województwo" ? true : false}
-                    className="radio checked:bg-blue-500 mr-5"
+                    className="radio checked:bg-custom-darkgreen mr-5"
                     onChange={() => {
                       setOption("Województwo");
                       console.log("Województwo");

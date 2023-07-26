@@ -104,7 +104,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
       >
         {offer.orderTitle}
       </Link>
-      <span className="border-t-2 pt-2">
+      <span className="border-t-2 pt-2 break-words">
         <b>Twoja oferta:</b> {offer.content}
       </span>
       <span>
