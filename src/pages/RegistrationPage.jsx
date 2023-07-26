@@ -163,7 +163,13 @@ const RegistrationPage = () => {
                   <div
                     key={t.id}
                     className={`lg:w-[48%] w-full max-lg:mb-3 p-5 bg-green-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md
-                     ${getValues("typeOfAccountId") != t.id ? "opacity-50" : ""}
+                    ${
+                      typeName == null
+                        ? "opacity-100"
+                        : typeName != t.name
+                        ? "opacity-50"
+                        : ""
+                    }
                     `}
                     name="typeOfAccountId"
                     onClick={() => {
@@ -190,8 +196,12 @@ const RegistrationPage = () => {
                 ) : (
                   <div
                     key={t.id}
-                    className={`lg:w-[48%] w-full p-5 bg-blue-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md ${
-                      getValues("typeOfAccountId") != t.id ? "opacity-50" : ""
+                    className={`lg:w-[48%] w-full p-5 bg-blue-400 cursor-pointer hover:bg-opacity-50 transition ease-in-out rounded-md  ${
+                      typeName == null
+                        ? "opacity-100"
+                        : typeName != t.name
+                        ? "opacity-50"
+                        : ""
                     }`}
                     onClick={() => {
                       setTypeName(t.name);

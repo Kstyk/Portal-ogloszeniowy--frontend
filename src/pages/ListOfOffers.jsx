@@ -115,7 +115,7 @@ const ListOfOffers = () => {
                 <input
                   type="radio"
                   name="active"
-                  className="radio checked:bg-blue-500"
+                  className="radio checked:bg-custom-darkgreen"
                   onClick={() => {
                     setIsActive(null);
                     searchOffers(null);
@@ -132,7 +132,7 @@ const ListOfOffers = () => {
                 <input
                   type="radio"
                   name="active"
-                  className="radio checked:bg-blue-500"
+                  className="radio checked:bg-custom-darkgreen"
                   defaultChecked={isActive == true ? true : false}
                   onClick={() => {
                     setIsActive(true);
@@ -149,7 +149,7 @@ const ListOfOffers = () => {
                 <input
                   type="radio"
                   name="active"
-                  className="radio checked:bg-blue-500"
+                  className="radio checked:bg-custom-darkgreen"
                   defaultChecked={isActive == false ? true : false}
                   onClick={() => {
                     setIsActive(false);

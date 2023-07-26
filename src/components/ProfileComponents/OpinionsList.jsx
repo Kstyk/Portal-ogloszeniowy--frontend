@@ -28,9 +28,7 @@ const OpinionsList = (props) => {
           </span>
         </h4>
         {opinions?.map((opinion) => (
-          <>
-            <OpinionCard opinion={opinion} key={opinion.id} />
-          </>
+          <OpinionCard opinion={opinion} key={opinion.id} />
         ))}
       </div>
     </div>

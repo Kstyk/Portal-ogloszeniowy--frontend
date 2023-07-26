@@ -156,16 +156,6 @@ const OrdersListPage = () => {
               className="input input-bordered h-full text-black w-full"
               onChange={(e) => setSearchText(e.target.value)}
             />
-
-            <Select
-              className="px-0 h-10 w-6/12"
-              options={options}
-              placeholder="Wśród..."
-              styles={customStyles}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-            />
             <button
               className="btn btn-square h-full"
               onClick={() => searchOrders(1)}
@@ -291,7 +281,7 @@ const OrdersListPage = () => {
               <LoadingComponent message="Szukamy wyników..." />
             ) : (
               <div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between mb-3">
                   <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
                     <span>Lista zleceń</span>
                     <span className="text-sm">

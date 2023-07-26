@@ -24,7 +24,7 @@ const OrderPage = () => {
     control,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm({ mode: "all" });
 
   const addOfferOptions = {
@@ -45,6 +45,7 @@ const OrderPage = () => {
       .get(`api/order/${orderId}`)
       .then((res) => {
         setOrder(res.data);
+        console.log(res.data);
 
         const startDate = res.data.startDate;
         const dateObj = new Date(startDate);
@@ -159,6 +160,7 @@ const OrderPage = () => {
                     {order?.user.lastName}
                   </span>
                   <span>Telefon: {order?.user.phoneNumber}</span>
+                  <span>Email: {order?.user.email}</span>
                   {order?.user?.companyName != "" ? (
                     <span>Nazwa firmy: {order?.user.companyName}</span>
                   ) : (
@@ -180,18 +182,18 @@ const OrderPage = () => {
               </div>
 
               <div
-                data-theme="cupcake"
-                className=" shadow-xl w-full px-8 pt-5 pb-5 my-5"
+                data-theme="winter"
+                className=" shadow-xl bg-base-200 w-full px-8 pt-5 pb-5 my-5"
               >
                 {order?.isActive ? (
-                  <div className="collapse collapse-arrow p-0 mb-5 bg-white">
+                  <div className="collapse collapse-arrow p-0 mb-5 bg-white rounded-none">
                     <input type="checkbox" />
-                    <h2 className="collapse-title text-lg font-semibold">
+                    <h2 className="collapse-title text-lg font-semibold text-custom-darkgreen">
                       Dodaj swoją ofertę do tego zlecenia{" "}
                     </h2>
                     <form
                       onSubmit={handleSubmit(onSubmit, handleError)}
-                      className="collapse-content flex flex-col justify-between bg-white rounded-md shadow-xl"
+                      className="collapse-content flex flex-col justify-between bg-white shadow-xl"
                     >
                       <div className="w-6/12 ">
                         <h4 className="font-semibold">Proponuję</h4>
@@ -291,7 +293,7 @@ const OrderPage = () => {
                       </span>
                       <button
                         type="submit"
-                        data-theme="cupcake"
+                        data-theme="winter"
                         className="flex w-full justify-center  px-3 py-1.5 text-sm font-semibold leading-6 bg-base-300  shadow-sm rounded-none  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 mt-5"
                       >
                         Proponuj
@@ -301,7 +303,7 @@ const OrderPage = () => {
                 ) : (
                   ""
                 )}
-                <div className="collapse collapse-arrow p-0 mb-5 bg-white">
+                <div className="collapse collapse-arrow p-0 mb-5 bg-white rounded-none">
                   <input type="checkbox" />
                   <h2 className="collapse-title text-lg font-semibold">
                     Oferty wykonania zlecenia
@@ -327,6 +329,7 @@ const OrderPage = () => {
                   {order?.user.lastName}
                 </span>
                 <span>Telefon: {order?.user.phoneNumber}</span>
+                <span>Email: {order?.user.email}</span>
                 {order?.user?.companyName != "" ? (
                   <span>Nazwa firmy: {order?.user.companyName}</span>
                 ) : (

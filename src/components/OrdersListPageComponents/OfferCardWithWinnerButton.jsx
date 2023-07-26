@@ -10,7 +10,7 @@ const OfferCardWithWinnerButton = (props) => {
     <div
       className={`bg-white shadow-xl p-5 mb-5 ${
         offer.isWinner ? "border-l-2 border-t-2 border-green-400" : ""
-      }`}
+      } hover:bg-slate-50 duration-200`}
     >
       <div className="flex flex-row justify-between">
         <div>

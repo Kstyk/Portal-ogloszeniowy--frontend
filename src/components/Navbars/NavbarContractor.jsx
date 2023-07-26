@@ -87,8 +87,10 @@ const NavbarContractor = () => {
           </button>
         </div>
         <div
-          className={`absolute z-[999] right-0 left-0 top-[60px] bg-white border-y-2 pb-5 mobile-menu ${
-            showMobileMenu ? "menu-visible menu-fade-in" : "menu-fade-out"
+          className={`absolute z-[999] right-0 left-0 top-[60px] bg-white border-y-2  mobile-menu ${
+            showMobileMenu
+              ? "menu-visible menu-fade-in visible"
+              : "menu-fade-out"
           }`}
         >
           <ul className="w-full text-lg pt-2 ">

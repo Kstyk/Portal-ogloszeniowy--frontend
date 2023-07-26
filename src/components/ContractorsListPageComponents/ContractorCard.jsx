@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ContractorCard = ({ contractor }) => {
   return (
-    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
+    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col hover:bg-slate-50 duration-200">
       <div className="card-body max-lg:w-full">
         <Link
           to={`/contractors/${contractor.id}`}

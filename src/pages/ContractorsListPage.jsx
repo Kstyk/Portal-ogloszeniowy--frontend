@@ -242,7 +242,7 @@ const ContractorsListPage = () => {
             ) : (
               <div>
                 <div className="flex flex-row justify-between">
-                  <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
+                  <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted mb-3">
                     <span>Lista wykonawców</span>
                     <span className="text-sm">
                       Znaleziono {totalItems} wyniki

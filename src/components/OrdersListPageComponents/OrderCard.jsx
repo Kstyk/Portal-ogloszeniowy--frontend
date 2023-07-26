@@ -13,7 +13,7 @@ const OrderCard = ({ order }) => {
   const daysLeft = order.publicationDays - diffDates;
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
+    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col hover:bg-slate-50 duration-200">
       <div
         className={`box w-2/12 my-5 lg:ml-3 flex justify-center items-center px-2 max-lg:hidden max-xl:w-3/12 ${
           order.offers.length > 0 ? "!border-blue-400" : ""

@@ -295,7 +295,7 @@ const OrdersByTexInputPage = () => {
             <LoadingComponent message="Szukamy wyników..." />
           ) : (
             <div>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row justify-between mb-3">
                 <h1 className="text-xl w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
                   <span className="text-custom-darkgreen">Lista zleceń</span>
                   <span className="text-sm text-custom-darkgreen">

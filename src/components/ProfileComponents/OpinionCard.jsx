@@ -8,7 +8,7 @@ const OpinionCard = (props) => {
     <div key={opinion?.id}>
       <div
         data-theme="cmyk"
-        className="px-5 py-5 text-custom-darkgreen card card-side shadow-xl mb-2 rounded-none flex flex-col"
+        className="px-5 py-5 text-custom-darkgreen card card-side shadow-xl mb-2 rounded-none flex flex-col hover:bg-slate-50 duration-200"
       >
         <span className="text-xs text-gray-400">
           Dodano: {dayjs(opinion.createdAt).format("YYYY-MM-DD HH:mm:ss")}
