@@ -2,6 +2,7 @@ import React from "react";
 import "../../OrderCard.scss";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { selectedVoivodeship } from "../content/VoivodeshipsWithoutPoland";
 
 const OrderCard = ({ order }) => {
   const startDate = order.startDate;
@@ -13,7 +14,7 @@ const OrderCard = ({ order }) => {
   const daysLeft = order.publicationDays - diffDates;
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col">
+    <div className="card card-side bg-base-100 shadow-xl mb-2 max-lg:flex max-lg:flex-col hover:bg-slate-50 duration-200">
       <div
         className={`box w-2/12 my-5 lg:ml-3 flex justify-center items-center px-2 max-lg:hidden max-xl:w-3/12 ${
           order.offers.length > 0 ? "!border-blue-400" : ""
@@ -55,7 +56,8 @@ const OrderCard = ({ order }) => {
         <div className="card-actions flex flex-col lg:flex-row justify-between">
           <div className="lg:w-3/12 w-full">
             <span className="text-sm text-slate-500">
-              {order.address.city}, {order.address.voivodeship}
+              {order.address.city},{" "}
+              {selectedVoivodeship(order.address.voivodeship)}
             </span>
           </div>
           <div className="flex flex-col mb-2 xl:flex-row  justify-between lg:w-6/12 w-full">

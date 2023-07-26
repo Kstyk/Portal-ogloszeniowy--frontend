@@ -111,7 +111,7 @@ const EditProfilePage = () => {
     api
       .put("/api/account/edit", data)
       .then((res) => {
-        nav("/");
+        nav("/profile/my-profile");
       })
       .catch((err) => {
         setBackendErrors(err.response.data.errors);

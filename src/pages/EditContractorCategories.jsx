@@ -22,7 +22,6 @@ const EditContractorCategories = () => {
       .get("/api/category/user-categories")
       .then((res) => {
         setCurrentCategories(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +68,6 @@ const EditContractorCategories = () => {
     if (
       selectedCategories.some((item) => item.id == currentSelectedCategory.id)
     ) {
-      console.log("Ta kategoria już znajduje się w liście");
       setError("Ta kategoria już znajduje się w liście");
       setCurrentSelectedCategory(null);
     } else {

@@ -156,16 +156,6 @@ const OrdersListPage = () => {
               className="input input-bordered h-full text-black w-full"
               onChange={(e) => setSearchText(e.target.value)}
             />
-
-            <Select
-              className="px-0 h-10 w-6/12"
-              options={options}
-              placeholder="Wśród..."
-              styles={customStyles}
-              components={{
-                IndicatorSeparator: () => null,
-              }}
-            />
             <button
               className="btn btn-square h-full"
               onClick={() => searchOrders(1)}
@@ -234,7 +224,7 @@ const OrdersListPage = () => {
             <div className="collapse-title  text-xl font-medium">
               Lokalizacja
             </div>
-            <div className="collapse-content w-full mb-2">
+            <div className="collapse-content w-full">
               <Select
                 className="px-0 h-10"
                 menuPortalTarget={document.body}
@@ -291,11 +281,17 @@ const OrdersListPage = () => {
               <LoadingComponent message="Szukamy wyników..." />
             ) : (
               <div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between mb-3">
                   <h1 className="text-xl text-custom-darkgreen w-full flex justify-between items-center font-medium mt-4 pl-4 pb-2 border-b-2 border-dotted">
                     <span>Lista zleceń</span>
-                    <span className="text-sm">
-                      Znaleziono {totalItems} wyniki
+                    <span className="text-sm text-custom-darkgreen">
+                      Znaleziono {totalItems}{" "}
+                      {(totalItems == 0 || totalItems > 4) && "wyników"}
+                      {(totalItems == 2 ||
+                        totalItems == 3 ||
+                        totalItems == 4) &&
+                        "wyniki"}
+                      {totalItems == 1 && "wynik"}
                     </span>
                   </h1>
                 </div>

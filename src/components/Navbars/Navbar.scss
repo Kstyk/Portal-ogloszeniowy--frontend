@@ -17,5 +17,6 @@
   .menu-fade-out {
     top:60px;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   }

@@ -4,6 +4,9 @@ import useAxios from "../hooks/useAxios";
 import parse from "html-react-parser";
 import OpinionsList from "../components/ProfileComponents/OpinionsList";
 import LoadingComponent from "../components/LoadingComponent";
+import voivodeships, {
+  selectedVoivodeship,
+} from "../components/content/VoivodeshipsWithoutPoland";
 
 const ContractorPage = () => {
   const { contractorId } = useParams();
@@ -77,9 +80,10 @@ const ContractorPage = () => {
       ) : (
         <div className="card shadow-xl mt-[120px] p-8 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
           <h1 className="text-2xl font-semibold border-b-2 border-green-400 pb-1">
+            {profile?.firstName} {profile?.lastName}
             {profile?.companyName != "" && profile?.companyName != null
-              ? profile?.companyName
-              : profile?.firstName + " " + profile?.lastName}
+              ? ` - ${profile?.companyName}`
+              : ""}
           </h1>
           <div className="tabs tabs-boxed bg-white d-flex justify-start mt-5 pb-0 px-0 border-b-2 border-green-400">
             <a
@@ -130,7 +134,7 @@ const ContractorPage = () => {
                 </h3>
                 <p className="pl-4">
                   {areaOfWork?.wholeCountry == null
-                    ? areaOfWork?.voivodeship
+                    ? selectedVoivodeship(areaOfWork?.voivodeship)
                     : areaOfWork?.wholeCountry}
                 </p>
               </div>
@@ -142,14 +146,31 @@ const ContractorPage = () => {
                 <h3 className="font-bold border-b-[1px] mb-2 flex flex-row justify-between items-center pb-2">
                   <span>Branże</span>
                 </h3>
-                <ul className="pl-4 list-[square]">
+                <ul className="list-[square]">
                   {userCategories?.map((uc) => (
-                    <li
+                    <div
                       key={uc.id}
-                      className="marker:text-custom-darkgreen pb-1"
+                      className="w-full text-sm max-md:text-[0.8rem] breadcrumbs pb-0"
                     >
-                      {uc.name}
-                    </li>
+                      <ul className="gap-0 text-custom-darkgreen">
+                        <li></li>
+                        {uc?.parentCategory?.parentCategory != null ? (
+                          <li>
+                            <span>{uc.parentCategory.parentCategory.name}</span>
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        {uc?.parentCategory != null ? (
+                          <li>
+                            <span>{uc.parentCategory.name}</span>
+                          </li>
+                        ) : (
+                          ""
+                        )}
+                        <li className="font-semibold">{uc.name}</li>
+                      </ul>
+                    </div>
                   ))}
                 </ul>
               </div>
@@ -170,7 +191,10 @@ const ContractorPage = () => {
                   <div className="flex flex-row justify-start max-phone:flex-col max-phone:gap-y-5">
                     <div className="flex flex-col phone:w-6/12">
                       <h4 className="font-bold">Adres:</h4>
-                      <span>Województwo {profile?.address.voivodeship},</span>
+                      <span>
+                        Województwo{" "}
+                        {selectedVoivodeship(profile?.address.voivodeship)},
+                      </span>
                       <span>
                         {profile?.address.city}, {profile?.address.postalCode}
                       </span>

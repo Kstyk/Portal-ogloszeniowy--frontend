@@ -10,7 +10,7 @@ const OfferCardWithWinnerButton = (props) => {
     <div
       className={`bg-white shadow-xl p-5 mb-5 ${
         offer.isWinner ? "border-l-2 border-t-2 border-green-400" : ""
-      }`}
+      } hover:bg-slate-50 duration-200`}
     >
       <div className="flex flex-row justify-between">
         <div>
@@ -32,7 +32,7 @@ const OfferCardWithWinnerButton = (props) => {
           </p>
         </div>
       </div>
-      <p className="py-3 mt-3 border-dotted border-t-2 border-b-2">
+      <p className="py-3 mt-3 border-dotted border-t-2 border-b-2 break-words">
         {offer?.content}
       </p>
       {order?.winnerOfferId != offer?.id && order?.winnerOfferId == null ? (

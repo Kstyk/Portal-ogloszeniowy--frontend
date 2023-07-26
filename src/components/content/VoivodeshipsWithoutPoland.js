@@ -18,3 +18,9 @@ const voivodeships = [
 ];
 
 export default voivodeships;
+
+export const selectedVoivodeship = (value) => {
+  const obj = voivodeships.find((voi) => voi.value === value);
+
+  return obj?.label;
+};

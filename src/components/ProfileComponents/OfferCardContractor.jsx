@@ -77,7 +77,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
   const handleError = (errors) => {};
 
   return (
-    <div className="card-body max-lg:w-full shadow-xl text-custom-darkgreen">
+    <div className="card-body max-lg:w-full shadow-xl text-custom-darkgreen hover:bg-slate-50 duration-200 mb-5">
       {offer.isWinner && (
         <div className="px-5 py-3 bg-gradient-to-l from-blue-400 to-blue-100 font-bold">
           Zwycięska oferta
@@ -104,7 +104,7 @@ const OfferCardContractor = ({ offer, deleteOffer, fetchOffers }) => {
       >
         {offer.orderTitle}
       </Link>
-      <span className="border-t-2 pt-2">
+      <span className="border-t-2 pt-2 break-words">
         <b>Twoja oferta:</b> {offer.content}
       </span>
       <span>

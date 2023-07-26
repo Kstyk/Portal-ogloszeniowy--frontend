@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }) => {
               console.log(err);
             });
         } else {
-          console.log("else");
           nav("/");
         }
       })
@@ -96,12 +95,6 @@ export const AuthProvider = ({ children }) => {
     }
     setLoading(false);
   }, [authToken, loading]);
-
-  // useEffect(() => {
-  //   if (authToken != null) {
-  //     redirecting();
-  //   }
-  // }, [authToken]);
 
   return (
     <AuthContext.Provider value={contextData}>
