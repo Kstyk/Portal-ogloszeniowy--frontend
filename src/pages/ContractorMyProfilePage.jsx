@@ -83,7 +83,7 @@ const ContractorMyProfilePage = () => {
       {loading ? (
         <LoadingComponent message="Ładowanie" />
       ) : (
-        <div className="card shadow-xl mt-[120px] p-8 max-[380px]:px-2 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
+        <div className="card shadow-xl mt-[120px] p-8 max-[380px]:px-2 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen mb-20">
           <h1 className="text-2xl font-semibold border-b-2 border-blue-400 pb-1">
             {profile?.firstName} {profile?.lastName}
             {profile?.companyName != "" && profile?.companyName != null

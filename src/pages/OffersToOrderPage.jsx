@@ -40,7 +40,6 @@ const OffersToOrderPage = () => {
     await api
       .get(`/api/order/${orderId}/get-winner`)
       .then((res) => {
-        console.log(res);
         if (res.status == 204) {
           setWinner(null);
         } else {
@@ -53,7 +52,9 @@ const OffersToOrderPage = () => {
   };
 
   const fetchOffers = async (page) => {
-    let baseurl = `/api/order/${orderId}/offers?pageNumber=${page}&pageSize=10`;
+    let baseurl = `/api/order/${orderId}/offers?pageNumber=${
+      page != null ? page : 1
+    }&pageSize=10`;
 
     if (sortBy != null) {
       baseurl = baseurl + `&sortBy=${sortBy}`;
@@ -88,7 +89,6 @@ const OffersToOrderPage = () => {
       api
         .put(`/api/order/${orderId}/set-winner/${id}`)
         .then((res) => {
-          console.log(res);
           nav("/profile/my-orders");
         })
         .catch((err) => console.log(err));
@@ -108,7 +108,7 @@ const OffersToOrderPage = () => {
       ) : (
         <>
           <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-green-400 text-white"></div>
-          <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen">
+          <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-custom-darkgreen mb-20">
             <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
               <h1 className="text-2xl mt-10 uppercase font-bold pb-2">
                 Oferty do zlecenia: {order?.title}
