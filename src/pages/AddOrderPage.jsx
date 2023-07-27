@@ -132,7 +132,7 @@ const AddOrderPage = () => {
   return (
     <div>
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-green-400"></div>
-      <div className="card shadow-xl mt-[120px] p-4 pt-8 z-20 relative bg-base-100 max-lg:w-full text-custom-darkgreen mb-10">
+      <div className="card shadow-xl mt-[120px] p-4 pt-8 z-20 relative bg-base-100 max-lg:w-full text-custom-darkgreen mb-20">
         <div className="flex flex-row justify-between p-2 lg:px-8 pb-0">
           <div className="w-full max-sm:w-full flex flex-col">
             <h1 className="uppercase text-2xl font-semibold pb-2 border-b-[2px] border-dotted">

@@ -103,7 +103,7 @@ const OrderPage = () => {
   return (
     <div>
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-blue-400 text-white"></div>
-      <div className="card shadow-xl mt-[120px] z-20 relative bg-base-100 max-md:w-full">
+      <div className="card shadow-xl mt-[120px] z-20 relative bg-base-100 max-md:w-full mb-20">
         {loading ? (
           <LoadingComponent message="Ładowanie..." />
         ) : (
