@@ -68,9 +68,9 @@ const OpinionCard = (props) => {
                   <input
                     key={index}
                     type="radio"
-                    name="comunication"
+                    name="communication"
                     className="mask mask-star bg-custom-darkgreen"
-                    checked={opinion?.comunication == index + 1 ? true : false}
+                    checked={opinion?.communication == index + 1 ? true : false}
                     readOnly
                   />
                 ))}
