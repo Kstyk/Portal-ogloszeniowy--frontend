@@ -42,6 +42,9 @@ const FilterMobileByTextInput = (props) => {
                 getOptionValue={(option) => option.id}
                 placeholder="Wszystkie kategorie"
                 onChange={(e) => handleFirstSelectChange(e)}
+                noOptionsMessage={({ inputValue }) =>
+                  !inputValue ? "Brak kategorii" : "Nie znaleziono"
+                }
               />
               {childCategories != null && (
                 <Select
@@ -54,6 +57,9 @@ const FilterMobileByTextInput = (props) => {
                   getOptionValue={(option) => option.id}
                   placeholder="Kategoria"
                   onChange={(e) => handleSecondSelectChange(e)}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                  }
                 />
               )}
               {subChildCategories != null && (
@@ -67,6 +73,9 @@ const FilterMobileByTextInput = (props) => {
                   getOptionValue={(option) => option.id}
                   placeholder="Kategoria"
                   onChange={(e) => handleThirdSelectChange(e)}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                  }
                 />
               )}
             </div>
@@ -92,6 +101,9 @@ const FilterMobileByTextInput = (props) => {
               options={voivodeships}
               placeholder="Województwo"
               onChange={(e) => setVoivodeship(e.value)}
+              noOptionsMessage={({ inputValue }) =>
+                !inputValue ? "Brak województw" : "Nie znaleziono województwa"
+              }
             />
             <div className="input-group h-full w-full rounded-none">
               <input

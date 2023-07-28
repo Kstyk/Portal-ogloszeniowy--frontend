@@ -67,7 +67,7 @@ const OrdersByTexInputPage = () => {
   const searchOrders = async (currPage) => {
     let baseurl = "";
     if (selectedCategory != null) {
-      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}C&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
+      baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&categoryId=${selectedCategory}&searchText=${searchText}`;
     } else {
       baseurl = `/api/order/all?pageSize=10&pageNumber=${currPage}&isActive=${isActive}&voivodeship=${voivodeship}&city=${city}&searchText=${searchText}`;
     }
@@ -188,6 +188,9 @@ const OrdersByTexInputPage = () => {
                   getOptionValue={(option) => option.id}
                   placeholder="Wszystkie kategorie"
                   onChange={(e) => handleFirstSelectChange(e)}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? "Brak kategorii" : "Nie znaleziono"
+                  }
                 />
                 {childCategories != null && (
                   <Select
@@ -202,6 +205,9 @@ const OrdersByTexInputPage = () => {
                     getOptionValue={(option) => option.id}
                     placeholder="Kategoria"
                     onChange={(e) => handleSecondSelectChange(e)}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                    }
                   />
                 )}
                 {subChildCategories != null && (
@@ -217,6 +223,9 @@ const OrdersByTexInputPage = () => {
                     getOptionValue={(option) => option.id}
                     placeholder="Kategoria"
                     onChange={(e) => handleThirdSelectChange(e)}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                    }
                   />
                 )}
               </div>
@@ -244,6 +253,9 @@ const OrdersByTexInputPage = () => {
                 options={voivodeships}
                 placeholder="Województwo"
                 onChange={(e) => setVoivodeship(e.value)}
+                noOptionsMessage={({ inputValue }) =>
+                  !inputValue ? "Brak województw" : "Nie znaleziono województwa"
+                }
               />
               <div className="input-group h-full w-full rounded-none">
                 <input

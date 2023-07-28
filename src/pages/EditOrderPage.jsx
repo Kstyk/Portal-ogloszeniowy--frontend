@@ -419,6 +419,11 @@ const EditOrderPage = () => {
                               )}
                               {...field}
                               label="Voivodeship"
+                              noOptionsMessage={({ inputValue }) =>
+                                !inputValue
+                                  ? "Brak województw"
+                                  : "Nie znaleziono województwa"
+                              }
                             />
                           )}
                         />
