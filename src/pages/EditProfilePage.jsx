@@ -270,6 +270,11 @@ const EditProfilePage = () => {
                         options={voivodeships}
                         {...field}
                         label="Voivodeship"
+                        noOptionsMessage={({ inputValue }) =>
+                          !inputValue
+                            ? "Brak województw"
+                            : "Nie znaleziono województwa"
+                        }
                       />
                     )}
                   />

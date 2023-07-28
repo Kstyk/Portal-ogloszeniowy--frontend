@@ -201,6 +201,9 @@ const OrdersListPage = () => {
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Kategoria"
+                noOptionsMessage={({ inputValue }) =>
+                  !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                }
                 onChange={(e) => handleFirstSelectChange(e)}
               />
               <Select
@@ -212,6 +215,9 @@ const OrdersListPage = () => {
                 getOptionLabel={(option) => option.name}
                 getOptionValue={(option) => option.id}
                 placeholder="Podkategoria"
+                noOptionsMessage={({ inputValue }) =>
+                  !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                }
                 onChange={(e) => setSelectedSubCategory(e.id)}
               />
             </div>
@@ -232,6 +238,9 @@ const OrdersListPage = () => {
                 options={voivodeships}
                 placeholder="Województwo"
                 onChange={(e) => setVoivodeship(e.value)}
+                noOptionsMessage={({ inputValue }) =>
+                  !inputValue ? "Brak województw" : "Nie znaleziono województwa"
+                }
               />
               <div className="input-group h-full w-full rounded-none">
                 <input

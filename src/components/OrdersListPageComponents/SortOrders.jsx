@@ -25,6 +25,9 @@ const SortOrders = (props) => {
             // rest of styling
           }),
         }}
+        noOptionsMessage={({ inputValue }) =>
+          !inputValue ? "Brak atrybutów sortowania" : "Nie znaleziono"
+        }
       />
       <Select
         className="px-0 h-full w-4/12 max-phone:w-full"
@@ -42,6 +45,9 @@ const SortOrders = (props) => {
             // rest of styling
           }),
         }}
+        noOptionsMessage={({ inputValue }) =>
+          !inputValue ? "Brak kierunków sortowania" : "Nie znaleziono"
+        }
       />
       <button
         type="button"

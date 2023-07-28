@@ -179,6 +179,9 @@ const ContractorsListByInputPage = () => {
                   getOptionValue={(option) => option.id}
                   placeholder="Wszystkie kategorie"
                   onChange={(e) => handleFirstSelectChange(e)}
+                  noOptionsMessage={({ inputValue }) =>
+                    !inputValue ? "Brak kategorii" : "Nie znaleziono"
+                  }
                 />
                 {childCategories != null && (
                   <Select
@@ -193,6 +196,9 @@ const ContractorsListByInputPage = () => {
                     getOptionValue={(option) => option.id}
                     placeholder="Kategoria"
                     onChange={(e) => handleSecondSelectChange(e)}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                    }
                   />
                 )}
                 {subChildCategories != null && (
@@ -208,6 +214,9 @@ const ContractorsListByInputPage = () => {
                     getOptionValue={(option) => option.id}
                     placeholder="Kategoria"
                     onChange={(e) => handleThirdSelectChange(e)}
+                    noOptionsMessage={({ inputValue }) =>
+                      !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+                    }
                   />
                 )}
               </div>

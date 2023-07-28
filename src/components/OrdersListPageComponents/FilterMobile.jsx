@@ -37,6 +37,9 @@ const FilterMobile = (props) => {
               getOptionValue={(option) => option.id}
               placeholder="Kategoria"
               onChange={handleFirstSelectChange}
+              noOptionsMessage={({ inputValue }) =>
+                !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+              }
             />
             <Select
               key={`subcategory_selec__${selectedCategory}`}
@@ -48,6 +51,9 @@ const FilterMobile = (props) => {
               getOptionValue={(option) => option.id}
               placeholder="Podkategoria"
               onChange={(e) => setSelectedSubCategory(e.id)}
+              noOptionsMessage={({ inputValue }) =>
+                !inputValue ? "Brak podkategorii" : "Nie znaleziono"
+              }
             />
           </div>
         </div>
@@ -64,6 +70,9 @@ const FilterMobile = (props) => {
               options={voivodeships}
               placeholder="Województwo"
               onChange={(e) => setVoivodeship(e.value)}
+              noOptionsMessage={({ inputValue }) =>
+                !inputValue ? "Brak województw" : "Nie znaleziono województwa"
+              }
             />
             <div className="input-group h-full w-full rounded-none">
               <input
