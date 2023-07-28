@@ -188,7 +188,7 @@ const OrderPage = () => {
                 {order?.isActive ? (
                   <div className="collapse collapse-arrow p-0 mb-5 bg-white rounded-none">
                     <input type="checkbox" />
-                    <h2 className="collapse-title text-lg font-semibold text-custom-darkgreen">
+                    <h2 className="collapse-title text-lg font-semibold">
                       Dodaj swoją ofertę do tego zlecenia{" "}
                     </h2>
                     <form
