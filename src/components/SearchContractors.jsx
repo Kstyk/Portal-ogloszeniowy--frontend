@@ -101,7 +101,7 @@ const SearchContractors = (props) => {
         )}
         {props.loading ? (
           <div className="bg-inherit">
-            <LoadingComponent message="Pobieramy statystyki..." /> )
+            <LoadingComponent message="Pobieramy statystyki..." />
           </div>
         ) : (
           <div className="stats mt-6 flex justify-between bg-inherit h-fit">
