@@ -83,7 +83,7 @@ const OffersToOrderPage = () => {
   const setAsWinner = (id) => {
     if (
       confirm(
-        "Jesteś pewny, że chcesz wybrać tę ofertę? Później już nie będziesz mógł zmienić swojej oferty!"
+        "Jesteś pewny, że chcesz wybrać tę ofertę? Później już nie będziesz mógł zmienić swojej decyzji!"
       )
     ) {
       api

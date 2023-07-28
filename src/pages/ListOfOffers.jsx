@@ -88,7 +88,7 @@ const ListOfOffers = () => {
   return (
     <div>
       <div className="absolute top-[6rem] left-0 right-0 h-[180px] z-0 bg-blue-400 text-white"></div>
-      <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-black">
+      <div className="card shadow-xl mt-[120px] p-8 pt-0 z-20 relative bg-base-100 max-md:w-full text-black mb-20">
         <div className="headers text-left relative z-10 border-b-2 border-dotted border-gray-200 overflow-auto">
           <h1 className="text-2xl text-custom-darkgreen mt-10 uppercase font-bold pb-2">
             Twoje złożone oferty

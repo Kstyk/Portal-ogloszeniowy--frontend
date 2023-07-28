@@ -289,7 +289,7 @@ const ConfigureContractorAccount = () => {
             <input
               type="radio"
               name="radio-10"
-              className="radio checked:bg-blue-500 rounded-full mr-5 "
+              className="radio checked:bg-custom-darkgreen rounded-full mr-5 "
               onChange={() => {
                 setAreaOfWork("Polska");
               }}
@@ -301,7 +301,7 @@ const ConfigureContractorAccount = () => {
               <input
                 type="radio"
                 name="radio-10"
-                className="radio checked:bg-blue-500 mr-5"
+                className="radio checked:bg-custom-darkgreen mr-5"
                 onChange={() => {
                   setAreaOfWork("Województwo");
                 }}
